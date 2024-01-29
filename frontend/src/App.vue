@@ -1,40 +1,19 @@
 <!--
  * @Description: Stay hungry，Stay foolish
  * @Author: leslie
- * @Date: 2024-01-25 16:05:02
+ * @Date: 2024-01-29 21:56:35
  * @LastEditors: leslie
- * @LastEditTime: 2024-01-29 18:28:11
+ * @LastEditTime: 2024-01-29 22:33:07
  * 佛祖保佑没bug
 -->
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <div>
-
-
-    
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+  <home-page></home-page>
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
+<script setup lang="ts">
+import HomePage from '@/components/homePage/index.vue'
+</script>
+
+<style lang="less" scoped>
+
 </style>
