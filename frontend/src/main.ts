@@ -3,11 +3,16 @@
  * @Author: leslie
  * @Date: 2024-01-28 19:16:00
  * @LastEditors: leslie
- * @LastEditTime: 2024-01-29 22:23:03
+ * @LastEditTime: 2024-01-29 23:21:22
  * 佛祖保佑没bug
  */
 import { createApp } from "vue";
 import "./style/public.less";
 import App from "./App.vue";
+import svgIcon from "@/components/svgIcon/index.vue";
 
-createApp(App).mount("#app");
+const app = createApp(App);
+
+app.component("SvgIcon", svgIcon);
+
+app.mount("#app");
