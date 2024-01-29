@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-01-29 18:24:39
  * @LastEditors: leslie
- * @LastEditTime: 2024-01-29 18:30:21
+ * @LastEditTime: 2024-01-29 22:01:35
  * 佛祖保佑没bug
  */
 module.exports = {
@@ -64,6 +64,7 @@ module.exports = {
         'vue/no-mutating-props': 'off', // 不允许组件 prop的改变
         'vue/attribute-hyphenation': 'off', // 对模板中的自定义组件强制执行属性命名样式
         
+        // prettier (https://prettier.io/docs/en/options.html)
         "prettier/prettier": [
             "error",
             {

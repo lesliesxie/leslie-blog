@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-01-25 16:05:02
  * @LastEditors: leslie
- * @LastEditTime: 2024-01-29 18:28:11
+ * @LastEditTime: 2024-01-29 22:04:25
  * 佛祖保佑没bug
 -->
 <script setup lang="ts">
@@ -24,7 +24,7 @@ import HelloWorld from './components/HelloWorld.vue'
   <HelloWorld msg="Vite + Vue" />
 </template>
 
-<style scoped>
+<style scoped lang="less">
 .logo {
   height: 6em;
   padding: 1.5em;
