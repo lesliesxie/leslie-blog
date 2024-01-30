@@ -3,12 +3,12 @@
  * @Author: leslie
  * @Date: 2024-01-29 22:47:32
  * @LastEditors: leslie
- * @LastEditTime: 2024-01-29 23:24:29
+ * @LastEditTime: 2024-01-30 23:32:10
  * 佛祖保佑没bug
 -->
 <template>
-  <svg class="svg-icon" aria-hidden="true">
-    <use :xlink:href="prefix + iconName" :fill="color" />
+  <svg class="svg-icon" :style="{ width: width, height: height }">
+    <use :xlink:href="prefix + name" :fill="color" />
   </svg>
 </template>
 
@@ -16,26 +16,27 @@
 defineProps({
   prefix: {
     type: String,
-    default: 'icon-'
+    default: '#icon-'
   },
-  iconName: {
+  name: {
     type: String,
     required: true
   },
   color: {
     type: String,
     default: '#fff'
+  },
+  width: {
+    type: String,
+    default: '1em'
+  },
+  height: {
+    type: String,
+    default: '1em'
   }
 })
 
 </script>
 
 <style lang="less" scoped>
-.svg-icon {
-  width: 1em;
-  height: 1em;
-  position: relative;
-  fill: currentColor;
-  vertical-align: -2px;
-}
 </style>
