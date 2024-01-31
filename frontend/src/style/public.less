@@ -4,3 +4,28 @@ body {
   margin: 0;
   padding: 0;
 }
+ol,
+ul {
+  list-style: none;
+}
+//TODO  菜单栏优化封装
+.leslie-menu {
+  display: flex;
+  border-bottom: 1px solid red;
+  li {
+    margin-right: 40px;
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 58px;
+  }
+  li:hover {
+    background-color: red;
+  }
+  .is-active {
+    color: darkblue;
+    border-bottom: 2px solid black;
+  }
+}
