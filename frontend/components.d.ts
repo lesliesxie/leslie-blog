@@ -11,6 +11,7 @@ declare module 'vue' {
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
     HomePage: typeof import('./src/components/homePage/index.vue')['default']
+    LeslieMenu: typeof import('./src/components/leslie-Menu/index.vue')['default']
     SvgIcon: typeof import('./src/components/svgIcon/index.vue')['default']
   }
 }
