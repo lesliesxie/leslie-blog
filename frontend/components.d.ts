@@ -7,11 +7,13 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    Classification: typeof import('./src/components/classification/index.vue')['default']
     ElMenu: typeof import('element-plus/es')['ElMenu']
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
     HomePage: typeof import('./src/components/homePage/index.vue')['default']
     LeslieMenu: typeof import('./src/components/leslie-Menu/index.vue')['default']
+    Recommend: typeof import('./src/components/recommend/index.vue')['default']
     SvgIcon: typeof import('./src/components/svgIcon/index.vue')['default']
   }
 }

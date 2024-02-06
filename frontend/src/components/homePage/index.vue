@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-01-28 22:13:18
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-06 16:48:42
+ * @LastEditTime: 2024-02-06 18:56:54
  * 佛祖保佑没bug
 -->
 <template>
@@ -17,15 +17,22 @@
       </leslie-menu>
     </div>
     <div class="center">
+      <div class="left">
+        <classification></classification>
+      </div>
       <div class="content"></div>
-      <div class="summary">333</div>
+      <div class="right">
+        <recommend></recommend>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import LeslieMenu from "../leslie-Menu/index.vue";
+import classification from "../classification/index.vue";
+import recommend from "../recommend/index.vue";
+import { ref } from "vue";
 // import { ElMenu, ElMenuItem } from "element-plus";
 
 const menuItems = ref([
@@ -46,17 +53,37 @@ const handleSelect = (key: number) => {
   .top-nav {
     width: 100%;
     height: 50px;
+    position: fixed;
   }
   .center {
     margin: 10px 30px 0 30px;
+    margin-top: 60px;
     height: calc(100vh - 60px);
     width: calc(100vw - 60px);
     display: flex;
-    .content {
-      width: calc(100% - 300px);
+    .left,
+    .right {
+      flex: 1;
+      overflow-x: hidden;
+      flex-basis: 0;
     }
-    .summary {
-      width: 300px;
+    .left {
+      max-width: 200px;
+    }
+    .content {
+      width: calc(100% - 500px);
+      margin: 0 20px;
+      min-width: 580px;
+      overflow: hidden;
+      background-color: black;
+    }
+    .right {
+      // max-width: 260px;
+    }
+    @media (max-width: 900px) {
+      .left {
+        display: none;
+      }
     }
   }
 }
