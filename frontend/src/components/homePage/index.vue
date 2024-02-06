@@ -3,15 +3,17 @@
  * @Author: leslie
  * @Date: 2024-01-28 22:13:18
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-01 23:38:34
+ * @LastEditTime: 2024-02-06 16:48:42
  * 佛祖保佑没bug
 -->
 <template>
   <div class="home-page">
     <div class="top-nav">
-      <leslie-menu class="leslie-menu" :menu-items="menuItems">
-        <!-- <el-menu-item index="1">首页</el-menu-item>
-        <el-menu-item index="2">首页123</el-menu-item> -->
+      <leslie-menu
+        :menu-items="menuItems"
+        :default-active="activeIndex"
+        @item-click="handleSelect"
+      >
       </leslie-menu>
     </div>
     <div class="center">
@@ -26,14 +28,14 @@ import { ref } from "vue";
 import LeslieMenu from "../leslie-Menu/index.vue";
 // import { ElMenu, ElMenuItem } from "element-plus";
 
-const activeIndex = ref("1");
-const handleSelect = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
-};
 const menuItems = ref([
   { index: 1, name: "首页" },
   { index: 2, name: "首页123" },
 ]);
+const activeIndex = ref(1);
+const handleSelect = (key: number) => {
+  console.log(key);
+};
 </script>
 
 <style lang="less" scoped>
