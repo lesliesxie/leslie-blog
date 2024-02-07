@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-01-28 22:13:18
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-06 18:56:54
+ * @LastEditTime: 2024-02-07 15:40:20
  * 佛祖保佑没bug
 -->
 <template>
@@ -18,11 +18,11 @@
     </div>
     <div class="center">
       <div class="left">
-        <classification></classification>
+        <!-- <classification></classification> -->
       </div>
       <div class="content"></div>
       <div class="right">
-        <recommend></recommend>
+        <!-- <recommend></recommend> -->
       </div>
     </div>
   </div>
@@ -66,21 +66,22 @@ const handleSelect = (key: number) => {
       flex: 1;
       overflow-x: hidden;
       flex-basis: 0;
+      background-color: red;
     }
     .left {
-      max-width: 200px;
+      max-width: 180px;
     }
     .content {
-      width: calc(100% - 500px);
       margin: 0 20px;
       min-width: 580px;
       overflow: hidden;
+      flex: 1;
       background-color: black;
     }
     .right {
-      // max-width: 260px;
+      max-width: 260px;
     }
-    @media (max-width: 900px) {
+    @media (max-width: 1120px) {
       .left {
         display: none;
       }
