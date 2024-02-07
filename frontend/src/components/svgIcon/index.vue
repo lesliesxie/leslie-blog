@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-01-29 22:47:32
  * @LastEditors: leslie
- * @LastEditTime: 2024-01-30 23:32:10
+ * @LastEditTime: 2024-02-07 16:44:31
  * 佛祖保佑没bug
 -->
 <template>
@@ -16,27 +16,25 @@
 defineProps({
   prefix: {
     type: String,
-    default: '#icon-'
+    default: "#icon-",
   },
   name: {
     type: String,
-    required: true
+    required: true,
   },
   color: {
     type: String,
-    default: '#fff'
+    default: "#fff",
   },
   width: {
     type: String,
-    default: '1em'
+    default: "1em",
   },
   height: {
     type: String,
-    default: '1em'
-  }
-})
-
+    default: "1em",
+  },
+});
 </script>
 
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>

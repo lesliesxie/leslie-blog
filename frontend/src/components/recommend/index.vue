@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-06 18:33:20
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-06 18:51:18
+ * @LastEditTime: 2024-02-07 16:12:28
  * 佛祖保佑没bug
 -->
 <template>
@@ -14,8 +14,8 @@
 
 <style lang="less" scoped>
 .recommend {
-  background-color: red;
-  width: 240px;
+  width: 100%;
+  background-color: @contentBgColor;
   height: 100%;
 }
 </style>

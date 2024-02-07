@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-01-28 22:13:18
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-07 15:40:20
+ * @LastEditTime: 2024-02-07 17:53:37
  * 佛祖保佑没bug
 -->
 <template>
@@ -18,11 +18,11 @@
     </div>
     <div class="center">
       <div class="left">
-        <!-- <classification></classification> -->
+        <classification></classification>
       </div>
       <div class="content"></div>
       <div class="right">
-        <!-- <recommend></recommend> -->
+        <recommend></recommend>
       </div>
     </div>
   </div>
@@ -50,10 +50,13 @@ const handleSelect = (key: number) => {
   width: 100%;
   height: calc(100vh);
   position: fixed; //禁止上拉下拉露出白底
+  background-color: @bgColor;
+  color: @fontColor;
   .top-nav {
     width: 100%;
     height: 50px;
     position: fixed;
+    background-color: @contentBgColor;
   }
   .center {
     margin: 10px 30px 0 30px;
@@ -66,7 +69,6 @@ const handleSelect = (key: number) => {
       flex: 1;
       overflow-x: hidden;
       flex-basis: 0;
-      background-color: red;
     }
     .left {
       max-width: 180px;
@@ -76,7 +78,7 @@ const handleSelect = (key: number) => {
       min-width: 580px;
       overflow: hidden;
       flex: 1;
-      background-color: black;
+      background-color: @contentBgColor;
     }
     .right {
       max-width: 260px;
