@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-06 18:13:37
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-07 17:51:54
+ * @LastEditTime: 2024-02-11 20:23:40
  * 佛祖保佑没bug
 -->
 <template>
@@ -30,21 +30,27 @@
 </template>
 
 <script setup lang="ts">
+import { getClassificationList } from "@/server/index.ts";
 import svgIcon from "../svgIcon/index.vue";
 import { ref } from "vue";
 
-const classificationList = ref([
-  { index: 0, name: "blog" },
-  { index: 1, name: "js" },
-  { index: 2, name: "js" },
-  { index: 1, name: "js" },
-  { index: 1, name: "js" },
-  { index: 1, name: "js" },
-]);
+// const classificationList = ref([
+//   { index: 0, name: "blog" },
+//   { index: 1, name: "js" },
+//   { index: 2, name: "js" },
+//   { index: 1, name: "js" },
+//   { index: 1, name: "js" },
+//   { index: 1, name: "js" },
+// ]);
 const activeIndex = ref(0);
 const changeItem = (index: number) => {
   activeIndex.value = index;
 };
+const init = async () => {
+  const classificationList = await getClassificationList();
+  console.log("classificationList", classificationList);
+};
+init();
 </script>
 
 <style lang="less" scoped>
