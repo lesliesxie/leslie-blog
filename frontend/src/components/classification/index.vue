@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-06 18:13:37
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-12 21:51:33
+ * @LastEditTime: 2024-02-12 21:58:47
  * 佛祖保佑没bug
 -->
 <template>
@@ -32,7 +32,7 @@ import { getClassificationList } from "@/server/index.ts";
 import svgIcon from "../svgIcon/index.vue";
 import { ref } from "vue";
 
-const activeIndex = ref(0);
+const activeIndex = ref(1);
 const changeItem = (index: number) => {
   activeIndex.value = index;
 };
@@ -43,7 +43,6 @@ interface classificationListType {
 const classificationList = ref<classificationListType[]>([]);
 const init = async () => {
   classificationList.value = await getClassificationList();
-  console.log("classificationList", classificationList.value);
 };
 init();
 </script>
