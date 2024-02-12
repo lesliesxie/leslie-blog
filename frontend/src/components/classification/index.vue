@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-06 18:13:37
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-11 20:23:40
+ * @LastEditTime: 2024-02-12 21:51:33
  * 佛祖保佑没bug
 -->
 <template>
@@ -11,17 +11,15 @@
     <div
       class="item"
       v-for="item in classificationList"
-      :class="{ 'is-active': item.index === activeIndex }"
-      :key="item.index"
-      @click="changeItem(item.index)"
+      :class="{ 'is-active': item.id === activeIndex }"
+      :key="item.id"
+      @click="changeItem(item.id)"
     >
       <svg-icon
         class="icon"
         :name="item.name"
         :color="
-          item.index === activeIndex
-            ? 'var(--itemHoverColor)'
-            : 'var(--iconColor)'
+          item.id === activeIndex ? 'var(--itemHoverColor)' : 'var(--iconColor)'
         "
       ></svg-icon>
       <span class="name">{{ item.name }}</span>
@@ -34,21 +32,18 @@ import { getClassificationList } from "@/server/index.ts";
 import svgIcon from "../svgIcon/index.vue";
 import { ref } from "vue";
 
-// const classificationList = ref([
-//   { index: 0, name: "blog" },
-//   { index: 1, name: "js" },
-//   { index: 2, name: "js" },
-//   { index: 1, name: "js" },
-//   { index: 1, name: "js" },
-//   { index: 1, name: "js" },
-// ]);
 const activeIndex = ref(0);
 const changeItem = (index: number) => {
   activeIndex.value = index;
 };
+interface classificationListType {
+  id: number;
+  name: string;
+}
+const classificationList = ref<classificationListType[]>([]);
 const init = async () => {
-  const classificationList = await getClassificationList();
-  console.log("classificationList", classificationList);
+  classificationList.value = await getClassificationList();
+  console.log("classificationList", classificationList.value);
 };
 init();
 </script>
