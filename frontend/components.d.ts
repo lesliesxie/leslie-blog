@@ -1,3 +1,11 @@
+/*
+ * @Description: Stay hungry，Stay foolish
+ * @Author: leslie
+ * @Date: 2024-02-11 18:34:34
+ * @LastEditors: leslie
+ * @LastEditTime: 2024-02-12 22:50:35
+ * 佛祖保佑没bug
+ */
 /* eslint-disable */
 /* prettier-ignore */
 // @ts-nocheck
@@ -5,15 +13,16 @@
 // Read more: https://github.com/vuejs/core/pull/3399
 export {}
 
-declare module 'vue' {
+declare module "vue" {
   export interface GlobalComponents {
-    Classification: typeof import('./src/components/classification/index.vue')['default']
-    ElMenu: typeof import('element-plus/es')['ElMenu']
-    ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
-    ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
-    HomePage: typeof import('./src/components/homePage/index.vue')['default']
-    LeslieMenu: typeof import('./src/components/leslie-Menu/index.vue')['default']
-    Recommend: typeof import('./src/components/recommend/index.vue')['default']
-    SvgIcon: typeof import('./src/components/svgIcon/index.vue')['default']
+    Classification: (typeof import("./src/components/classification/index.vue"))["default"];
+    ElMenu: (typeof import("element-plus/es"))["ElMenu"];
+    ElMenuItem: (typeof import("element-plus/es"))["ElMenuItem"];
+    ElSubMenu: (typeof import("element-plus/es"))["ElSubMenu"];
+    HomePage: (typeof import("./src/components/homePage/index.vue"))["default"];
+    LeftOperate: (typeof import("./src/components/left-operate/index.vue"))["default"];
+    LeslieMenu: (typeof import("./src/components/leslie-Menu/index.vue"))["default"];
+    Recommend: (typeof import("./src/components/recommend/index.vue"))["default"];
+    SvgIcon: (typeof import("./src/components/svgIcon/index.vue"))["default"];
   }
 }

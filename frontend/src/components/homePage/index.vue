@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-01-28 22:13:18
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-07 17:53:37
+ * @LastEditTime: 2024-02-12 22:20:46
  * 佛祖保佑没bug
 -->
 <template>
@@ -18,7 +18,8 @@
     </div>
     <div class="center">
       <div class="left">
-        <classification></classification>
+        <classification v-if="isIndex"></classification>
+        <left-operate v-else></left-operate>
       </div>
       <div class="content"></div>
       <div class="right">
@@ -32,9 +33,10 @@
 import LeslieMenu from "../leslie-Menu/index.vue";
 import classification from "../classification/index.vue";
 import recommend from "../recommend/index.vue";
+import LeftOperate from "../left-operate/index.vue";
 import { ref } from "vue";
 // import { ElMenu, ElMenuItem } from "element-plus";
-
+const isIndex = ref(false);
 const menuItems = ref([
   { index: 1, name: "首页" },
   { index: 2, name: "首页123" },
