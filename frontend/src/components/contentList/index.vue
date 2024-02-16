@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-15 17:27:06
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-15 21:54:00
+ * @LastEditTime: 2024-02-16 21:28:10
  * 佛祖保佑没bug
 -->
 <template>
@@ -34,13 +34,13 @@
                 ></svg-icon
                 >{{ item.browse }}
               </div>
-              <div class="like">
+              <div class="likes">
                 <svg-icon
-                  name="like"
+                  name="likes"
                   class="icon"
                   color="var(--iconColor)"
                 ></svg-icon
-                >{{ item.like }}
+                >{{ item.likes }}
               </div>
             </div>
             <div class="classification">
@@ -49,13 +49,14 @@
                 v-for="(_item, index) in item.classification"
                 :key="index"
               >
-                {{ _item }}
+                {{ _item.name }}
               </div>
             </div>
           </div>
         </div>
-        <div class="right" v-if="item.imgList.length > 0">
-          <img :src="item.imgList[0]" alt="" />
+        <!-- TODO 图片加载存在问题 -->
+        <div class="right" v-if="item.imgList">
+          <img :src="'data:image/jpeg;base64,' + item.imgList[0]" alt="" />
         </div>
       </div>
     </div>
@@ -63,174 +64,27 @@
 </template>
 
 <script setup lang="ts">
+import { getContentList } from "@/server";
 import SvgIcon from "../svgIcon/index.vue";
 import { onMounted, ref } from "vue";
 
-const contentList = ref([
-  {
-    author: "111",
-    title:
-      "22qqqqqqqqqqqqqqaaaaaaa生世世生世世生生世世生生生世世生生世世生生生生世世qqqqqqqqqqqqqqqqqqqqqqqqqqq2",
-    content: "333",
-    like: 111,
-    browse: 222,
-    imgList: [],
-    classification: ["js", "ts"],
-  },
-  {
-    author: "111",
-    title: "222",
-    content: "333",
-    like: 111,
-    browse: 222,
-    imgList: ["1", "2"],
-    classification: ["js"],
-  },
-  {
-    author: "111",
-    title: "222",
-    content: "333",
-    like: 111,
-    browse: 222,
-    imgList: ["1", "2"],
-    classification: "js",
-  },
-  {
-    author: "111",
-    title: "222",
-    content: "333",
-    like: 111,
-    browse: 222,
-    imgList: ["1", "2"],
-    classification: "js",
-  },
-  {
-    author: "111",
-    title: "222",
-    content: "333",
-    like: 111,
-    browse: 222,
-    imgList: ["1", "2"],
-    classification: "js",
-  },
-  {
-    author: "111",
-    title: "222",
-    content: "333",
-    like: 111,
-    browse: 222,
-    imgList: ["1", "2"],
-    classification: "js",
-  },
-  {
-    author: "111",
-    title: "222",
-    content: "333",
-    like: 111,
-    browse: 222,
-    imgList: ["1", "2"],
-    classification: "js",
-  },
-  {
-    author: "111",
-    title: "222",
-    content: "333",
-    like: 111,
-    browse: 222,
-    imgList: ["1", "2"],
-    classification: "js",
-  },
-  {
-    author: "111",
-    title: "222",
-    content: "333",
-    like: 111,
-    browse: 222,
-    imgList: ["1", "2"],
-    classification: "js",
-  },
-  {
-    author: "111",
-    title: "222",
-    content: "333",
-    like: 111,
-    browse: 222,
-    imgList: ["1", "2"],
-    classification: "js",
-  },
-  {
-    author: "111",
-    title: "222",
-    content: "333",
-    like: 111,
-    browse: 222,
-    imgList: ["1", "2"],
-    classification: "js",
-  },
-  {
-    author: "111",
-    title: "222",
-    content: "333",
-    like: 111,
-    browse: 222,
-    imgList: ["1", "2"],
-    classification: "js",
-  },
-  {
-    author: "111",
-    title: "222",
-    content: "333",
-    like: 111,
-    browse: 222,
-    imgList: ["1", "2"],
-    classification: "js",
-  },
-  {
-    author: "111",
-    title: "222",
-    content: "333",
-    like: 111,
-    browse: 222,
-    imgList: ["1", "2"],
-    classification: "js",
-  },
-  {
-    author: "111",
-    title: "222",
-    content: "333",
-    like: 111,
-    browse: 222,
-    imgList: ["1", "2"],
-    classification: "js",
-  },
-  {
-    author: "111",
-    title: "222",
-    content: "333",
-    like: 111,
-    browse: 222,
-    imgList: ["1", "2"],
-    classification: "js",
-  },
-  {
-    author: "111",
-    title: "222",
-    content: "333",
-    like: 111,
-    browse: 222,
-    imgList: ["1", "2"],
-    classification: "js",
-  },
-  {
-    author: "111",
-    title: "222",
-    content: "333",
-    like: 111,
-    browse: 222,
-    imgList: ["1", "2"],
-    classification: "js",
-  },
-]);
+interface classificationType {
+  id: number;
+  name: string;
+}
+interface contentListType {
+  author: string;
+  title: string;
+  content: string;
+  likes: number;
+  browse: number;
+  imgList: string[];
+  classification: classificationType[];
+}
+const contentList = ref<contentListType[]>([]);
+const init = async () => {
+  contentList.value = await getContentList();
+};
 const scrollContainer = ref<HTMLElement | null>(null);
 const batchSize = 5;
 let loadIndex = 10;
@@ -259,6 +113,7 @@ const handleScroll = () => {
   }
 };
 onMounted(() => {
+  init();
   scrollContainer.value?.addEventListener("scroll", handleScroll);
 });
 </script>
@@ -288,7 +143,6 @@ onMounted(() => {
         line-height: 24px;
         font-weight: 500;
         font-size: 16px;
-        position: relative;
         white-space: nowrap; /* 文本不换行 */
         overflow: hidden; /* 文本溢出隐藏 */
         text-overflow: ellipsis; /* 使用省略号显示文本溢出部分 */
@@ -296,6 +150,9 @@ onMounted(() => {
       .content {
         height: 22px;
         margin: 2px 0 4px 0;
+        white-space: nowrap; /* 文本不换行 */
+        overflow: hidden; /* 文本溢出隐藏 */
+        text-overflow: ellipsis; /* 使用省略号显示文本溢出部分 */
       }
       .info {
         display: flex;
@@ -333,7 +190,8 @@ onMounted(() => {
       }
     }
     .right {
-      width: 100px;
+      width: 200px;
+      position: relative;
     }
   }
 }

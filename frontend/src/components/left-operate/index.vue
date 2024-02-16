@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-12 22:08:39
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-12 22:48:29
+ * @LastEditTime: 2024-02-16 18:41:05
  * 佛祖保佑没bug
 -->
 <template>
@@ -32,7 +32,7 @@
 import SvgIcon from "../svgIcon/index.vue";
 import { ref } from "vue";
 const leftOperate = ref([
-  { name: "like", isClick: false },
+  { name: "likes", isClick: false },
   { name: "comment", isClick: false },
   { name: "collect", isClick: false },
   { name: "forward", isClick: false },
