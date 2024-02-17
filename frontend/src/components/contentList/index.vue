@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-15 17:27:06
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-16 21:28:10
+ * @LastEditTime: 2024-02-17 17:48:27
  * 佛祖保佑没bug
 -->
 <template>
@@ -11,7 +11,7 @@
     <div ref="scrollContainer" class="scroll-container">
       <div
         class="content-item"
-        v-for="(item, index) in contentList"
+        v-for="(item, index) in _contentList"
         :key="index"
       >
         <div class="left">
@@ -56,7 +56,7 @@
         </div>
         <!-- TODO 图片加载存在问题 -->
         <div class="right" v-if="item.imgList">
-          <img :src="'data:image/jpeg;base64,' + item.imgList[0]" alt="" />
+          <img :src="item.imgList[0]" alt="" />
         </div>
       </div>
     </div>
@@ -66,7 +66,7 @@
 <script setup lang="ts">
 import { getContentList } from "@/server";
 import SvgIcon from "../svgIcon/index.vue";
-import { onMounted, ref } from "vue";
+import { onBeforeUnmount, onMounted, ref } from "vue";
 
 interface classificationType {
   id: number;
@@ -82,39 +82,48 @@ interface contentListType {
   classification: classificationType[];
 }
 const contentList = ref<contentListType[]>([]);
+const _contentList = ref<contentListType[]>([]);
+const scrollContainer = ref<HTMLElement | null>(null);
+const containerHeight = ref(0);
+let loadIndex = 5;
+const updateContainerHeight = () => {
+  if (scrollContainer.value) {
+    containerHeight.value = scrollContainer.value.clientHeight;
+    loadIndex = Math.floor(containerHeight.value / 80) - 1;
+  }
+};
 const init = async () => {
   contentList.value = await getContentList();
+  _contentList.value = contentList.value.slice(0, loadIndex);
 };
-const scrollContainer = ref<HTMLElement | null>(null);
 const batchSize = 5;
-let loadIndex = 10;
 const handleScroll = () => {
   if (scrollContainer.value) {
     const { scrollTop, scrollHeight, clientHeight } = scrollContainer.value;
-
-    if (scrollTop + clientHeight >= scrollHeight) {
+    if (
+      scrollTop + clientHeight >= scrollHeight &&
+      loadIndex + 1 < contentList.value.length
+    ) {
       setTimeout(() => {
         const newData = [];
         for (let i = 0; i < batchSize; i++) {
-          newData.push({
-            author: "111",
-            title: "222",
-            content: "333",
-            like: 111,
-            browse: 222,
-            imgList: ["1", "2"],
-            classification: "js",
-          });
+          newData.push(contentList.value[loadIndex]);
           loadIndex++;
         }
-        contentList.value.push(...newData);
+        _contentList.value.push(...newData);
       }, 1000);
     }
   }
 };
 onMounted(() => {
+  updateContainerHeight();
   init();
+  window.addEventListener("resize", updateContainerHeight);
   scrollContainer.value?.addEventListener("scroll", handleScroll);
+});
+onBeforeUnmount(() => {
+  window.removeEventListener("resize", updateContainerHeight);
+  scrollContainer.value?.removeEventListener("scroll", handleScroll);
 });
 </script>
 
