@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-01-28 22:13:18
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-15 19:02:55
+ * @LastEditTime: 2024-02-17 19:04:01
  * 佛祖保佑没bug
 -->
 <template>
@@ -15,6 +15,12 @@
         @item-click="handleSelect"
       >
       </leslie-menu>
+      <div class="nav-right">
+        <leslie-button svg-name="add" height="40" @click="addNote"
+          >发布文章</leslie-button
+        >
+        <div class="personal-space"></div>
+      </div>
     </div>
     <div class="center">
       <div class="left">
@@ -33,12 +39,13 @@
 
 <script setup lang="ts">
 import LeslieMenu from "../leslie-Menu/index.vue";
+import LeslieButton from "../leslie-button/index.vue";
 import classification from "../classification/index.vue";
 import recommend from "../recommend/index.vue";
 import LeftOperate from "../left-operate/index.vue";
 import ContentList from "../contentList/index.vue";
 import { ref } from "vue";
-// import { ElMenu, ElMenuItem } from "element-plus";
+
 const isIndex = ref(false);
 const menuItems = ref([
   { index: 1, name: "首页" },
@@ -47,6 +54,10 @@ const menuItems = ref([
 const activeIndex = ref(1);
 const handleSelect = (key: number) => {
   console.log(key);
+};
+const addNote = () => {
+  // TODO 实现新增笔记的功能  新开窗口
+  console.log("addNote");
 };
 </script>
 
@@ -62,6 +73,19 @@ const handleSelect = (key: number) => {
     height: 50px;
     position: fixed;
     background-color: @contentBgColor;
+    display: flex;
+    justify-content: space-between;
+    .nav-right {
+      width: 30%;
+      display: flex;
+      align-items: center;
+      .personal-space {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: red;
+      }
+    }
   }
   .center {
     margin: 10px 30px 0 30px;

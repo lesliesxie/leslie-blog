@@ -15,6 +15,7 @@ declare module 'vue' {
     ElSubMenu: (typeof import("element-plus/es"))["ElSubMenu"]
     HomePage: typeof import('./src/components/homePage/index.vue')['default']
     LeftOperate: typeof import('./src/components/left-operate/index.vue')['default']
+    LeslieButton: typeof import('./src/components/leslie-button/index.vue')['default']
     LeslieMenu: typeof import('./src/components/leslie-Menu/index.vue')['default']
     Recommend: typeof import('./src/components/recommend/index.vue')['default']
     SvgIcon: typeof import('./src/components/svgIcon/index.vue')['default']
