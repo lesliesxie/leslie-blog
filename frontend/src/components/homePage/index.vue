@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-01-28 22:13:18
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-17 19:04:01
+ * @LastEditTime: 2024-02-18 17:12:00
  * 佛祖保佑没bug
 -->
 <template>
@@ -58,6 +58,7 @@ const handleSelect = (key: number) => {
 const addNote = () => {
   // TODO 实现新增笔记的功能  新开窗口
   console.log("addNote");
+  window.open("/add-note");
 };
 </script>
 

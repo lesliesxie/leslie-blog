@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AddNote: typeof import('./src/components/addNote/index.vue')['default']
     Classification: typeof import('./src/components/classification/index.vue')['default']
     ContentDetail: typeof import('./src/components/contentDetail/index.vue')['default']
     ContentList: typeof import('./src/components/contentList/index.vue')['default']
@@ -18,6 +19,8 @@ declare module 'vue' {
     LeslieButton: typeof import('./src/components/leslie-button/index.vue')['default']
     LeslieMenu: typeof import('./src/components/leslie-Menu/index.vue')['default']
     Recommend: typeof import('./src/components/recommend/index.vue')['default']
+    RouterLink: typeof import('vue-router')['RouterLink']
+    RouterView: typeof import('vue-router')['RouterView']
     SvgIcon: typeof import('./src/components/svgIcon/index.vue')['default']
   }
 }
