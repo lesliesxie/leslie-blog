@@ -3,12 +3,13 @@
  * @Author: leslie
  * @Date: 2024-02-18 15:45:25
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-19 14:30:42
+ * @LastEditTime: 2024-02-19 22:43:54
  * 佛祖保佑没bug
 -->
 <template>
   <div class="add-note">
     <!-- TODO 实现新增笔记页面 -->
+    <!-- TODO 自己实现富文本编辑器而不借助quill库 -->
     <!-- <input type="text" v-model="noteTitle" placeholder="请输入标题" />
     <div
       contenteditable="true"

@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-01-28 22:13:18
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-18 17:12:00
+ * @LastEditTime: 2024-02-19 22:17:17
  * 佛祖保佑没bug
 -->
 <template>
@@ -17,7 +17,7 @@
       </leslie-menu>
       <div class="nav-right">
         <leslie-button svg-name="add" height="40" @click="addNote"
-          >发布文章</leslie-button
+          >新建笔记</leslie-button
         >
         <div class="personal-space"></div>
       </div>
@@ -56,8 +56,10 @@ const handleSelect = (key: number) => {
   console.log(key);
 };
 const addNote = () => {
-  // TODO 实现新增笔记的功能  新开窗口
-  console.log("addNote");
+  // 问题：路由改变页面没变：/ =》 /add-note
+  //                    homePage => homePage
+  // 原因：路由配置不正常，使用了createWebHashHistory而不是createWebHistory
+  // createWebHashHistory使用后所有路由都会变成#/结尾导致只会跳转到首页，具体哪里配错未发现
   window.open("/add-note");
 };
 </script>
