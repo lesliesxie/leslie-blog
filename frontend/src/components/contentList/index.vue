@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-15 17:27:06
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-17 17:48:27
+ * @LastEditTime: 2024-02-18 16:45:24
  * 佛祖保佑没bug
 -->
 <template>
@@ -132,11 +132,11 @@ onBeforeUnmount(() => {
   background-color: @contentBgColor;
   position: relative;
   height: 100%;
-  overflow: scroll;
+  // overflow: scroll;
   // 支持滚动到底绑定scroll事件
   .scroll-container {
     height: 100%;
-    overflow: scroll;
+    overflow: auto;
   }
   .content-item {
     height: 79px;
