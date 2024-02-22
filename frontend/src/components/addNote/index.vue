@@ -3,44 +3,72 @@
  * @Author: leslie
  * @Date: 2024-02-18 15:45:25
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-19 22:43:54
+ * @LastEditTime: 2024-02-22 18:55:33
  * 佛祖保佑没bug
 -->
 <template>
   <div class="add-note">
-    <!-- TODO 实现新增笔记页面 -->
-    <!-- TODO 自己实现富文本编辑器而不借助quill库 -->
-    <!-- <input type="text" v-model="noteTitle" placeholder="请输入标题" />
-    <div
-      contenteditable="true"
-      ref="editor"
-      class="custom-editor"
-      @input="updateNoteContent"
-    ></div>
-    <input type="file" @change="handleFileUpload" />
-    <button @click="saveNote">保存</button> -->
+    <Toolbar
+      class="note-tooltip"
+      ref="note-tooltip"
+      :editor="editorRef"
+      :defaultConfig="toolbarConfig"
+      :mode="mode"
+    />
+    <Editor
+      class="note-editor"
+      v-model="valueHtml"
+      :defaultConfig="editorConfig"
+      :mode="mode"
+      @onCreated="handleCreated"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import "@wangeditor/editor/dist/css/style.css"; // 引入 css
+import { onBeforeUnmount, ref, shallowRef } from "vue";
+import { Editor, Toolbar } from "@wangeditor/editor-for-vue";
 
-const noteTitle = ref("");
-const noteContent = ref("");
-const editor = ref<HTMLElement | null>(null);
-let selectedFile: File | null = null;
-const updateNoteContent = () => {
-  noteContent.value = editor.value?.innerHTML || "";
+// 编辑器实例，必须用 shallowRef
+const editorRef = shallowRef();
+
+// 内容 HTML
+const valueHtml = ref("");
+const toolbarConfig = {};
+const editorConfig = { placeholder: "请输入内容..." };
+
+// 组件销毁时，也及时销毁编辑器
+onBeforeUnmount(() => {
+  const editor = editorRef.value;
+  if (editor == null) return;
+  editor.destroy();
+});
+
+const handleCreated = (editor: any) => {
+  editorRef.value = editor; // 记录 editor 实例，重要！
 };
-const handleFileUpload = (e: Event) => {
-  selectedFile = (e.target as HTMLInputElement).files?.[0] || null;
-};
-const saveNote = async () => {
-  console.log("111");
-};
+// 纯文本粘贴
+// const customPaste = (editor, event, callback) => {
+//   const text = event.clipboardData.getData("text/plain"); // 获取粘贴的纯文本
+//   if (text) {
+//     editor.insertText(text);
+//     event.preventDefault();
+//     callback(false);
+//   }
+// };
 </script>
 
 <style lang="less" scoped>
 .add-note {
+  border: 1px solid #ccc;
+  height: 100%;
+  .note-tooltip {
+    border-bottom: 1px solid #ccc;
+  }
+  .note-editor {
+    overflow-y: hidden;
+    height: 500px;
+  }
 }
 </style>
