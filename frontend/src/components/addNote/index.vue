@@ -3,23 +3,23 @@
  * @Author: leslie
  * @Date: 2024-02-18 15:45:25
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-22 18:55:33
+ * @LastEditTime: 2024-02-22 21:34:50
  * 佛祖保佑没bug
 -->
 <template>
+  <!-- TODO 头部加个标题栏，右侧有存进草稿箱或发布按钮 -->
+  <!-- TODO 争取实现全屏，左侧写右侧是效果   -->
   <div class="add-note">
     <Toolbar
       class="note-tooltip"
       ref="note-tooltip"
       :editor="editorRef"
       :defaultConfig="toolbarConfig"
-      :mode="mode"
     />
     <Editor
       class="note-editor"
       v-model="valueHtml"
       :defaultConfig="editorConfig"
-      :mode="mode"
       @onCreated="handleCreated"
     />
   </div>
@@ -65,10 +65,6 @@ const handleCreated = (editor: any) => {
   height: 100%;
   .note-tooltip {
     border-bottom: 1px solid #ccc;
-  }
-  .note-editor {
-    overflow-y: hidden;
-    height: 500px;
   }
 }
 </style>
