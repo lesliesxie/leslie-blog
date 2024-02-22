@@ -3,10 +3,10 @@
  * @Author: leslie
  * @Date: 2024-02-18 16:30:40
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-18 17:16:15
+ * @LastEditTime: 2024-02-21 22:19:13
  * 佛祖保佑没bug
  */
-import { RouteRecordRaw, createRouter, createWebHashHistory } from "vue-router";
+import { RouteRecordRaw, createRouter, createWebHistory } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -25,10 +25,14 @@ const routes: Array<RouteRecordRaw> = [
       title: "添加笔记",
     },
   },
+  {
+    path: "/:catchAll(.*)",
+    redirect: "/",
+  },
 ];
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes,
 });
 

@@ -3,11 +3,15 @@
  * @Author: leslie
  * @Date: 2024-01-29 21:56:35
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-18 17:20:04
+ * @LastEditTime: 2024-02-19 21:58:04
  * 佛祖保佑没bug
 -->
 <template>
-  <router-view></router-view>
+  <router-view v-slot="{ Component }">
+    <keep-alive>
+      <component :is="Component" />
+    </keep-alive>
+  </router-view>
   <!-- <home-page></home-page> -->
 </template>
 
