@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-01-28 22:13:18
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-25 19:13:36
+ * @LastEditTime: 2024-02-25 19:36:56
  * 佛祖保佑没bug
 -->
 <template>
@@ -39,7 +39,6 @@
 
 <script setup lang="ts">
 import LeslieMenu from "@/components/leslieUI/leslie-Menu/index.vue";
-import LeslieButton from "@/components/leslieUI/leslie-button/index.vue";
 import classification from "../classification/index.vue";
 import recommend from "../recommend/index.vue";
 import LeftOperate from "@/components/leslieUI/left-operate/index.vue";

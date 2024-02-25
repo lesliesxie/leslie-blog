@@ -3,13 +3,19 @@
  * @Author: leslie
  * @Date: 2024-01-30 23:24:26
  * @LastEditors: leslie
- * @LastEditTime: 2024-01-30 23:27:39
+ * @LastEditTime: 2024-02-25 19:35:45
  * 佛祖保佑没bug
  */
 import SvgIcon from "@/components/leslieUI/svgIcon/index.vue";
+import LeslieInput from "@/components/leslieUI/leslie-input/index.vue";
+import LeslieButton from "@/components/leslieUI/leslie-button/index.vue";
 import type { App, Component } from "vue";
 
-const components: { [name: string]: Component } = { SvgIcon };
+const components: { [name: string]: Component } = {
+  SvgIcon,
+  LeslieButton,
+  LeslieInput,
+};
 
 export default {
   install(app: App) {
