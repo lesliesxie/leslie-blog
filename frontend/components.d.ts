@@ -12,12 +12,14 @@ declare module 'vue' {
     ContentDetail: typeof import('./src/components/contentDetail/index.vue')['default']
     ContentList: typeof import('./src/components/contentList/index.vue')['default']
     HomePage: typeof import('./src/components/homePage/index.vue')['default']
-    LeftOperate: typeof import('./src/components/left-operate/index.vue')['default']
-    LeslieButton: typeof import('./src/components/leslie-button/index.vue')['default']
-    LeslieMenu: typeof import('./src/components/leslie-Menu/index.vue')['default']
+    LeftOperate: typeof import('./src/components/leslieUI/left-operate/index.vue')['default']
+    LeslieButton: typeof import('./src/components/leslieUI/leslie-button/index.vue')['default']
+    LeslieInput: typeof import('./src/components/leslieUI/leslie-input/index.vue')['default']
+    LeslieMenu: typeof import('./src/components/leslieUI/leslie-Menu/index.vue')['default']
+    LeslieMessage: typeof import('./src/components/leslieUI/leslie-message/index.vue')['default']
     Recommend: typeof import('./src/components/recommend/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    SvgIcon: typeof import('./src/components/svgIcon/index.vue')['default']
+    SvgIcon: typeof import('./src/components/leslieUI/svgIcon/index.vue')['default']
   }
 }

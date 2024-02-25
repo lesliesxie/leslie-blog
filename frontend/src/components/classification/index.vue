@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-06 18:13:37
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-12 22:49:32
+ * @LastEditTime: 2024-02-25 19:15:19
  * 佛祖保佑没bug
 -->
 <template>
@@ -29,7 +29,6 @@
 
 <script setup lang="ts">
 import { getClassificationList } from "@/server/index.ts";
-import svgIcon from "../svgIcon/index.vue";
 import { ref } from "vue";
 
 const activeIndex = ref(1);

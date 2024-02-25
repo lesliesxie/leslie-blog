@@ -3,25 +3,42 @@
  * @Author: leslie
  * @Date: 2024-02-18 15:45:25
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-22 18:55:33
+ * @LastEditTime: 2024-02-25 23:13:10
  * 佛祖保佑没bug
 -->
 <template>
+  <!-- TODO 争取实现全屏，左侧写右侧是效果   -->
   <div class="add-note">
-    <Toolbar
-      class="note-tooltip"
-      ref="note-tooltip"
-      :editor="editorRef"
-      :defaultConfig="toolbarConfig"
-      :mode="mode"
-    />
-    <Editor
-      class="note-editor"
-      v-model="valueHtml"
-      :defaultConfig="editorConfig"
-      :mode="mode"
-      @onCreated="handleCreated"
-    />
+    <div class="note-top">
+      <div class="note-title">
+        <leslie-input
+          placeholder="请输入标题"
+          :width="500"
+          :fontSize="24"
+        ></leslie-input>
+      </div>
+      <div class="note-submit">
+        <span class="note-prompt">文章将自动保存至草稿箱</span>
+        <leslie-button class="note-draft" bgColor="#fff" @click="onSave"
+          >草稿箱</leslie-button
+        >
+        <leslie-button @click="onSubmit">发布</leslie-button>
+      </div>
+    </div>
+    <div class="note-content">
+      <Toolbar
+        class="note-tooltip"
+        ref="note-tooltip"
+        :editor="editorRef"
+        :defaultConfig="toolbarConfig"
+      />
+      <Editor
+        class="note-editor"
+        v-model="valueHtml"
+        :defaultConfig="editorConfig"
+        @onCreated="handleCreated"
+      />
+    </div>
   </div>
 </template>
 
@@ -57,18 +74,47 @@ const handleCreated = (editor: any) => {
 //     callback(false);
 //   }
 // };
+
+const onSave = () => {
+  // TODO 保存至草稿箱
+  alert("功能待实现");
+  // TODO message待改造
+  showMessage("保存至草稿箱成功");
+};
+
+const onSubmit = () => {
+  // TODO 发布
+};
 </script>
 
 <style lang="less" scoped>
 .add-note {
-  border: 1px solid #ccc;
   height: 100%;
-  .note-tooltip {
-    border-bottom: 1px solid #ccc;
+  position: fixed; //禁止上拉下拉露出白底
+  .note-top {
+    display: flex;
+    justify-content: space-between;
+    // position: fixed;
+    .note-title {
+      padding: 10px;
+      display: inline-block;
+    }
+    .note-submit {
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      color: #c9cdd4;
+      cursor: default;
+      .note-draft {
+        margin: 0 20px;
+      }
+    }
   }
-  .note-editor {
-    overflow-y: hidden;
-    height: 500px;
+  .note-content {
+    border: 1px solid #ccc;
+    .note-tooltip {
+      border-bottom: 1px solid #ccc;
+    }
   }
 }
 </style>
