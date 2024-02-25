@@ -3,17 +3,19 @@
  * @Author: leslie
  * @Date: 2024-02-17 18:00:12
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-17 19:01:29
+ * @LastEditTime: 2024-02-25 22:43:23
  * 佛祖保佑没bug
 -->
 <template>
-  <button class="leslie-button" :style="{ height: height + 'px' }">
-    <svg-icon
-      v-if="svgName"
-      :name="svgName"
-      class="icon"
-      color="var(--btnColor)"
-    ></svg-icon>
+  <button
+    class="leslie-button"
+    :style="{
+      height: height + 'px',
+      backgroundColor: bgColor,
+      color: bgColor ? '#eda2ed' : '',
+    }"
+  >
+    <svg-icon v-if="svgName" :name="svgName" class="icon"></svg-icon>
     <slot></slot>
   </button>
 </template>
@@ -26,6 +28,9 @@ const props = defineProps({
     type: String,
   },
   height: {
+    type: String,
+  },
+  bgColor: {
     type: String,
   },
 });
