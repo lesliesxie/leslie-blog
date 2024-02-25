@@ -16,6 +16,7 @@ declare module 'vue' {
     LeslieButton: typeof import('./src/components/leslieUI/leslie-button/index.vue')['default']
     LeslieInput: typeof import('./src/components/leslieUI/leslie-input/index.vue')['default']
     LeslieMenu: typeof import('./src/components/leslieUI/leslie-Menu/index.vue')['default']
+    LeslieMessage: typeof import('./src/components/leslieUI/leslie-message/index.vue')['default']
     Recommend: typeof import('./src/components/recommend/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
