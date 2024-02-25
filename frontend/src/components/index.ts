@@ -6,7 +6,7 @@
  * @LastEditTime: 2024-01-30 23:27:39
  * 佛祖保佑没bug
  */
-import SvgIcon from "./svgIcon/index.vue";
+import SvgIcon from "@/components/leslieUI/svgIcon/index.vue";
 import type { App, Component } from "vue";
 
 const components: { [name: string]: Component } = { SvgIcon };

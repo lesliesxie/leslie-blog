@@ -29,7 +29,6 @@
 </template>
 
 <script setup lang="ts">
-import SvgIcon from "../svgIcon/index.vue";
 import { ref } from "vue";
 const leftOperate = ref([
   { name: "likes", isClick: false },

@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-15 17:27:06
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-18 16:45:24
+ * @LastEditTime: 2024-02-25 19:15:41
  * 佛祖保佑没bug
 -->
 <template>
@@ -65,7 +65,6 @@
 
 <script setup lang="ts">
 import { getContentList } from "@/server";
-import SvgIcon from "../svgIcon/index.vue";
 import { onBeforeUnmount, onMounted, ref } from "vue";
 
 interface classificationType {

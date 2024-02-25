@@ -19,7 +19,6 @@
 </template>
 
 <script setup lang="ts">
-import SvgIcon from "../svgIcon/index.vue";
 import { defineProps } from "vue";
 
 const props = defineProps({
