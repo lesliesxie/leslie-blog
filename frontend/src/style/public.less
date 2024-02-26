@@ -16,6 +16,10 @@
 @btnColor: #faecf9;
 @btnBgColor: #f1aaf1;
 @btnBorderColor: #eda2ed;
+@messageSuccess: @btnBgColor;
+@messageError: red;
+@messageWarning: yellow;
+@messageInfo: grey;
 :root {
   --itemHoverColor: @itemHoverColor;
   --iconColor: @iconColor;
@@ -31,4 +35,25 @@ body {
 ol,
 ul {
   list-style: none;
+}
+.message-box {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 15px;
+  border-radius: 5px;
+  z-index: 100;
+}
+.message-success {
+  background-color: @messageSuccess;
+}
+.message-error {
+  background-color: @messageError;
+}
+.message-warning {
+  background-color: @messageWarning;
+}
+.message-info {
+  background-color: @messageInfo;
 }
