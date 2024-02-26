@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-18 15:45:25
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-25 23:13:10
+ * @LastEditTime: 2024-02-26 23:20:49
  * 佛祖保佑没bug
 -->
 <template>
@@ -44,7 +44,7 @@
 
 <script setup lang="ts">
 import "@wangeditor/editor/dist/css/style.css"; // 引入 css
-import { onBeforeUnmount, ref, shallowRef } from "vue";
+import { onBeforeUnmount, ref, shallowRef, getCurrentInstance } from "vue";
 import { Editor, Toolbar } from "@wangeditor/editor-for-vue";
 
 // 编辑器实例，必须用 shallowRef
@@ -74,12 +74,13 @@ const handleCreated = (editor: any) => {
 //     callback(false);
 //   }
 // };
-
+const { LeslieMessage } = getCurrentInstance()?.appContext.config
+  .globalProperties as any;
 const onSave = () => {
   // TODO 保存至草稿箱
-  alert("功能待实现");
+  // alert("功能待实现");
   // TODO message待改造
-  showMessage("保存至草稿箱成功");
+  LeslieMessage("1");
 };
 
 const onSubmit = () => {
