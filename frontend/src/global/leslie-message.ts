@@ -1,24 +1,68 @@
-/*
- * @Description: Stay hungry，Stay foolish
- * @Author: leslie
- * @Date: 2024-02-26 22:24:22
- * @LastEditors: leslie
- * @LastEditTime: 2024-02-26 23:13:18
- * 佛祖保佑没bug
- */
+interface MessageOptions {
+  type?: "success" | "warning" | "danger";
+  message: string;
+  duration?: number;
+}
 
-export default function showMessage(
-  message: string,
-  type: string,
-  showTime: number
-) {
-  type = type || "success";
-  showTime = showTime || 30000;
-  const msgBox = document.createElement("div");
-  msgBox.textContent = message;
-  msgBox.className = `message-box message-${type}`;
-  document.body.appendChild(msgBox);
-  setTimeout(() => {
-    document.body.removeChild(msgBox);
-  }, showTime);
+class MessageComponent {
+  private container: HTMLDivElement;
+  private message: HTMLDivElement;
+  private closeButton: HTMLButtonElement;
+
+  constructor() {
+    this.container = document.createElement("div");
+    this.container.className = "message-container";
+
+    this.message = document.createElement("div");
+    this.message.className = "message";
+
+    this.closeButton = document.createElement("button");
+    this.closeButton.className = "close-button";
+    this.closeButton.innerText = "×";
+
+    this.container.appendChild(this.message);
+    this.container.appendChild(this.closeButton);
+
+    this.closeButton.addEventListener("click", () => {
+      this.hideMessage();
+    });
+  }
+
+  private showMessage(options: MessageOptions) {
+    this.message.innerText = options.message;
+    this.message.className = `message message-${options.type}`;
+
+    document.body.appendChild(this.container);
+
+    if (options.duration !== undefined) {
+      setTimeout(() => {
+        this.hideMessage();
+      }, options.duration);
+    }
+  }
+
+  private hideMessage() {
+    document.body.removeChild(this.container);
+  }
+
+  public show(options: MessageOptions | string) {
+    let messageOptions: MessageOptions;
+
+    if (typeof options === "string") {
+      messageOptions = {
+        type: "success",
+        message: options,
+      };
+    } else {
+      messageOptions = options;
+    }
+
+    this.showMessage(messageOptions);
+  }
+}
+
+const message = new MessageComponent();
+
+export function showMessage(options: MessageOptions | string) {
+  message.show(options);
 }

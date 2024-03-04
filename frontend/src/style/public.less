@@ -57,3 +57,40 @@ ul {
 .message-info {
   background-color: @messageInfo;
 }
+
+.message-container {
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+  z-index: 10;
+  background-color: white;
+}
+
+.message {
+  display: inline-block;
+  padding: 10px;
+}
+
+.message-success {
+  background-color: green;
+}
+
+.message-warning {
+  background-color: orange;
+}
+
+.message-danger {
+  background-color: red;
+}
+
+.close-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  padding: 2px;
+  border: none;
+  background-color: transparent;
+  color: #fff;
+}
