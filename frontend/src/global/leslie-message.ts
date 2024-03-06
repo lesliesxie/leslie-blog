@@ -1,20 +1,9 @@
-<<<<<<< HEAD
 /*
  * @Description: Stay hungry，Stay foolish
  * @Author: leslie
  * @Date: 2024-03-10 17:31:07
  * @LastEditors: leslie
  * @LastEditTime: 2024-03-11 17:07:51
-=======
-import { log } from "util";
-
-/*
- * @Description: Stay hungry，Stay foolish
- * @Author: leslie
- * @Date: 2024-03-04 16:28:50
- * @LastEditors: leslie
- * @LastEditTime: 2024-03-06 14:37:59
->>>>>>> ce33a77 (leslie-message v3 support showMessage.type())
  * 佛祖保佑没bug
  */
 type MessageType = "success" | "info" | "warning" | "error";
@@ -23,7 +12,6 @@ interface MessageOptions {
   message: string;
   duration?: number;
 }
-<<<<<<< HEAD
 //TODO  多个弹框存在问题：消失的弹框位置未重新计算导致不刷新后触发的弹框位置不在最上面，
 //TODO 先注释掉改为只支持出现一个弹框，后续优化，可以考虑支持实现后触发在最上面
 // let timeoutIds: Map<any, any> = new Map();
@@ -31,21 +19,15 @@ interface MessageOptions {
 
 // let nextMessageTop = 30;
 let timeoutId: ReturnType<typeof setTimeout>;
-
-=======
->>>>>>> ce33a77 (leslie-message v3 support showMessage.type())
 class MessageComponent {
   private container: HTMLDivElement;
   private message: HTMLDivElement;
   private closeButton: HTMLButtonElement;
-
-  private duration: number = 6000;
+  private duration: number = 3000;
 
   constructor() {
     this.container = document.createElement("div");
     this.container.className = "leslie-message-container";
-<<<<<<< HEAD
-
     this.message = document.createElement("div");
     this.message.className = "leslie-message";
 
@@ -53,20 +35,12 @@ class MessageComponent {
     this.closeButton.className = "leslie-close-button";
     this.closeButton.innerText = "×";
 
-=======
-    this.message = document.createElement("div");
-    this.message.className = "leslie-message";
-    this.closeButton = document.createElement("button");
-    this.closeButton.className = "leslie-message-close-button";
-    this.closeButton.innerHTML = "×";
->>>>>>> ce33a77 (leslie-message v3 support showMessage.type())
     this.container.appendChild(this.message);
     this.container.appendChild(this.closeButton);
 
     this.closeButton.addEventListener("click", () => {
       this.hideMessage();
     });
-
     this.container.addEventListener("mouseenter", () => {
       this.clearTimeout();
     });
@@ -158,8 +132,6 @@ class MessageComponent {
     //   }
   }
 }
-<<<<<<< HEAD
-
 // const messageComponents: MessageComponent[] = [];
 const message = new MessageComponent();
 
@@ -167,11 +139,6 @@ function showMessage(options: MessageOptions | string) {
   // const messageComponent = new MessageComponent();
   // messageComponents.push(messageComponent);
   // messageComponent.show(options);
-=======
-const message = new MessageComponent();
-
-function showMessage(options: MessageOptions | string) {
->>>>>>> ce33a77 (leslie-message v3 support showMessage.type())
   message.show(options);
 }
 
