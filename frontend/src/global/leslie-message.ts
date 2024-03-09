@@ -1,23 +1,28 @@
+type MessageType = "success" | "info" | "warning" | "error";
 interface MessageOptions {
-  type?: "success" | "warning" | "danger";
+  type?: MessageType;
   message: string;
   duration?: number;
 }
+
+let timeoutId: ReturnType<typeof setTimeout>;
 
 class MessageComponent {
   private container: HTMLDivElement;
   private message: HTMLDivElement;
   private closeButton: HTMLButtonElement;
 
+  private duration: number = 3000;
+
   constructor() {
     this.container = document.createElement("div");
-    this.container.className = "message-container";
+    this.container.className = "leslie-message-container";
 
     this.message = document.createElement("div");
-    this.message.className = "message";
+    this.message.className = "leslie-message";
 
     this.closeButton = document.createElement("button");
-    this.closeButton.className = "close-button";
+    this.closeButton.className = "leslie-close-button";
     this.closeButton.innerText = "×";
 
     this.container.appendChild(this.message);
@@ -26,19 +31,30 @@ class MessageComponent {
     this.closeButton.addEventListener("click", () => {
       this.hideMessage();
     });
+
+    this.container.addEventListener("mouseenter", () => {
+      clearTimeout(timeoutId);
+    });
+
+    this.container.addEventListener("mouseleave", () => {
+      this.startTime();
+    });
   }
 
   private showMessage(options: MessageOptions) {
     this.message.innerText = options.message;
-    this.message.className = `message message-${options.type}`;
+    this.message.className = `leslie-message leslie-message--${options.type}`;
 
     document.body.appendChild(this.container);
 
-    if (options.duration !== undefined) {
-      setTimeout(() => {
-        this.hideMessage();
-      }, options.duration);
-    }
+    this.duration = options.duration || 3000;
+    this.startTime();
+  }
+
+  private startTime() {
+    timeoutId = setTimeout(() => {
+      this.hideMessage();
+    }, this.duration);
   }
 
   private hideMessage() {
@@ -54,7 +70,10 @@ class MessageComponent {
         message: options,
       };
     } else {
-      messageOptions = options;
+      messageOptions = {
+        type: "success",
+        ...options,
+      };
     }
 
     this.showMessage(messageOptions);
@@ -63,6 +82,28 @@ class MessageComponent {
 
 const message = new MessageComponent();
 
-export function showMessage(options: MessageOptions | string) {
+function showMessage(options: MessageOptions | string) {
   message.show(options);
 }
+
+type ShowMessageProxy = typeof showMessage & {
+  [K in MessageType]: (message: string) => void;
+};
+
+const showMessageProxy: ShowMessageProxy = Object.assign(showMessage, {
+  success: createMessageType("success"),
+  info: createMessageType("info"),
+  warning: createMessageType("warning"),
+  error: createMessageType("error"),
+});
+
+function createMessageType(type: MessageType) {
+  return (message: string) => {
+    showMessage({
+      type,
+      message,
+    });
+  };
+}
+
+export default showMessageProxy;

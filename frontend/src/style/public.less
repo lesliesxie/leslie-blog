@@ -36,56 +36,30 @@ ol,
 ul {
   list-style: none;
 }
-.message-box {
+.leslie-message-container {
   position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 10px 15px;
-  border-radius: 5px;
-  z-index: 100;
-}
-.message-success {
-  background-color: @messageSuccess;
-}
-.message-error {
-  background-color: @messageError;
-}
-.message-warning {
-  background-color: @messageWarning;
-}
-.message-info {
-  background-color: @messageInfo;
-}
-
-.message-container {
-  position: fixed;
-  top: 30px;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding: 10px;
-  z-index: 10;
-  background-color: white;
+  cursor: pointer;
+  top: 20px;
 }
-
-.message {
+.leslie-message {
   display: inline-block;
   padding: 10px;
 }
-
-.message-success {
-  background-color: green;
+.leslie-message--success {
+  background-color: @messageSuccess;
 }
-
-.message-warning {
-  background-color: orange;
+.leslie-message--error {
+  background-color: @messageError;
 }
-
-.message-danger {
-  background-color: red;
+.leslie-message--warning {
+  background-color: @messageWarning;
 }
-
-.close-button {
+.leslie-message--info {
+  background-color: @messageInfo;
+}
+.leslie-close-button {
   position: absolute;
   top: 5px;
   right: 5px;
