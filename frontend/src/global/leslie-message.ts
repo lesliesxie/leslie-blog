@@ -5,7 +5,10 @@ interface MessageOptions {
   duration?: number;
 }
 
-let timeoutId: ReturnType<typeof setTimeout>;
+let timeoutIds: Map<any, any> = new Map();
+let messageQueues: Map<any, any> = new Map();
+
+let nextMessageTop = 30;
 
 class MessageComponent {
   private container: HTMLDivElement;
@@ -33,7 +36,7 @@ class MessageComponent {
     });
 
     this.container.addEventListener("mouseenter", () => {
-      clearTimeout(timeoutId);
+      this.clearTimeout();
     });
 
     this.container.addEventListener("mouseleave", () => {
@@ -42,23 +45,51 @@ class MessageComponent {
   }
 
   private showMessage(options: MessageOptions) {
-    this.message.innerText = options.message;
     this.message.className = `leslie-message leslie-message--${options.type}`;
+    const icon = document.createElement("img");
+    icon.className = `leslie-message-icon leslie-message-icon--${options.type}`;
+    icon.src = `./src/assets/icons/${options.type}.svg`;
+    this.message.innerText = options.message;
+    this.message.appendChild(icon);
+    this.container.style.top = `${nextMessageTop}px`;
 
+    nextMessageTop += this.container.offsetHeight + 50;
     document.body.appendChild(this.container);
 
     this.duration = options.duration || 3000;
     this.startTime();
   }
 
+  private showNextMessage() {
+    const messageQueue = messageQueues.get(this);
+    if (messageQueue && messageQueue.length > 0) {
+      const nextMessage = messageQueue.shift();
+      if (nextMessage) {
+        this.showMessage(nextMessage);
+      }
+    }
+  }
+
   private startTime() {
-    timeoutId = setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       this.hideMessage();
     }, this.duration);
+    timeoutIds.set(this, timeoutId);
+  }
+
+  private clearTimeout() {
+    const timeoutId = timeoutIds.get(this);
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
   }
 
   private hideMessage() {
     document.body.removeChild(this.container);
+    messageQueues.delete(this);
+
+    this.clearTimeout();
+    this.showNextMessage();
   }
 
   public show(options: MessageOptions | string) {
@@ -76,14 +107,26 @@ class MessageComponent {
       };
     }
 
-    this.showMessage(messageOptions);
+    let messageQueue = messageQueues.get(this);
+    if (!messageQueue) {
+      messageQueue = [];
+      messageQueues.set(this, messageQueue);
+    }
+
+    messageQueue.push(messageOptions);
+
+    if (messageQueue.length === 1) {
+      this.showNextMessage();
+    }
   }
 }
 
-const message = new MessageComponent();
+const messageComponents: MessageComponent[] = [];
 
 function showMessage(options: MessageOptions | string) {
-  message.show(options);
+  const messageComponent = new MessageComponent();
+  messageComponents.push(messageComponent);
+  messageComponent.show(options);
 }
 
 type ShowMessageProxy = typeof showMessage & {

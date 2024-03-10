@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-18 15:45:25
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-09 16:34:01
+ * @LastEditTime: 2024-03-09 23:05:34
  * 佛祖保佑没bug
 -->
 <template>
@@ -77,12 +77,13 @@ const handleCreated = (editor: any) => {
 // };
 const onSave = () => {
   // TODO 保存至草稿箱
-  showMessage({ type: "info", message: "123" });
+  showMessage({ type: "info", message: "123", duration: 300000 });
 };
 
 const onSubmit = () => {
   // TODO 发布
-  showMessage({ type: "success", message: "123aaaa" });
+
+  showMessage({ type: "success", message: "123aaaa", duration: 50000 });
 };
 </script>
 

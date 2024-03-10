@@ -16,10 +16,14 @@
 @btnColor: #faecf9;
 @btnBgColor: #f1aaf1;
 @btnBorderColor: #eda2ed;
-@messageSuccess: @btnBgColor;
-@messageError: red;
-@messageWarning: yellow;
-@messageInfo: grey;
+@messageSuccess: #f0f9eb;
+@messageSuccessColor: #67C23A;
+@messageError: #fef0f0;
+@messageErrorColor: #f56c6c;
+@messageWarning: #fdf6ec;
+@messageWarningColor: #e6a23c;
+@messageInfo: #edf2fc;;
+@messageInfoColor: #909399;
 :root {
   --itemHoverColor: @itemHoverColor;
   --iconColor: @iconColor;
@@ -38,33 +42,46 @@ ul {
 }
 .leslie-message-container {
   position: fixed;
+  color: @btnColor;
   left: 50%;
   transform: translate(-50%, -50%);
   cursor: pointer;
-  top: 20px;
+  
+}
+.leslie-message-icon {
+  width: 18px;
+  margin-right: 5px;
 }
 .leslie-message {
-  display: inline-block;
   padding: 10px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
 }
 .leslie-message--success {
   background-color: @messageSuccess;
+  color: @messageSuccessColor;
 }
 .leslie-message--error {
   background-color: @messageError;
+  color: @messageErrorColor;
 }
 .leslie-message--warning {
   background-color: @messageWarning;
+  color: @messageWarningColor;
 }
 .leslie-message--info {
   background-color: @messageInfo;
+  color: @messageInfoColor;
 }
 .leslie-close-button {
   position: absolute;
-  top: 5px;
-  right: 5px;
-  padding: 2px;
+  top: -10px;
+  right: -10px;
+  font-size: 20px;
   border: none;
   background-color: transparent;
-  color: #fff;
+  cursor: pointer;
+  color: @messageInfoColor;
 }
