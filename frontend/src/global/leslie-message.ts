@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-03-10 17:31:07
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-10 17:35:06
+ * @LastEditTime: 2024-03-10 19:41:33
  * 佛祖保佑没bug
  */
 type MessageType = "success" | "info" | "warning" | "error";
@@ -25,7 +25,7 @@ class MessageComponent {
   private message: HTMLDivElement;
   private closeButton: HTMLButtonElement;
 
-  private duration: number = 3000;
+  private duration: number = 6000;
 
   constructor() {
     this.container = document.createElement("div");
@@ -66,7 +66,9 @@ class MessageComponent {
     // nextMessageTop += this.container.offsetHeight + 50;
     document.body.appendChild(this.container);
 
-    this.duration = options.duration || 3000;
+    this.duration = options.duration || 6000;
+    // TODO 多次连击会触发bug：显示不正常，短时间闪现，待点击次数结束恢复正常
+    console.log(111);
     this.startTime();
   }
 
@@ -98,7 +100,9 @@ class MessageComponent {
   }
 
   private hideMessage() {
-    document.body.removeChild(this.container);
+    if (document.body.contains(this.container)) {
+      document.body.removeChild(this.container);
+    }
     // messageQueues.delete(this);
 
     // this.clearTimeout();
