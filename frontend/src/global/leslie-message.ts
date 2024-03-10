@@ -4,11 +4,13 @@ interface MessageOptions {
   message: string;
   duration?: number;
 }
+//TODO  多个弹框存在问题：消失的弹框位置未重新计算导致不刷新后触发的弹框位置不在最上面，
+//TODO 先注释掉改为只支持出现一个弹框，后续优化，可以考虑支持实现后触发在最上面
+// let timeoutIds: Map<any, any> = new Map();
+// let messageQueues: Map<any, any> = new Map();
 
-let timeoutIds: Map<any, any> = new Map();
-let messageQueues: Map<any, any> = new Map();
-
-let nextMessageTop = 30;
+// let nextMessageTop = 30;
+let timeoutId: ReturnType<typeof setTimeout>;
 
 class MessageComponent {
   private container: HTMLDivElement;
@@ -51,34 +53,37 @@ class MessageComponent {
     icon.src = `./src/assets/icons/${options.type}.svg`;
     this.message.innerText = options.message;
     this.message.appendChild(icon);
-    this.container.style.top = `${nextMessageTop}px`;
+    // this.container.style.top = `${nextMessageTop}px`;
 
-    nextMessageTop += this.container.offsetHeight + 50;
+    // nextMessageTop += this.container.offsetHeight + 50;
     document.body.appendChild(this.container);
 
     this.duration = options.duration || 3000;
     this.startTime();
   }
 
-  private showNextMessage() {
-    const messageQueue = messageQueues.get(this);
-    if (messageQueue && messageQueue.length > 0) {
-      const nextMessage = messageQueue.shift();
-      if (nextMessage) {
-        this.showMessage(nextMessage);
-      }
-    }
-  }
+  // private showNextMessage() {
+  //   const messageQueue = messageQueues.get(this);
+  //   if (messageQueue && messageQueue.length > 0) {
+  //     const nextMessage = messageQueue.shift();
+  //     if (nextMessage) {
+  //       this.showMessage(nextMessage);
+  //     }
+  //   }
+  // }
 
   private startTime() {
-    const timeoutId = setTimeout(() => {
+    timeoutId = setTimeout(() => {
       this.hideMessage();
     }, this.duration);
-    timeoutIds.set(this, timeoutId);
+    // const timeoutId = setTimeout(() => {
+    //   this.hideMessage();
+    // }, this.duration);
+    // timeoutIds.set(this, timeoutId);
   }
 
   private clearTimeout() {
-    const timeoutId = timeoutIds.get(this);
+    // const timeoutId = timeoutIds.get(this);
     if (timeoutId) {
       clearTimeout(timeoutId);
     }
@@ -86,10 +91,10 @@ class MessageComponent {
 
   private hideMessage() {
     document.body.removeChild(this.container);
-    messageQueues.delete(this);
+    // messageQueues.delete(this);
 
-    this.clearTimeout();
-    this.showNextMessage();
+    // this.clearTimeout();
+    // this.showNextMessage();
   }
 
   public show(options: MessageOptions | string) {
@@ -106,27 +111,29 @@ class MessageComponent {
         ...options,
       };
     }
+    this.showMessage(messageOptions);
+    //   let messageQueue = messageQueues.get(this);
+    //   if (!messageQueue) {
+    //     messageQueue = [];
+    //     messageQueues.set(this, messageQueue);
+    //   }
 
-    let messageQueue = messageQueues.get(this);
-    if (!messageQueue) {
-      messageQueue = [];
-      messageQueues.set(this, messageQueue);
-    }
+    //   messageQueue.push(messageOptions);
 
-    messageQueue.push(messageOptions);
-
-    if (messageQueue.length === 1) {
-      this.showNextMessage();
-    }
+    //   if (messageQueue.length === 1) {
+    //     this.showNextMessage();
+    //   }
   }
 }
 
-const messageComponents: MessageComponent[] = [];
+// const messageComponents: MessageComponent[] = [];
+const message = new MessageComponent();
 
 function showMessage(options: MessageOptions | string) {
-  const messageComponent = new MessageComponent();
-  messageComponents.push(messageComponent);
-  messageComponent.show(options);
+  // const messageComponent = new MessageComponent();
+  // messageComponents.push(messageComponent);
+  // messageComponent.show(options);
+  message.show(options);
 }
 
 type ShowMessageProxy = typeof showMessage & {
