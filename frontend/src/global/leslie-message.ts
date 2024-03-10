@@ -1,3 +1,11 @@
+/*
+ * @Description: Stay hungry，Stay foolish
+ * @Author: leslie
+ * @Date: 2024-03-10 17:31:07
+ * @LastEditors: leslie
+ * @LastEditTime: 2024-03-10 17:35:06
+ * 佛祖保佑没bug
+ */
 type MessageType = "success" | "info" | "warning" | "error";
 interface MessageOptions {
   type?: MessageType;
