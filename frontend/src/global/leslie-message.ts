@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-03-10 17:31:07
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-10 19:41:33
+ * @LastEditTime: 2024-03-11 17:07:51
  * 佛祖保佑没bug
  */
 type MessageType = "success" | "info" | "warning" | "error";
@@ -19,18 +19,15 @@ interface MessageOptions {
 
 // let nextMessageTop = 30;
 let timeoutId: ReturnType<typeof setTimeout>;
-
 class MessageComponent {
   private container: HTMLDivElement;
   private message: HTMLDivElement;
   private closeButton: HTMLButtonElement;
-
-  private duration: number = 6000;
+  private duration: number = 3000;
 
   constructor() {
     this.container = document.createElement("div");
     this.container.className = "leslie-message-container";
-
     this.message = document.createElement("div");
     this.message.className = "leslie-message";
 
@@ -44,7 +41,6 @@ class MessageComponent {
     this.closeButton.addEventListener("click", () => {
       this.hideMessage();
     });
-
     this.container.addEventListener("mouseenter", () => {
       this.clearTimeout();
     });
@@ -111,7 +107,6 @@ class MessageComponent {
 
   public show(options: MessageOptions | string) {
     let messageOptions: MessageOptions;
-
     if (typeof options === "string") {
       messageOptions = {
         type: "success",
@@ -137,7 +132,6 @@ class MessageComponent {
     //   }
   }
 }
-
 // const messageComponents: MessageComponent[] = [];
 const message = new MessageComponent();
 
