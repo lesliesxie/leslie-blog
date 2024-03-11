@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-18 15:45:25
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-10 17:25:10
+ * @LastEditTime: 2024-03-11 21:57:56
  * 佛祖保佑没bug
 -->
 <template>
@@ -39,14 +39,26 @@
         @onCreated="handleCreated"
       />
     </div>
+    <div v-html="parseHtml"></div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onBeforeUnmount, ref, shallowRef } from "vue";
+import {
+  getCurrentInstance,
+  onBeforeUnmount,
+  ref,
+  shallowRef,
+  watch,
+} from "vue";
 import "@wangeditor/editor/dist/css/style.css"; // 引入 css
 import { Editor, Toolbar } from "@wangeditor/editor-for-vue";
 import showMessage from "@/global/leslie-message.ts";
+import MarkDownIt from "markdown-it";
+// import { marked } from "marked";
+
+const { $debounce } = getCurrentInstance()?.appContext.config
+  .globalProperties as any;
 
 // 编辑器实例，必须用 shallowRef
 const editorRef = shallowRef();
@@ -55,6 +67,7 @@ const editorRef = shallowRef();
 const valueHtml = ref("");
 const toolbarConfig = {};
 const editorConfig = { placeholder: "请输入内容..." };
+const parseHtml = ref("");
 
 // 组件销毁时，也及时销毁编辑器
 onBeforeUnmount(() => {
@@ -66,6 +79,18 @@ onBeforeUnmount(() => {
 const handleCreated = (editor: any) => {
   editorRef.value = editor; // 记录 editor 实例，重要！
 };
+const debounceHtml = $debounce(() => {
+  // TODO 代码优化
+  let mdText = valueHtml.value
+    .replace(/<p>/gm, "\n")
+    .replace(/<\/p>/gm, "\n")
+    .replace(/<br>/gm, "\n");
+  const md = new MarkDownIt();
+  parseHtml.value = md.render(mdText);
+}, 1000);
+watch(valueHtml, () => {
+  debounceHtml();
+});
 // 纯文本粘贴
 // const customPaste = (editor, event, callback) => {
 //   const text = event.clipboardData.getData("text/plain"); // 获取粘贴的纯文本

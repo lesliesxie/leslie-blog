@@ -8,9 +8,11 @@
  */
 import { App } from "vue";
 import { throttle } from "./leslie-throttle";
+import { debounce } from "./leslie-debounce";
 
 export default {
   install: (app: App) => {
     app.config.globalProperties.$throttle = throttle;
+    app.config.globalProperties.$debounce = debounce;
   },
 };
