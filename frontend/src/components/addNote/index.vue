@@ -3,11 +3,10 @@
  * @Author: leslie
  * @Date: 2024-02-18 15:45:25
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-11 21:57:56
+ * @LastEditTime: 2024-03-12 16:59:23
  * 佛祖保佑没bug
 -->
 <template>
-  <!-- TODO 争取实现全屏，左侧写右侧是效果   -->
   <div class="add-note">
     <div class="note-top">
       <div class="note-title">
@@ -25,21 +24,24 @@
         <leslie-button @click="onSubmit">发布</leslie-button>
       </div>
     </div>
-    <div class="note-content">
-      <Toolbar
-        class="note-tooltip"
-        ref="note-tooltip"
-        :editor="editorRef"
-        :defaultConfig="toolbarConfig"
-      />
-      <Editor
-        class="note-editor"
-        v-model="valueHtml"
-        :defaultConfig="editorConfig"
-        @onCreated="handleCreated"
-      />
+    <div class="note">
+      <div class="note-content">
+        <Toolbar
+          class="note-tooltip"
+          ref="note-tooltip"
+          :editor="editorRef"
+          :defaultConfig="toolbarConfig"
+        />
+        <Editor
+          class="note-editor"
+          v-model="valueHtml"
+          :defaultConfig="editorConfig"
+          @onCreated="handleCreated"
+        />
+      </div>
+      <!-- TODO 顶部优化 -->
+      <div class="note-preview" v-html="parseHtml"></div>
     </div>
-    <div v-html="parseHtml"></div>
   </div>
 </template>
 
@@ -55,7 +57,6 @@ import "@wangeditor/editor/dist/css/style.css"; // 引入 css
 import { Editor, Toolbar } from "@wangeditor/editor-for-vue";
 import showMessage from "@/global/leslie-message.ts";
 import MarkDownIt from "markdown-it";
-// import { marked } from "marked";
 
 const { $debounce } = getCurrentInstance()?.appContext.config
   .globalProperties as any;
@@ -80,11 +81,7 @@ const handleCreated = (editor: any) => {
   editorRef.value = editor; // 记录 editor 实例，重要！
 };
 const debounceHtml = $debounce(() => {
-  // TODO 代码优化
-  let mdText = valueHtml.value
-    .replace(/<p>/gm, "\n")
-    .replace(/<\/p>/gm, "\n")
-    .replace(/<br>/gm, "\n");
+  let mdText = valueHtml.value.replace(/<p>|<\/p>|<br>/gm, "\n");
   const md = new MarkDownIt();
   parseHtml.value = md.render(mdText);
 }, 1000);
@@ -113,6 +110,7 @@ const onSubmit = () => {
 <style lang="less" scoped>
 .add-note {
   height: 100%;
+  width: 100%;
   position: fixed; //禁止上拉下拉露出白底
   .note-top {
     display: flex;
@@ -133,10 +131,28 @@ const onSubmit = () => {
       }
     }
   }
-  .note-content {
-    border: 1px solid #ccc;
-    .note-tooltip {
-      border-bottom: 1px solid #ccc;
+  .note {
+    // width: calc(100vw - 40px);
+    // padding: 0 20px;
+    width: 100%;
+    height: calc(100vh - 48px);
+    display: flex;
+    justify-content: space-between;
+    .note-content {
+      border: @border;
+      width: 50%;
+      .note-tooltip {
+        border-bottom: @border;
+      }
+      .note-editor {
+        padding-left: 20px;
+      }
+    }
+    .note-preview {
+      padding-left: 20px;
+      border-top: @border;
+      width: calc(50% - 20px);
+      background-color: @bgColor !important;
     }
   }
 }

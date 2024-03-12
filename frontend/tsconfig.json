@@ -17,6 +17,8 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "preserve",
+    
+    "allowSyntheticDefaultImports": true,
 
     /* Linting */
     "strict": true,
