@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-18 15:45:25
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-12 16:59:23
+ * @LastEditTime: 2024-03-12 17:09:21
  * 佛祖保佑没bug
 -->
 <template>
@@ -39,7 +39,6 @@
           @onCreated="handleCreated"
         />
       </div>
-      <!-- TODO 顶部优化 -->
       <div class="note-preview" v-html="parseHtml"></div>
     </div>
   </div>
@@ -115,7 +114,7 @@ const onSubmit = () => {
   .note-top {
     display: flex;
     justify-content: space-between;
-    // position: fixed;
+    height: 48px;
     .note-title {
       padding: 10px;
       display: inline-block;
@@ -126,23 +125,26 @@ const onSubmit = () => {
       align-items: center;
       color: #c9cdd4;
       cursor: default;
+      .note-prompt {
+        width: 154px;
+      }
       .note-draft {
         margin: 0 20px;
       }
     }
   }
   .note {
-    // width: calc(100vw - 40px);
-    // padding: 0 20px;
     width: 100%;
     height: calc(100vh - 48px);
     display: flex;
-    justify-content: space-between;
     .note-content {
-      border: @border;
       width: 50%;
       .note-tooltip {
+        border-top: @border;
         border-bottom: @border;
+        width: 100vw;
+        height: 40px;
+        overflow: hidden;
       }
       .note-editor {
         padding-left: 20px;
@@ -152,6 +154,8 @@ const onSubmit = () => {
       padding-left: 20px;
       border-top: @border;
       width: calc(50% - 20px);
+      margin-top: 41px;
+      height: calc(100vh - 90px);
       background-color: @bgColor !important;
     }
   }
