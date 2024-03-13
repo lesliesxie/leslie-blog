@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-18 15:45:25
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-13 19:06:10
+ * @LastEditTime: 2024-03-13 20:30:39
  * 佛祖保佑没bug
 -->
 <template>
@@ -46,7 +46,8 @@
     :positionTop="positionTop"
     :positionRight="positionRight"
     v-if="showClassify"
-    panelTitle="发布文章"
+    panelTitle="文章分类"
+    submitText="确定并发布"
   ></leslie-panel>
 </template>
 
@@ -115,8 +116,9 @@ const onSave = () => {
   // showMessage("保存至草稿箱");
   showClassify.value = true;
   let positionData = noteSubmit.value?.$el.getBoundingClientRect();
+  let width = document.documentElement.clientWidth;
   positionTop.value = positionData.bottom;
-  positionRight.value = positionData.left + positionData.width / 2;
+  positionRight.value = width - (positionData.left + positionData.width / 2);
 };
 
 const onSubmit = () => {
