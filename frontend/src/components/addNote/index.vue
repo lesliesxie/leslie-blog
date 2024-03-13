@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-18 15:45:25
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-12 17:09:21
+ * @LastEditTime: 2024-03-13 19:06:10
  * 佛祖保佑没bug
 -->
 <template>
@@ -21,7 +21,7 @@
         <leslie-button class="note-draft" bgColor="#fff" @click="onSave"
           >草稿箱</leslie-button
         >
-        <leslie-button @click="onSubmit">发布</leslie-button>
+        <leslie-button @click="onSubmit" ref="noteSubmit">发布</leslie-button>
       </div>
     </div>
     <div class="note">
@@ -42,6 +42,12 @@
       <div class="note-preview" v-html="parseHtml"></div>
     </div>
   </div>
+  <leslie-panel
+    :positionTop="positionTop"
+    :positionRight="positionRight"
+    v-if="showClassify"
+    panelTitle="发布文章"
+  ></leslie-panel>
 </template>
 
 <script setup lang="ts">
@@ -55,11 +61,14 @@ import {
 import "@wangeditor/editor/dist/css/style.css"; // 引入 css
 import { Editor, Toolbar } from "@wangeditor/editor-for-vue";
 import showMessage from "@/global/leslie-message.ts";
+import { createContent } from "@/server";
 import MarkDownIt from "markdown-it";
+import type { Ref } from "vue";
 
 const { $debounce } = getCurrentInstance()?.appContext.config
   .globalProperties as any;
 
+const title = ref("");
 // 编辑器实例，必须用 shallowRef
 const editorRef = shallowRef();
 
@@ -68,6 +77,11 @@ const valueHtml = ref("");
 const toolbarConfig = {};
 const editorConfig = { placeholder: "请输入内容..." };
 const parseHtml = ref("");
+
+const showClassify = ref(false);
+const positionTop = ref(0);
+const positionRight = ref(0);
+const noteSubmit: Ref = ref(null);
 
 // 组件销毁时，也及时销毁编辑器
 onBeforeUnmount(() => {
@@ -98,11 +112,29 @@ watch(valueHtml, () => {
 // };
 const onSave = () => {
   // TODO 保存至草稿箱
-  showMessage("保存至草稿箱");
+  // showMessage("保存至草稿箱");
+  showClassify.value = true;
+  let positionData = noteSubmit.value?.$el.getBoundingClientRect();
+  positionTop.value = positionData.bottom;
+  positionRight.value = positionData.left + positionData.width / 2;
 };
 
 const onSubmit = () => {
+  console.log("title", title.value);
+
   // TODO 发布
+  let data = {
+    type: 0,
+    author: "leslie",
+    title: "title",
+    content: valueHtml.value,
+    browse: 0,
+    likes: 0,
+    time: new Date().getTime(),
+  };
+  createContent(data).then((res) => {
+    showMessage("发布成功");
+  });
 };
 </script>
 

@@ -17,3 +17,7 @@ export const getClassificationList = () => {
 export const getContentList = () => {
   return axios.get("/contentList").then((res: any) => res.data);
 };
+
+export const createContent = (data: any) => {
+  return axios.post("/contentList", data).then((res: any) => res.data);
+};
