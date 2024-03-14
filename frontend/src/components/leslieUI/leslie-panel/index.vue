@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-03-13 15:52:38
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-13 21:55:50
+ * @LastEditTime: 2024-03-14 22:21:01
  * 佛祖保佑没bug
 -->
 <template>
@@ -12,7 +12,12 @@
       {{ panelTitle }}
     </div>
     <div class="content">
-      <leslie-form :formData="formData"></leslie-form>
+      <leslie-form
+        :formData="formData"
+        :radioOptions="radioOptions"
+        :radioType="radioType"
+        :selectOptions="selectOptions"
+      ></leslie-form>
     </div>
     <div class="button-box">
       <leslie-button bgColor="#fff" class="button close-button" v-if="close">{{
@@ -78,6 +83,34 @@ const formData = ref([
     label: "添加标签：",
     value: "label",
     required: true,
+  },
+]);
+const radioType = ref("button");
+const radioOptions = ref([
+  {
+    text: "公开",
+    value: "public",
+    selected: true,
+  },
+  {
+    text: "私有",
+    value: "private",
+    selected: false,
+  },
+  {
+    text: "保护",
+    value: "protected",
+    selected: false,
+  },
+]);
+const selectOptions = ref([
+  {
+    text: "标签1",
+    value: "tag1",
+  },
+  {
+    text: "标签2",
+    value: "tag2",
   },
 ]);
 </script>
