@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-03-13 20:41:47
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-13 21:53:20
+ * @LastEditTime: 2024-03-14 22:09:21
  * 佛祖保佑没bug
 -->
 <template>
@@ -22,7 +22,7 @@
         <span class="form-label" :class="{ 'is-required': item.required }">{{
           item.label
         }}</span>
-        <leslie-select></leslie-select>
+        <leslie-select :selectOptions="selectOptions"></leslie-select>
       </div>
       <span class="item-error" v-if="item.error">{{ item.error }}</span>
     </div>
@@ -31,7 +31,10 @@
         <span class="form-label" :class="{ 'is-required': item.required }">{{
           item.label
         }}</span>
-        <leslie-radio></leslie-radio>
+        <leslie-radio
+          :radioType="radioType"
+          :radioOptions="radioOptions"
+        ></leslie-radio>
       </div>
       <span class="item-error" v-if="item.error">{{ item.error }}</span>
     </div>
@@ -49,10 +52,43 @@ interface FormData {
   required?: boolean;
   validate?: object[];
 }
+interface InputType {
+  label: string;
+  value: string;
+}
+interface CheckboxOptions {
+  text: string;
+  value: string;
+}
+interface RadioOptions {
+  text: string;
+  value: string;
+  selected?: boolean;
+}
+interface SelectOptions {
+  text: string;
+  value: string;
+}
 const props = defineProps({
   formData: {
     type: Array<FormData>,
     required: true,
+  },
+  // inputOptions: {
+  //   type: ,
+  // },
+  radioType: {
+    type: String,
+    default: "radio",
+  },
+  radioOptions: {
+    type: Array<RadioOptions>,
+  },
+  selectOptions: {
+    type: Array<SelectOptions>,
+  },
+  checkboxOptions: {
+    type: Array<CheckboxOptions>,
   },
 });
 </script>
