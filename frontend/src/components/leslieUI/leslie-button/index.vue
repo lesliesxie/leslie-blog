@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-17 18:00:12
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-10 19:14:59
+ * @LastEditTime: 2024-03-16 22:41:13
  * 佛祖保佑没bug
 -->
 <template>
@@ -15,6 +15,8 @@
       backgroundColor: bgColor,
       color: bgColor ? '#eda2ed' : '',
     }"
+    :class="'leslie-button--' + btnType"
+    @click="emitClick"
   >
     <svg-icon v-if="svgName" :name="svgName" class="icon"></svg-icon>
     <slot></slot>
@@ -22,9 +24,8 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, getCurrentInstance, onMounted, ref } from "vue";
+import { defineProps, getCurrentInstance, ref, defineEmits } from "vue";
 import type { Ref } from "vue";
-
 const props = defineProps({
   svgName: {
     type: String,
@@ -35,55 +36,91 @@ const props = defineProps({
   bgColor: {
     type: String,
   },
+  btnType: {
+    type: String,
+    default: "plain",
+  },
 });
+const validateBtnType = (type: string): void => {
+  if (!["primary", "info", "warning", "danger", "plain"].includes(type)) {
+    throw new Error("btnType is invalid");
+  }
+};
+try {
+  validateBtnType(props.btnType);
+} catch (error) {
+  console.error(error);
+}
 const throttle =
   getCurrentInstance()?.appContext.config.globalProperties.$throttle;
 const leslieButton: Ref = ref(null);
-onMounted(() => {
-  if (leslieButton.value) {
-    leslieButton.value.addEventListener(
-      "click",
-      throttle(() => {
-        console.log("button");
-      }, 1000)
-    );
+const emit = defineEmits(["click"]);
+const throttleClick = throttle(() => {
+  emit("click");
+}, 1000);
+let isFirstClick = true;
+const emitClick = () => {
+  if (isFirstClick) {
+    isFirstClick = false;
+    emit("click");
+  } else {
+    throttleClick();
   }
-});
-// onMounted(async () => {
-// });
-
-// const { appContext } = getCurrentInstance();
-
-// const button = document.getElementsByClassName(
-//   "leslie-button"
-//   ) as HTMLCollectionOf<Element>;
-
-// console.log("button", button);
-
-// button &&
-//   button.addEventListener("click", () => {
-//     throttle(() => {
-//       console.log("button");
-//     }, 1000);
-//   });
+};
 </script>
 
 <style lang="less" scoped>
 .leslie-button {
+  user-select: none;
   border: none;
-  border: 1px solid @btnBorderColor;
-  background-color: @btnBgColor;
-  color: @btnColor;
   font-weight: 300;
   min-width: 80px;
   height: 28px;
-  padding: 0 8px;
+  padding: 0 10px;
   cursor: pointer;
+  color: @btnBorderColor;
+  border: @btnBorder;
   .icon {
     font-size: 16px;
     position: relative;
     right: 3px;
     top: 3px;
+  }
+}
+.leslie-button--plain {
+  background-color: @plainBtnBgColor;
+  &:hover {
+    background-color: @plainBtnHoverBgColor;
+  }
+}
+.leslie-button--primary {
+  background-color: @primaryBtnBgColor;
+  border: @btnBorder;
+  color: @btnColor;
+  &:hover {
+    background-color: @primaryBtnHoverBgColor;
+  }
+}
+.leslie-button--info {
+  background-color: @infoBtnBgColor;
+  &:hover {
+    background-color: @infoBtnHoverBgColor;
+  }
+}
+.leslie-button--warning {
+  background-color: @warningBtnBgColor;
+  border: 1px solid @warningBtnBorderColor;
+  color: @warningBtnColor;
+  &:hover {
+    background-color: @warningBtnHoverBgColor;
+  }
+}
+.leslie-button--danger {
+  background-color: @dangerBtnBgColor;
+  border: 1px solid @dangerBtnBorderColor;
+  color: @dangerBtnColor;
+  &:hover {
+    background-color: @dangerBtnHoverBgColor;
   }
 }
 </style>

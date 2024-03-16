@@ -3,35 +3,39 @@
  * @Author: leslie
  * @Date: 2024-03-13 21:20:08
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-14 22:22:47
+ * @LastEditTime: 2024-03-16 23:20:46
  * 佛祖保佑没bug
 -->
 <template>
   <div class="leslie-radio">
-    <!-- TODO 实现点击文字也能切换，修改选中样式 -->
     <div
       class="radio-box"
       v-if="radioType === 'radio'"
       v-for="(option, index) in radioOptions"
       :key="index"
-      @change="onRadioChange(option)"
+      @click="onRadioChange(index)"
     >
-      <input type="radio" v-model="selected" :value="option.value" />
-      <label :for="option.value">{{ option.text }}</label>
+      <label
+        class="radio-label"
+        :class="{ 'is-selected': option.selected }"
+        :for="option.value"
+        >{{ option.text }}</label
+      >
     </div>
-  </div>
-  <div
-    class="radio-button-box"
-    v-if="radioType === 'button'"
-    v-for="(option, index) in radioOptions"
-    :key="index"
-    @change="onRadioChange(option)"
-  >
-    <leslie-button
-      class="radio-button"
-      :class="{ 'is-selected': option.selected }"
-      >{{ option.text }}</leslie-button
+    <div
+      class="radio-button-box"
+      v-if="radioType === 'button'"
+      v-for="(option, index) in radioOptions"
+      :key="index"
+      @click="onRadioChange(index)"
     >
+      <leslie-button
+        btnType="info"
+        class="radio-button"
+        :class="{ 'is-selected': option.selected }"
+        >{{ option.text }}</leslie-button
+      >
+    </div>
   </div>
 </template>
 
@@ -55,10 +59,9 @@ const props = defineProps({
     },
   },
 });
-const selected = ref("");
-selected.value = props.radioOptions.filter(
-  (option) => option.selected
-)[0].value;
+const selected = ref(
+  props.radioOptions.filter((option) => option.selected)[0].value
+);
 
 const validateRadioOptions = (options: OptionType[]): void => {
   let selectedCount = 0;
@@ -82,12 +85,51 @@ try {
 } catch (error) {
   console.error(error);
 }
-const onRadioChange = (option: OptionType) => {
-  console.log(selected.value);
+const onRadioChange = (index: number) => {
+  props.radioOptions.map((option) => {
+    option.selected = false;
+    if (option.value === props.radioOptions[index].value) {
+      selected.value = option.value;
+      option.selected = true;
+    }
+  });
 };
 </script>
 
 <style lang="less" scoped>
 .leslie-radio {
+  .radio-box {
+    margin-right: 12px;
+    .radio-label {
+      cursor: pointer;
+    }
+    .radio-label::before {
+      content: "";
+      display: inline-block;
+      width: 11px;
+      height: 11px;
+      position: relative;
+      top: 1px;
+      border-radius: 50%;
+      border: @border;
+      margin-right: 5px;
+    }
+    .is-selected {
+      color: @primaryBtnBgColor;
+    }
+    .is-selected::before {
+      border-color: @primaryBtnBgColor;
+      background-color: @primaryBtnBgColor;
+    }
+  }
+  .radio-button-box {
+    margin-right: 10px;
+    .radio-button {
+    }
+    .is-selected {
+      color: @btnColor;
+      background-color: @infoBtnSelectedBgColor;
+    }
+  }
 }
 </style>

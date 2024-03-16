@@ -1,5 +1,5 @@
 
-// 通用样式
+// common style
 @menuBgColor: #fff;
 @menuBorderColor: #dcdfe6;
 @menuItemActiveColor: #dfa9df;
@@ -14,17 +14,32 @@
 @itemHoverColor: #ca75ca;
 @itemHoverBgColor: #ca75ca1a;
 @btnColor: #faecf9;
-@btnBgColor: #f1aaf1;
+@plainBtnBgColor: @contentBgColor; 
+@plainBtnHoverBgColor: @infoBtnBgColor;
+@primaryBtnBgColor: #f1aaf1;
+@primaryBtnHoverBgColor: #f8b2f8;
+@infoBtnBgColor: #fff2fd;
+@infoBtnHoverBgColor: #f9d9f9;
+@infoBtnSelectedBgColor: #b52df97d;
+@warningBtnBgColor: #fdf6ec;
+@warningBtnHoverBgColor: #f9e9d9;
+@warningBtnColor: #e6a23c;
+@warningBtnBorderColor: @warningBtnColor;
+@dangerBtnBgColor: #fef0f0;
+@dangerBtnHoverBgColor: #f9d9d9;
+@dangerBtnColor: #f56c6c;
+@dangerBtnBorderColor: @dangerBtnColor;
 @btnBorderColor: #eda2ed;
 @messageSuccess: #f0f9eb;
 @messageSuccessColor: #67C23A;
-@messageError: #fef0f0;
-@messageErrorColor: #f56c6c;
-@messageWarning: #fdf6ec;
-@messageWarningColor: #e6a23c;
+@messageError: @dangerBtnBgColor;
+@messageErrorColor: @dangerBtnColor;
+@messageWarning: @warningBtnBgColor;
+@messageWarningColor: @warningBtnColor;
 @messageInfo: #edf2fc;;
 @messageInfoColor: #909399;
 @border: 1px solid #ccc;
+@btnBorder: 1px solid @btnBorderColor;
 :root {
   --itemHoverColor: @itemHoverColor;
   --iconColor: @iconColor;
@@ -41,6 +56,7 @@ ol,
 ul {
   list-style: none;
 }
+// leslie-message style
 .leslie-message-container {
   position: fixed;
   color: @btnColor;

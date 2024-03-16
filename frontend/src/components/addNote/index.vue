@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-18 15:45:25
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-13 20:30:39
+ * @LastEditTime: 2024-03-16 23:21:54
  * 佛祖保佑没bug
 -->
 <template>
@@ -18,10 +18,10 @@
       </div>
       <div class="note-submit">
         <span class="note-prompt">文章将自动保存至草稿箱</span>
-        <leslie-button class="note-draft" bgColor="#fff" @click="onSave"
-          >草稿箱</leslie-button
+        <leslie-button class="note-draft" @click="onSave">草稿箱</leslie-button>
+        <leslie-button btnType="primary" @click="onSubmit" ref="noteSubmit"
+          >发布</leslie-button
         >
-        <leslie-button @click="onSubmit" ref="noteSubmit">发布</leslie-button>
       </div>
     </div>
     <div class="note">
@@ -43,12 +43,22 @@
     </div>
   </div>
   <leslie-panel
+    :width="520"
     :positionTop="positionTop"
     :positionRight="positionRight"
     v-if="showClassify"
     panelTitle="文章分类"
     submitText="确定并发布"
-  ></leslie-panel>
+  >
+    <template #content>
+      <leslie-form
+        :formData="formData"
+        :radioOptions="radioOptions"
+        :radioType="radioType"
+        :selectOptions="selectOptions"
+      ></leslie-form>
+    </template>
+  </leslie-panel>
 </template>
 
 <script setup lang="ts">
@@ -68,6 +78,49 @@ import type { Ref } from "vue";
 
 const { $debounce } = getCurrentInstance()?.appContext.config
   .globalProperties as any;
+
+const formData = ref([
+  {
+    type: "radio",
+    label: "分类：",
+    value: "classify",
+    required: true,
+  },
+  {
+    type: "select",
+    label: "添加标签：",
+    value: "label",
+    required: true,
+  },
+]);
+const radioType = ref("button");
+const radioOptions = ref([
+  {
+    text: "公开",
+    value: "public",
+    selected: true,
+  },
+  {
+    text: "私有",
+    value: "private",
+    selected: false,
+  },
+  {
+    text: "保护",
+    value: "protected",
+    selected: false,
+  },
+]);
+const selectOptions = ref([
+  {
+    text: "标签1",
+    value: "tag1",
+  },
+  {
+    text: "标签2",
+    value: "tag2",
+  },
+]);
 
 const title = ref("");
 // 编辑器实例，必须用 shallowRef
@@ -111,14 +164,18 @@ watch(valueHtml, () => {
 //     callback(false);
 //   }
 // };
-const onSave = () => {
-  // TODO 保存至草稿箱
-  // showMessage("保存至草稿箱");
-  showClassify.value = true;
+const getLabelPosition = () => {
   let positionData = noteSubmit.value?.$el.getBoundingClientRect();
   let width = document.documentElement.clientWidth;
   positionTop.value = positionData.bottom;
   positionRight.value = width - (positionData.left + positionData.width / 2);
+};
+
+const onSave = () => {
+  // TODO 保存至草稿箱
+  // showMessage("保存至草稿箱");
+  showClassify.value = true;
+  getLabelPosition();
 };
 
 const onSubmit = () => {
