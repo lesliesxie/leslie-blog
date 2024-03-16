@@ -3,29 +3,29 @@
  * @Author: leslie
  * @Date: 2024-03-13 15:52:38
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-14 22:21:01
+ * @LastEditTime: 2024-03-16 19:35:17
  * 佛祖保佑没bug
 -->
 <template>
-  <div class="leslie-panel" :style="{ top: positionTop }">
+  <div class="leslie-panel" :style="{ top: positionTop, width: width + 'px' }">
     <div class="title" v-if="isTitle">
       {{ panelTitle }}
     </div>
     <div class="content">
-      <leslie-form
-        :formData="formData"
-        :radioOptions="radioOptions"
-        :radioType="radioType"
-        :selectOptions="selectOptions"
-      ></leslie-form>
+      <slot name="content">
+        <span>leslie-panel内容区域</span>
+      </slot>
     </div>
     <div class="button-box">
-      <leslie-button bgColor="#fff" class="button close-button" v-if="close">{{
+      <leslie-button class="button close-button" v-if="close">{{
         closeText
       }}</leslie-button>
-      <leslie-button class="button submit-button" v-if="submit">{{
-        submitText
-      }}</leslie-button>
+      <leslie-button
+        btnType="primary"
+        class="button submit-button"
+        v-if="submit"
+        >{{ submitText }}</leslie-button
+      >
     </div>
   </div>
 </template>
@@ -34,9 +34,13 @@
 import { ref } from "vue";
 
 const props = defineProps({
+  width: {
+    type: Number,
+    default: 500,
+  },
   panelTitle: {
     type: String,
-    required: true,
+    default: "Leslie-Panel",
   },
   isTitle: {
     type: Boolean,
@@ -71,55 +75,12 @@ const props = defineProps({
 });
 const positionTop = ref(`calc(${props.positionTop + 10}px)`);
 const positionRight = ref(`calc(${props.positionRight - 12}px)`);
-const formData = ref([
-  {
-    type: "radio",
-    label: "分类：",
-    value: "classify",
-    required: true,
-  },
-  {
-    type: "select",
-    label: "添加标签：",
-    value: "label",
-    required: true,
-  },
-]);
-const radioType = ref("button");
-const radioOptions = ref([
-  {
-    text: "公开",
-    value: "public",
-    selected: true,
-  },
-  {
-    text: "私有",
-    value: "private",
-    selected: false,
-  },
-  {
-    text: "保护",
-    value: "protected",
-    selected: false,
-  },
-]);
-const selectOptions = ref([
-  {
-    text: "标签1",
-    value: "tag1",
-  },
-  {
-    text: "标签2",
-    value: "tag2",
-  },
-]);
 </script>
 
 <style lang="less" scoped>
 .leslie-panel {
   position: absolute;
   right: 0;
-  width: 560px;
   white-space: nowrap;
   background-color: @menuBgColor;
   border: @border;
@@ -132,6 +93,8 @@ const selectOptions = ref([
     border-bottom: @border;
   }
   .content {
+    display: block;
+    padding: 20px;
     border-bottom: @border;
   }
   .button-box {
