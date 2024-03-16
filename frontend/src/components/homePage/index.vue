@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-01-28 22:13:18
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-25 19:36:56
+ * @LastEditTime: 2024-03-16 21:54:35
  * 佛祖保佑没bug
 -->
 <template>
@@ -16,7 +16,11 @@
       >
       </leslie-menu>
       <div class="nav-right">
-        <leslie-button svg-name="add" height="40" @click="addNote"
+        <leslie-button
+          btnType="primary"
+          svg-name="add"
+          height="40"
+          @click="addNote"
           >新建笔记</leslie-button
         >
         <div class="personal-space"></div>
