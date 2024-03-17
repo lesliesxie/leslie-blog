@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-17 18:00:12
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-16 22:41:13
+ * @LastEditTime: 2024-03-17 17:29:02
  * 佛祖保佑没bug
 -->
 <template>
@@ -55,18 +55,18 @@ const throttle =
   getCurrentInstance()?.appContext.config.globalProperties.$throttle;
 const leslieButton: Ref = ref(null);
 const emit = defineEmits(["click"]);
-const throttleClick = throttle(() => {
+const emitClick = throttle(() => {
   emit("click");
 }, 1000);
-let isFirstClick = true;
-const emitClick = () => {
-  if (isFirstClick) {
-    isFirstClick = false;
-    emit("click");
-  } else {
-    throttleClick();
-  }
-};
+// let isFirstClick = true;
+// const emitClick = () => {
+//   // if (isFirstClick) {
+//   //   isFirstClick = false;
+//   //   emit("click");
+//   // } else {
+//   throttleClick();
+//   // }
+// };
 </script>
 
 <style lang="less" scoped>
@@ -86,6 +86,9 @@ const emitClick = () => {
     right: 3px;
     top: 3px;
   }
+}
+.leslie-button + .leslie-button {
+  margin-left: 10px;
 }
 .leslie-button--plain {
   background-color: @plainBtnBgColor;
