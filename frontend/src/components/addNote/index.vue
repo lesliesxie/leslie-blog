@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-18 15:45:25
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-17 17:32:06
+ * @LastEditTime: 2024-03-17 18:47:50
  * 佛祖保佑没bug
 -->
 <template>
@@ -13,6 +13,7 @@
         <leslie-input
           placeholder="请输入标题"
           :width="500"
+          inputBorder="none"
           :fontSize="24"
         ></leslie-input>
       </div>
