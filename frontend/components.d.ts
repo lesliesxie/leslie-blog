@@ -20,6 +20,7 @@ declare module 'vue' {
     LeslieMenu: typeof import('./src/components/leslieUI/leslie-Menu/index.vue')['default']
     LeslieMessage: typeof import('./src/components/leslieUI/leslie-message/index.vue')['default']
     LesliePanel: typeof import('./src/components/leslieUI/leslie-panel/index.vue')['default']
+    LesliePopover: typeof import('./src/components/leslieUI/leslie-popover/index.vue')['default']
     LeslieRadio: typeof import('./src/components/leslieUI/leslie-radio/index.vue')['default']
     LeslieSelect: typeof import('./src/components/leslieUI/leslie-select/index.vue')['default']
     Recommend: typeof import('./src/components/recommend/index.vue')['default']
