@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-18 15:45:25
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-16 23:21:54
+ * @LastEditTime: 2024-03-17 17:32:06
  * 佛祖保佑没bug
 -->
 <template>
@@ -42,13 +42,15 @@
       <div class="note-preview" v-html="parseHtml"></div>
     </div>
   </div>
+  <!-- TODO: 1.实现去除v-if获取到的位置仍是正确的，现由于生命周期，无法获取到正确的位置 
+      TODO: 2.getLabelPosition方法不应该在这个组件实现，应该在子组件实现 -->
   <leslie-panel
     :width="520"
+    v-if="panelVisible"
+    :panelVisible.sync="panelVisible"
     :positionTop="positionTop"
     :positionRight="positionRight"
-    v-if="showClassify"
     panelTitle="文章分类"
-    submitText="确定并发布"
   >
     <template #content>
       <leslie-form
@@ -57,6 +59,14 @@
         :radioType="radioType"
         :selectOptions="selectOptions"
       ></leslie-form>
+    </template>
+    <template #footer>
+      <leslie-button class="close-button" @click="panelVisible = false"
+        >取消</leslie-button
+      >
+      <leslie-button btnType="primary" class="submit-button"
+        >确定并发布</leslie-button
+      >
     </template>
   </leslie-panel>
 </template>
@@ -132,7 +142,7 @@ const toolbarConfig = {};
 const editorConfig = { placeholder: "请输入内容..." };
 const parseHtml = ref("");
 
-const showClassify = ref(false);
+const panelVisible = ref(false);
 const positionTop = ref(0);
 const positionRight = ref(0);
 const noteSubmit: Ref = ref(null);
@@ -143,7 +153,6 @@ onBeforeUnmount(() => {
   if (editor == null) return;
   editor.destroy();
 });
-
 const handleCreated = (editor: any) => {
   editorRef.value = editor; // 记录 editor 实例，重要！
 };
@@ -174,8 +183,8 @@ const getLabelPosition = () => {
 const onSave = () => {
   // TODO 保存至草稿箱
   // showMessage("保存至草稿箱");
-  showClassify.value = true;
   getLabelPosition();
+  panelVisible.value = true;
 };
 
 const onSubmit = () => {

@@ -3,11 +3,15 @@
  * @Author: leslie
  * @Date: 2024-03-13 15:52:38
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-16 19:35:17
+ * @LastEditTime: 2024-03-17 17:20:56
  * 佛祖保佑没bug
 -->
 <template>
-  <div class="leslie-panel" :style="{ top: positionTop, width: width + 'px' }">
+  <div
+    class="leslie-panel"
+    v-if="panelVisible"
+    :style="{ top: positionTop, width: width + 'px' }"
+  >
     <div class="title" v-if="isTitle">
       {{ panelTitle }}
     </div>
@@ -17,15 +21,7 @@
       </slot>
     </div>
     <div class="button-box">
-      <leslie-button class="button close-button" v-if="close">{{
-        closeText
-      }}</leslie-button>
-      <leslie-button
-        btnType="primary"
-        class="button submit-button"
-        v-if="submit"
-        >{{ submitText }}</leslie-button
-      >
+      <slot name="footer"></slot>
     </div>
   </div>
 </template>
@@ -34,6 +30,10 @@
 import { ref } from "vue";
 
 const props = defineProps({
+  panelVisible: {
+    type: Boolean,
+    default: false,
+  },
   width: {
     type: Number,
     default: 500,
@@ -56,23 +56,8 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
-  close: {
-    type: Boolean,
-    default: true,
-  },
-  closeText: {
-    type: String,
-    default: "取消",
-  },
-  submit: {
-    type: Boolean,
-    default: true,
-  },
-  submitText: {
-    type: String,
-    default: "确定",
-  },
 });
+
 const positionTop = ref(`calc(${props.positionTop + 10}px)`);
 const positionRight = ref(`calc(${props.positionRight - 12}px)`);
 </script>
@@ -100,9 +85,6 @@ const positionRight = ref(`calc(${props.positionRight - 12}px)`);
   .button-box {
     margin: 20px;
     float: right;
-    .submit-button {
-      margin-left: 20px;
-    }
   }
 }
 .leslie-panel::before {
