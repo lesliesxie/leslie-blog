@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-18 15:45:25
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-17 18:47:50
+ * @LastEditTime: 2024-03-20 23:05:08
  * 佛祖保佑没bug
 -->
 <template>
@@ -130,6 +130,10 @@ const selectOptions = ref([
   {
     text: "标签2",
     value: "tag2",
+  },
+  {
+    text: "标签3",
+    value: "tag3",
   },
 ]);
 

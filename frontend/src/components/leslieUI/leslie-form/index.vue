@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-03-13 20:41:47
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-16 23:02:25
+ * @LastEditTime: 2024-03-20 22:45:31
  * 佛祖保佑没bug
 -->
 <template>
@@ -126,6 +126,7 @@ onMounted(() => {
         color: @messageErrorColor;
       }
       .item-component {
+        position: absolute;
         display: flex;
         flex-wrap: wrap;
         justify-content: start;
