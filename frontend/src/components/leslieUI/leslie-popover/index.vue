@@ -3,40 +3,55 @@
  * @Author: leslie
  * @Date: 2024-03-17 18:14:08
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-17 20:36:49
+ * @LastEditTime: 2024-03-23 20:05:33
  * 佛祖保佑没bug
 -->
 
 <template>
   <div class="leslie-popover">
-    <slot>
+    <slot name="content">
       <span>leslie-popover</span>
     </slot>
   </div>
 </template>
 
 <script setup lang="ts">
-const props = defineProps({});
+import { ref } from "vue";
+
+const props = defineProps({
+  positionWidth: {
+    type: Number,
+    default: 100,
+  },
+  positionHeight: {
+    type: Number,
+    default: 0,
+  },
+});
+const positionWidth = ref(`calc(${props.positionWidth}px)`);
+const positionHeight = ref(`calc(${props.positionHeight + 12}px)`);
 </script>
 
 <style lang="less" scoped>
 .leslie-popover {
+  --position-width: v-bind(positionWidth);
+  --position-height: v-bind(positionHeight);
+  min-width: var(--position-width);
   position: absolute;
-  // right: 0;
-  min-width: 50px;
-  top: 50px;
+  top: var(--position-height);
+  min-height: 30px;
   white-space: nowrap;
   background-color: @menuBgColor;
-  background-color: red;
   border: @border;
   border-radius: 2px;
   z-index: 100;
+  padding: 11px 0;
 }
 .leslie-popover::before {
   content: "";
   position: absolute;
-  // margin-left: -0.5rem;
-  // top: -0.6rem;
+  margin-left: calc(var(--position-width) / 2 - 0.5rem);
+  top: -0.6rem;
   width: 1rem;
   height: 1rem;
   background-color: @menuBgColor;

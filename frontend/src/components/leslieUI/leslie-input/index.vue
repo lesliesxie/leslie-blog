@@ -3,45 +3,56 @@
  * @Author: leslie
  * @Date: 2024-02-29 16:47:26
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-17 20:37:14
+ * @LastEditTime: 2024-03-23 22:10:43
  * 佛祖保佑没bug
 -->
 <template>
-  <div class="input-box" v-if="!isSelect">
-    <input
-      :placeholder="placeholder"
-      class="leslie-input"
-      v-model="inputRef.val"
-      :style="{
-        fontSize: fontSize + 'px',
-        width: width + 'px',
-        border: inputBorder,
-      }"
-    />
-    <!-- TODO add error text -->
-    <div class="error-text" v-if="inputRef.error">{{ inputRef.message }}</div>
-  </div>
-  <div class="select-input-box" v-if="isSelect">
-    <input
-      :placeholder="placeholder"
-      class="leslie-input is-select"
-      v-model="inputRef.val"
-      :readonly="isSelect"
-      @click="showOptions"
-      :style="{
-        fontSize: fontSize + 'px',
-        width: width + 'px',
-        border: inputBorder,
-      }"
-    ><span class="is-select"></span></input>
-    <!-- TODO add error text -->
-    <div class="error-text" v-if="inputRef.error">{{ inputRef.message }}</div>
+  <div class="leslie-input">
+    <div class="input-box" v-if="!isSelect">
+      <input
+        :placeholder="placeholder"
+        class="le-input"
+        v-model="inputRef.val"
+        :style="{
+          fontSize: fontSize + 'px',
+          width: width + 'px',
+          border: inputBorder,
+        }"
+      />
+      <!-- TODO add error text -->
+      <div class="error-text" v-if="inputRef.error">{{ inputRef.message }}</div>
+    </div>
+    <div class="select-input-box" v-if="isSelect">
+      <input
+        :placeholder="placeholder"
+        class="le-input is-select"
+        :readonly="isSelect"
+        ref="lInput"
+        :value="selectInputRef"
+        @click="showOptions"
+        :style="{
+          fontSize: fontSize + 'px',
+          width: width + 'px',
+          border: inputBorder,
+        }"
+        ><span class="is-select"></span>
+        <slot v-if="optionVisible"></slot>
+      </input>
+      <!-- TODO add error text -->
+      <div class="error-text" v-if="inputRef.error">{{ inputRef.message }}</div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue";
+import { reactive, ref, watch } from "vue";
+import type { Ref } from "vue";
 
+interface OptionType {
+  text: string;
+  value: string;
+  selected?: boolean;
+}
 const props = defineProps({
   fontSize: {
     type: Number,
@@ -62,9 +73,27 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  selected: {
+    type: Array<OptionType>,
+  }
 });
 const inputRef = reactive({ val: "", error: false, message: "" });
 const optionVisible = ref(false);
+
+const selectInputRef:any = ref([]);
+const lInput: Ref = ref(null);
+
+const changeSelectInput = () => {
+  selectInputRef.value = []
+  props.selected?.map((item) => {
+    selectInputRef.value.push(item.text)
+  }); 
+}
+watch(() => props.selected, () => {
+ changeSelectInput()
+  
+})
+
 const rotateDegree = ref('180deg');
 const btnTopPosition = ref('-14px');
 const showOptions = () => {
@@ -75,36 +104,38 @@ const showOptions = () => {
 </script>
 
 <style lang="less" scoped>
-.input-box, .select-input-box {
-  --rotate-degree: v-bind(rotateDegree);
-  --btn-top-position: v-bind(btnTopPosition);
-  display: flex;
-  align-items: center;
-  .leslie-input {
-    margin: 0;
-    padding: 0;
-    outline: none;
-    min-height: 28px;
-    color: @inputColor;
-    border-radius: @inputBorderRadius;
-  }
-  ::placeholder {
-    color: @inputPlaceholderColor;
-  }
-  .is-select {
-    cursor: pointer;
-    display: inline-block;
-    user-select: none;
-  }
-  .is-select::before {
-    content: "^";
-    color: @inputPlaceholderColor;
-    scale: 1.5;
-    position: absolute;
-    margin-top: var(--btn-top-position);
-    margin-left: -16px;
-    transform: rotate(var(--rotate-degree));
-     -webkit-transform: rotate(var(--rotate-degree));
+.leslie-input {
+  .input-box, .select-input-box {
+    --rotate-degree: v-bind(rotateDegree);
+    --btn-top-position: v-bind(btnTopPosition);
+    display: flex;
+    align-items: center;
+    .le-input {
+      margin: 0;
+      padding: 0;
+      outline: none;
+      min-height: 28px;
+      color: @inputColor;
+      border-radius: @inputBorderRadius;
+    }
+    ::placeholder {
+      color: @inputPlaceholderColor;
+    }
+    .is-select {
+      cursor: pointer;
+      display: inline-block;
+      user-select: none;
+    }
+    .is-select::before {
+      content: "^";
+      color: @inputPlaceholderColor;
+      scale: 1.5;
+      position: absolute;
+      margin-top: var(--btn-top-position);
+      margin-left: -16px;
+      transform: rotate(var(--rotate-degree));
+       -webkit-transform: rotate(var(--rotate-degree));
+    }
   }
 }
 </style>
