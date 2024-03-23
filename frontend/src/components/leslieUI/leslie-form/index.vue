@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-03-13 20:41:47
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-20 22:45:31
+ * @LastEditTime: 2024-03-23 18:40:53
  * 佛祖保佑没bug
 -->
 <template>
@@ -22,6 +22,8 @@
         <leslie-select
           class="item-component"
           :selectOptions="selectOptions"
+          :selectMultiple="selectMultiple"
+          :optionLimitLength="optionLimitLength"
         ></leslie-select>
       </div>
       <div class="item-content" v-if="item.type === 'radio'">
@@ -84,6 +86,12 @@ const props = defineProps({
   },
   selectOptions: {
     type: Array<SelectOptions>,
+  },
+  selectMultiple: {
+    type: Boolean,
+  },
+  optionLimitLength: {
+    type: Number,
   },
   checkboxOptions: {
     type: Array<CheckboxOptions>,

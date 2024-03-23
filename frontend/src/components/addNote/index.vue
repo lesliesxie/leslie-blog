@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-18 15:45:25
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-20 23:05:08
+ * @LastEditTime: 2024-03-23 18:43:45
  * 佛祖保佑没bug
 -->
 <template>
@@ -57,8 +57,10 @@
       <leslie-form
         :formData="formData"
         :radioOptions="radioOptions"
-        :radioType="radioType"
+        radioType="button"
         :selectOptions="selectOptions"
+        selectMultiple
+        :optionLimitLength="2"
       ></leslie-form>
     </template>
     <template #footer>
@@ -104,7 +106,6 @@ const formData = ref([
     required: true,
   },
 ]);
-const radioType = ref("button");
 const radioOptions = ref([
   {
     text: "公开",

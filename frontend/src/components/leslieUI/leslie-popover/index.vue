@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-03-17 18:14:08
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-20 23:00:37
+ * @LastEditTime: 2024-03-23 20:05:33
  * 佛祖保佑没bug
 -->
 
@@ -16,8 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
-import type { Ref } from "vue";
+import { ref } from "vue";
 
 const props = defineProps({
   positionWidth: {
@@ -29,25 +28,24 @@ const props = defineProps({
     default: 0,
   },
 });
-const positionWidth = ref(`calc(${props.positionWidth - 20}px)`);
-const positionHeight = ref(`calc(${props.positionHeight + 28}px)`);
+const positionWidth = ref(`calc(${props.positionWidth}px)`);
+const positionHeight = ref(`calc(${props.positionHeight + 12}px)`);
 </script>
 
 <style lang="less" scoped>
 .leslie-popover {
   --position-width: v-bind(positionWidth);
   --position-height: v-bind(positionHeight);
-  width: var(--position-width);
-  position: relative;
+  min-width: var(--position-width);
+  position: absolute;
   top: var(--position-height);
-  margin-left: calc((var(--position-width) * -1) - 20px);
   min-height: 30px;
   white-space: nowrap;
   background-color: @menuBgColor;
   border: @border;
   border-radius: 2px;
   z-index: 100;
-  padding: 10px;
+  padding: 11px 0;
 }
 .leslie-popover::before {
   content: "";

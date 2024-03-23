@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-29 16:47:26
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-20 22:49:39
+ * @LastEditTime: 2024-03-23 22:10:43
  * 佛祖保佑没bug
 -->
 <template>
@@ -27,6 +27,8 @@
         :placeholder="placeholder"
         class="le-input is-select"
         :readonly="isSelect"
+        ref="lInput"
+        :value="selectInputRef"
         @click="showOptions"
         :style="{
           fontSize: fontSize + 'px',
@@ -43,8 +45,14 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue";
+import { reactive, ref, watch } from "vue";
+import type { Ref } from "vue";
 
+interface OptionType {
+  text: string;
+  value: string;
+  selected?: boolean;
+}
 const props = defineProps({
   fontSize: {
     type: Number,
@@ -65,9 +73,27 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  selected: {
+    type: Array<OptionType>,
+  }
 });
 const inputRef = reactive({ val: "", error: false, message: "" });
 const optionVisible = ref(false);
+
+const selectInputRef:any = ref([]);
+const lInput: Ref = ref(null);
+
+const changeSelectInput = () => {
+  selectInputRef.value = []
+  props.selected?.map((item) => {
+    selectInputRef.value.push(item.text)
+  }); 
+}
+watch(() => props.selected, () => {
+ changeSelectInput()
+  
+})
+
 const rotateDegree = ref('180deg');
 const btnTopPosition = ref('-14px');
 const showOptions = () => {
