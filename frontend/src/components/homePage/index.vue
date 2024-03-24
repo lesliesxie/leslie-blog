@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-01-28 22:13:18
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-16 21:54:35
+ * @LastEditTime: 2024-03-24 18:07:30
  * 佛祖保佑没bug
 -->
 <template>
@@ -50,10 +50,7 @@ import ContentList from "../contentList/index.vue";
 import { ref } from "vue";
 
 const isIndex = ref(false);
-const menuItems = ref([
-  { index: 1, name: "首页" },
-  { index: 2, name: "首页123" },
-]);
+const menuItems = ref([{ index: 1, name: "首页" }]);
 const activeIndex = ref(1);
 const handleSelect = (key: number) => {
   console.log(key);

@@ -11,7 +11,6 @@ declare module 'vue' {
     Classification: typeof import('./src/components/classification/index.vue')['default']
     ContentDetail: typeof import('./src/components/contentDetail/index.vue')['default']
     ContentList: typeof import('./src/components/contentList/index.vue')['default']
-    ElSelect: typeof import('element-plus/es')['ElSelect']
     HomePage: typeof import('./src/components/homePage/index.vue')['default']
     LeftOperate: typeof import('./src/components/leslieUI/left-operate/index.vue')['default']
     LeslieButton: typeof import('./src/components/leslieUI/leslie-button/index.vue')['default']
