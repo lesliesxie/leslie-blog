@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-03-13 21:20:08
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-16 23:20:46
+ * @LastEditTime: 2024-03-24 20:30:25
  * 佛祖保佑没bug
 -->
 <template>
@@ -43,6 +43,7 @@
 import { ref } from "vue";
 
 interface OptionType {
+  id: number;
   text: string;
   value: string;
   selected?: boolean;
@@ -60,8 +61,10 @@ const props = defineProps({
   },
 });
 const selected = ref(
-  props.radioOptions.filter((option) => option.selected)[0].value
+  props.radioOptions.filter((option) => option.selected)?.[0]?.id || 0
 );
+
+const emit = defineEmits(["radioSelected"]);
 
 const validateRadioOptions = (options: OptionType[]): void => {
   let selectedCount = 0;
@@ -89,10 +92,11 @@ const onRadioChange = (index: number) => {
   props.radioOptions.map((option) => {
     option.selected = false;
     if (option.value === props.radioOptions[index].value) {
-      selected.value = option.value;
+      selected.value = option.id;
       option.selected = true;
     }
   });
+  emit("radioSelected", selected.value);
 };
 </script>
 

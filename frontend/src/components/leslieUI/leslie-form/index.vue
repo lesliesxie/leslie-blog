@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-03-13 20:41:47
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-23 18:40:53
+ * @LastEditTime: 2024-03-24 20:27:17
  * 佛祖保佑没bug
 -->
 <template>
@@ -24,6 +24,7 @@
           :selectOptions="selectOptions"
           :selectMultiple="selectMultiple"
           :optionLimitLength="optionLimitLength"
+          @selectSelected="selectSelected"
         ></leslie-select>
       </div>
       <div class="item-content" v-if="item.type === 'radio'">
@@ -34,13 +35,14 @@
           class="item-component"
           :radioType="radioType"
           :radioOptions="radioOptions"
+          @radioSelected="radioSelected"
         ></leslie-radio>
       </div>
       <span class="item-error" v-if="item.error">{{ item.error }}</span>
     </div>
   </div>
 </template>
-
+<!-- TODO 组件通信优化 -->
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 
@@ -99,6 +101,14 @@ const props = defineProps({
 });
 const labelWidth = ref("");
 
+const emit = defineEmits(["radioSelected", "selectSelected"]);
+const selectSelected = (value: number[]) => {
+  emit("selectSelected", value);
+};
+const radioSelected = (value: number) => {
+  emit("radioSelected", value);
+};
+
 onMounted(() => {
   let labelArr = Array.from(document.querySelectorAll(".item-label")).map(
     (item) => {
@@ -134,7 +144,7 @@ onMounted(() => {
         color: @messageErrorColor;
       }
       .item-component {
-        position: absolute;
+        position: relative;
         display: flex;
         flex-wrap: wrap;
         justify-content: start;

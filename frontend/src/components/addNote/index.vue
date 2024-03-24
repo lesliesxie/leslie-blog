@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-18 15:45:25
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-23 18:43:45
+ * @LastEditTime: 2024-03-24 20:34:58
  * 佛祖保佑没bug
 -->
 <template>
@@ -61,13 +61,15 @@
         :selectOptions="selectOptions"
         selectMultiple
         :optionLimitLength="2"
+        @radioSelected="radioSelected"
+        @selectSelected="selectSelected"
       ></leslie-form>
     </template>
     <template #footer>
       <leslie-button class="close-button" @click="panelVisible = false"
         >取消</leslie-button
       >
-      <leslie-button btnType="primary" class="submit-button"
+      <leslie-button btnType="primary" class="submit-button" @click="onConfirm"
         >确定并发布</leslie-button
       >
     </template>
@@ -75,18 +77,19 @@
 </template>
 
 <script setup lang="ts">
+import showMessage from "@/global/leslie-message.ts";
+import { createContent, getClassificationList, getLabelList } from "@/server";
+import "@wangeditor/editor/dist/css/style.css"; // 引入 css
+import { Editor, Toolbar } from "@wangeditor/editor-for-vue";
+import MarkDownIt from "markdown-it";
 import {
   getCurrentInstance,
   onBeforeUnmount,
+  onMounted,
   ref,
   shallowRef,
   watch,
 } from "vue";
-import "@wangeditor/editor/dist/css/style.css"; // 引入 css
-import { Editor, Toolbar } from "@wangeditor/editor-for-vue";
-import showMessage from "@/global/leslie-message.ts";
-import { createContent } from "@/server";
-import MarkDownIt from "markdown-it";
 import type { Ref } from "vue";
 
 const { $debounce } = getCurrentInstance()?.appContext.config
@@ -106,39 +109,19 @@ const formData = ref([
     required: true,
   },
 ]);
-const radioOptions = ref([
-  {
-    text: "公开",
-    value: "public",
-    selected: true,
-  },
-  {
-    text: "私有",
-    value: "private",
-    selected: false,
-  },
-  {
-    text: "保护",
-    value: "protected",
-    selected: false,
-  },
-]);
-const selectOptions = ref([
-  {
-    text: "标签1",
-    value: "tag1",
-  },
-  {
-    text: "标签2",
-    value: "tag2",
-  },
-  {
-    text: "标签3",
-    value: "tag3",
-  },
-]);
+const radioOptions = ref([]);
+const selectOptions = ref([]);
 
-const title = ref("");
+const classSelected = ref(0);
+const labelSelected = ref([] as number[]);
+const radioSelected = (value: number) => {
+  classSelected.value = value;
+};
+const selectSelected = (value: number[]) => {
+  labelSelected.value = value;
+};
+
+const title = ref("无名");
 // 编辑器实例，必须用 shallowRef
 const editorRef = shallowRef();
 
@@ -153,12 +136,6 @@ const positionTop = ref(0);
 const positionRight = ref(0);
 const noteSubmit: Ref = ref(null);
 
-// 组件销毁时，也及时销毁编辑器
-onBeforeUnmount(() => {
-  const editor = editorRef.value;
-  if (editor == null) return;
-  editor.destroy();
-});
 const handleCreated = (editor: any) => {
   editorRef.value = editor; // 记录 editor 实例，重要！
 };
@@ -186,30 +163,69 @@ const getLabelPosition = () => {
   positionRight.value = width - (positionData.left + positionData.width / 2);
 };
 
-const onSave = () => {
-  // TODO 保存至草稿箱
-  // showMessage("保存至草稿箱");
-  getLabelPosition();
-  panelVisible.value = true;
+const getClassList = () => {
+  getClassificationList().then((res) => {
+    radioOptions.value = res;
+  });
+};
+const getTagList = async () => {
+  const res = await getLabelList();
+  selectOptions.value = res;
 };
 
-const onSubmit = () => {
-  console.log("title", title.value);
+const onSave = () => {
+  // TODO 保存至草稿箱
+  showMessage("保存至草稿箱");
+};
 
-  // TODO 发布
+const saveData = () => {
+  console.log("labelSelected", labelSelected.value, classSelected.value);
+  if (!classSelected.value) {
+    showMessage("请选择分类");
+    return;
+  }
+  if (!labelSelected.value.length) {
+    showMessage("请选择标签");
+    return;
+  }
+
+  // TODO 保存数据
   let data = {
     type: 0,
     author: "leslie",
-    title: "title",
+    title: title.value,
     content: valueHtml.value,
     browse: 0,
     likes: 0,
+    label: labelSelected.value,
+    classification: classSelected.value,
     time: new Date().getTime(),
   };
   createContent(data).then((res) => {
     showMessage("发布成功");
   });
 };
+
+const onSubmit = () => {
+  getLabelPosition();
+  panelVisible.value = true;
+};
+
+const onConfirm = () => {
+  saveData();
+  panelVisible.value = false;
+};
+
+onMounted(() => {
+  getClassList();
+  getTagList();
+});
+// 组件销毁时，也及时销毁编辑器
+onBeforeUnmount(() => {
+  const editor = editorRef.value;
+  if (editor == null) return;
+  editor.destroy();
+});
 </script>
 
 <style lang="less" scoped>

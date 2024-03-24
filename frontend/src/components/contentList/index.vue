@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-15 17:27:06
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-25 19:15:41
+ * @LastEditTime: 2024-03-24 19:50:41
  * 佛祖保佑没bug
 -->
 <template>
@@ -43,13 +43,13 @@
                 >{{ item.likes }}
               </div>
             </div>
-            <div class="classification">
+            <div class="labelList">
               <div
-                class="classification-item"
-                v-for="(_item, index) in item.classification"
+                class="labelList-item"
+                v-for="(_item, index) in item.label"
                 :key="index"
               >
-                {{ _item.name }}
+                {{ _item.text }}
               </div>
             </div>
           </div>
@@ -67,9 +67,10 @@
 import { getContentList } from "@/server";
 import { onBeforeUnmount, onMounted, ref } from "vue";
 
-interface classificationType {
+interface labelListType {
   id: number;
-  name: string;
+  value: string;
+  text: string;
 }
 interface contentListType {
   author: string;
@@ -78,7 +79,7 @@ interface contentListType {
   likes: number;
   browse: number;
   imgList: string[];
-  classification: classificationType[];
+  label: labelListType[];
 }
 const contentList = ref<contentListType[]>([]);
 const _contentList = ref<contentListType[]>([]);
@@ -187,7 +188,7 @@ onBeforeUnmount(() => {
             margin: 0 20px;
           }
         }
-        .classification {
+        .labelList {
           display: flex;
           &-item {
             margin-left: 5px;

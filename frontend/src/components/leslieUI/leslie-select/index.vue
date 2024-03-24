@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-03-13 21:19:53
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-23 22:09:35
+ * @LastEditTime: 2024-03-24 20:34:33
  * 佛祖保佑没bug
 -->
 <template>
@@ -36,6 +36,7 @@ import { onMounted, onUnmounted, ref } from "vue";
 import type { Ref } from "vue";
 
 interface OptionType {
+  id: number;
   text: string;
   value: string;
   selected?: boolean;
@@ -55,6 +56,7 @@ const props = defineProps({
 
 const initOptions = ref([] as OptionType[]);
 const selected = ref([] as OptionType[]);
+const emit = defineEmits(["selectSelected"]);
 
 const optionChange = (val: OptionType[]) => {
   selected.value = [];
@@ -64,6 +66,9 @@ const optionChange = (val: OptionType[]) => {
     }
   });
   initOptions.value = val;
+
+  const selectValue = selected.value.map((item) => item.id);
+  emit("selectSelected", selectValue);
 };
 
 const positionWidth = ref(0);

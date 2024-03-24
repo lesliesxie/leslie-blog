@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-11 20:05:51
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-16 18:48:01
+ * @LastEditTime: 2024-03-24 18:07:10
  * 佛祖保佑没bug
  */
 import axios from "axios";
@@ -20,4 +20,12 @@ export const getContentList = () => {
 
 export const createContent = (data: any) => {
   return axios.post("/contentList", data).then((res: any) => res.data);
+};
+
+export const getLabelList = () => {
+  return axios.get("/labelList").then((res: any) => res.data);
+};
+
+export const createLabel = (data: any) => {
+  return axios.post("/labelList", data).then((res: any) => res.data);
 };
