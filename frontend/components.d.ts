@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AddNote: typeof import('./src/components/addNote/index.vue')['default']
     Classification: typeof import('./src/components/classification/index.vue')['default']
+    Comment: typeof import('./src/components/comment/index.vue')['default']
     ContentDetail: typeof import('./src/components/contentDetail/index.vue')['default']
     ContentList: typeof import('./src/components/contentList/index.vue')['default']
     HomePage: typeof import('./src/components/homePage/index.vue')['default']

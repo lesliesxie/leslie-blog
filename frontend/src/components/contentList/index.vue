@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-15 17:27:06
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-24 19:50:41
+ * @LastEditTime: 2024-03-26 22:36:13
  * 佛祖保佑没bug
 -->
 <template>
@@ -13,6 +13,7 @@
         class="content-item"
         v-for="(item, index) in _contentList"
         :key="index"
+        @click="toDetail(item.id)"
       >
         <div class="left">
           <!-- title实现悬浮时显示全部文本 -->
@@ -73,6 +74,7 @@ interface labelListType {
   text: string;
 }
 interface contentListType {
+  id: number;
   author: string;
   title: string;
   content: string;
@@ -115,6 +117,13 @@ const handleScroll = () => {
     }
   }
 };
+
+const emit = defineEmits(["itemDetail"]);
+const toDetail = (id: number) => {
+  contentList.value[id].browse += 1;
+  emit("itemDetail", contentList.value[id]);
+};
+
 onMounted(() => {
   updateContainerHeight();
   init();

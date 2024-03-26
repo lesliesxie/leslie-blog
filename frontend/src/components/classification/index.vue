@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-06 18:13:37
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-25 19:15:19
+ * @LastEditTime: 2024-03-26 22:37:03
  * 佛祖保佑没bug
 -->
 <template>
@@ -17,12 +17,12 @@
     >
       <svg-icon
         class="icon"
-        :name="item.name"
+        :name="item.value"
         :color="
           item.id === activeIndex ? 'var(--itemHoverColor)' : 'var(--iconColor)'
         "
       ></svg-icon>
-      <span class="name">{{ item.name }}</span>
+      <span class="name">{{ item.text }}</span>
     </div>
   </div>
 </template>
@@ -37,7 +37,8 @@ const changeItem = (index: number) => {
 };
 interface classificationListType {
   id: number;
-  name: string;
+  text: string;
+  value: string;
 }
 const classificationList = ref<classificationListType[]>([]);
 const init = async () => {
@@ -69,6 +70,9 @@ init();
       border-radius: @itemBorderRadius;
       background-color: @itemHoverBgColor;
     }
+  }
+  .item + .item {
+    margin-top: 5px;
   }
   .is-active {
     color: @itemHoverColor;

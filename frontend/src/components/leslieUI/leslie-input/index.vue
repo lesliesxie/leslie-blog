@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-29 16:47:26
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-23 22:10:43
+ * @LastEditTime: 2024-03-26 20:53:31
  * 佛祖保佑没bug
 -->
 <template>
@@ -45,8 +45,11 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, watch } from "vue";
+import { getCurrentInstance, reactive, ref, watch } from "vue";
 import type { Ref } from "vue";
+
+const { $debounce } = getCurrentInstance()?.appContext.config
+  .globalProperties as any;
 
 interface OptionType {
   text: string;
@@ -83,6 +86,8 @@ const optionVisible = ref(false);
 const selectInputRef:any = ref([]);
 const lInput: Ref = ref(null);
 
+const emit = defineEmits(["inputChange"]);
+
 const changeSelectInput = () => {
   selectInputRef.value = []
   props.selected?.map((item) => {
@@ -93,6 +98,12 @@ watch(() => props.selected, () => {
  changeSelectInput()
   
 })
+const debounceEmit = $debounce(() => {
+    emit("inputChange", inputRef.val);
+  }, 1000)
+watch(inputRef, () => {
+  debounceEmit()
+});
 
 const rotateDegree = ref('180deg');
 const btnTopPosition = ref('-14px');
