@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-01-28 22:13:18
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-24 18:07:30
+ * @LastEditTime: 2024-03-26 22:28:22
  * 佛祖保佑没bug
 -->
 <template>
@@ -28,11 +28,12 @@
     </div>
     <div class="center">
       <div class="left">
-        <classification v-if="isIndex"></classification>
+        <classification v-if="!showDetail"></classification>
         <left-operate v-else></left-operate>
       </div>
       <div class="content">
-        <content-list></content-list>
+        <content-list v-if="!showDetail" @item-detail="toDetail"></content-list>
+        <content-detail v-else :itemDetail="itemDetail"></content-detail>
       </div>
       <div class="right">
         <recommend></recommend>
@@ -49,9 +50,12 @@ import LeftOperate from "@/components/leslieUI/left-operate/index.vue";
 import ContentList from "../contentList/index.vue";
 import { ref } from "vue";
 
-const isIndex = ref(false);
 const menuItems = ref([{ index: 1, name: "首页" }]);
 const activeIndex = ref(1);
+
+const itemDetail = ref({});
+const showDetail = ref(false);
+
 const handleSelect = (key: number) => {
   console.log(key);
 };
@@ -61,6 +65,11 @@ const addNote = () => {
   // 原因：路由配置不正常，使用了createWebHashHistory而不是createWebHistory
   // createWebHashHistory使用后所有路由都会变成#/结尾导致只会跳转到首页，具体哪里配错未发现
   window.open("/add-note");
+};
+
+const toDetail = (value: any) => {
+  showDetail.value = true;
+  itemDetail.value = value;
 };
 </script>
 

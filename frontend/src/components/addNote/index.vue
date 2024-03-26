@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-18 15:45:25
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-24 20:34:58
+ * @LastEditTime: 2024-03-26 21:09:56
  * 佛祖保佑没bug
 -->
 <template>
@@ -15,6 +15,7 @@
           :width="500"
           inputBorder="none"
           :fontSize="24"
+          @inputChange="inputChange"
         ></leslie-input>
       </div>
       <div class="note-submit">
@@ -121,7 +122,7 @@ const selectSelected = (value: number[]) => {
   labelSelected.value = value;
 };
 
-const title = ref("无名");
+const title = ref("");
 // 编辑器实例，必须用 shallowRef
 const editorRef = shallowRef();
 
@@ -130,6 +131,7 @@ const valueHtml = ref("");
 const toolbarConfig = {};
 const editorConfig = { placeholder: "请输入内容..." };
 const parseHtml = ref("");
+const finallyHtml = ref("");
 
 const panelVisible = ref(false);
 const positionTop = ref(0);
@@ -143,6 +145,10 @@ const debounceHtml = $debounce(() => {
   let mdText = valueHtml.value.replace(/<p>|<\/p>|<br>/gm, "\n");
   const md = new MarkDownIt();
   parseHtml.value = md.render(mdText);
+  finallyHtml.value = parseHtml.value.replace(
+    /<p>|<\/p>|<br>|<h([1-6])>|<\/h([1-6])>|<strong>|<\/strong>/gm,
+    ""
+  );
 }, 1000);
 watch(valueHtml, () => {
   debounceHtml();
@@ -173,6 +179,10 @@ const getTagList = async () => {
   selectOptions.value = res;
 };
 
+const inputChange = (value: string) => {
+  title.value = value;
+};
+
 const onSave = () => {
   // TODO 保存至草稿箱
   showMessage("保存至草稿箱");
@@ -194,7 +204,7 @@ const saveData = () => {
     type: 0,
     author: "leslie",
     title: title.value,
-    content: valueHtml.value,
+    content: finallyHtml.value,
     browse: 0,
     likes: 0,
     label: labelSelected.value,
