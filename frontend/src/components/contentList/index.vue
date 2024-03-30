@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-15 17:27:06
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-26 22:36:13
+ * @LastEditTime: 2024-03-30 21:26:09
  * 佛祖保佑没bug
 -->
 <template>
@@ -65,6 +65,7 @@
 </template>
 
 <script setup lang="ts">
+import bus from "@/global/event-bus";
 import { getContentList } from "@/server";
 import { onBeforeUnmount, onMounted, ref } from "vue";
 
@@ -81,8 +82,10 @@ interface contentListType {
   likes: number;
   browse: number;
   imgList: string[];
+  classification: labelListType[];
   label: labelListType[];
 }
+
 const contentList = ref<contentListType[]>([]);
 const _contentList = ref<contentListType[]>([]);
 const scrollContainer = ref<HTMLElement | null>(null);
@@ -96,7 +99,9 @@ const updateContainerHeight = () => {
 };
 const init = async () => {
   contentList.value = await getContentList();
-  _contentList.value = contentList.value.slice(0, loadIndex);
+  _contentList.value = contentList.value
+    .filter((item) => item.classification[0].value === "js")
+    .slice(0, loadIndex);
 };
 const batchSize = 5;
 const handleScroll = () => {
@@ -126,7 +131,16 @@ const toDetail = (id: number) => {
 
 onMounted(() => {
   updateContainerHeight();
+
   init();
+  bus.on("change-classification", (item) => {
+    _contentList.value = contentList.value
+      .filter((_item) => {
+        return _item.classification[0].value === item;
+      })
+      .slice(0, loadIndex);
+  });
+
   window.addEventListener("resize", updateContainerHeight);
   scrollContainer.value?.addEventListener("scroll", handleScroll);
 });

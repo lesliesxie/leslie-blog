@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-15 17:27:43
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-26 22:37:20
+ * @LastEditTime: 2024-03-30 20:13:54
  * 佛祖保佑没bug
 -->
 <template>
@@ -33,6 +33,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import moment from "moment";
 
 const props = defineProps({
   itemDetail: {
@@ -42,7 +43,7 @@ const props = defineProps({
   },
 });
 const date = ref();
-// date.value = moment(props.itemDetail.time).format("YYYY-MM-DD");
+date.value = moment(props.itemDetail.time).format("YYYY-MM-DD");
 console.log("date", date.value, props.itemDetail);
 </script>
 
