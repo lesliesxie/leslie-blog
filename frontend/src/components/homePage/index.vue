@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-01-28 22:13:18
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-30 22:09:46
+ * @LastEditTime: 2024-03-31 19:43:04
  * 佛祖保佑没bug
 -->
 <template>
@@ -49,8 +49,6 @@ import { ref } from "vue";
 const menuItems = ref([{ index: 1, name: "首页" }]);
 const activeIndex = ref(1);
 
-const itemDetail = ref({});
-
 const handleSelect = (key: number) => {
   console.log(key);
 };
@@ -63,9 +61,7 @@ const addNote = () => {
 };
 
 const toDetail = (value: any) => {
-  // showDetail.value = true;
   window.open("/content-detail/" + value.id);
-  itemDetail.value = value;
 };
 </script>
 

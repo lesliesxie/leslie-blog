@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-03-30 21:09:57
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-30 21:33:14
+ * @LastEditTime: 2024-03-31 19:06:43
  * 佛祖保佑没bug
 -->
 
@@ -32,10 +32,7 @@
         <left-operate></left-operate>
       </template>
       <template #content>
-        <content-detail
-          :itemDetail="itemDetail"
-          @toDetail="toDetail"
-        ></content-detail>
+        <content-detail></content-detail>
       </template>
       <template #right>
         <recommend></recommend>
@@ -47,12 +44,17 @@
 <script setup lang="ts">
 import LeslieMenu from "@/components/leslieUI/leslie-Menu/index.vue";
 import recommend from "../recommend/index.vue";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
+// import { useRoute } from "vue-router";
+// import { queryContentListById } from "@/server";
 
 const menuItems = ref([{ index: 1, name: "首页" }]);
 const activeIndex = ref(1);
 
-const itemDetail = ref({});
+// const itemDetail = ref({});
+
+// const route = useRoute();
+// const id = route.path.split("/").slice(-1)[0];
 
 const handleSelect = (key: number) => {
   console.log(key);
@@ -65,9 +67,13 @@ const addNote = () => {
   window.open("/add-note");
 };
 
-const toDetail = () => {
-  console.log(111);
-};
+// const queryDetail = async (id: number) => {
+//   itemDetail.value = await queryContentListById(id);
+// };
+
+// onMounted(() => {
+//   queryDetail(Number(id));
+// });
 </script>
 
 <style lang="less" scoped>
