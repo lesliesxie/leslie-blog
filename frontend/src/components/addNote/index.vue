@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-18 15:45:25
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-26 21:09:56
+ * @LastEditTime: 2024-03-31 19:35:28
  * 佛祖保佑没bug
 -->
 <template>
@@ -131,7 +131,6 @@ const valueHtml = ref("");
 const toolbarConfig = {};
 const editorConfig = { placeholder: "请输入内容..." };
 const parseHtml = ref("");
-const finallyHtml = ref("");
 
 const panelVisible = ref(false);
 const positionTop = ref(0);
@@ -145,10 +144,6 @@ const debounceHtml = $debounce(() => {
   let mdText = valueHtml.value.replace(/<p>|<\/p>|<br>/gm, "\n");
   const md = new MarkDownIt();
   parseHtml.value = md.render(mdText);
-  finallyHtml.value = parseHtml.value.replace(
-    /<p>|<\/p>|<br>|<h([1-6])>|<\/h([1-6])>|<strong>|<\/strong>/gm,
-    ""
-  );
 }, 1000);
 watch(valueHtml, () => {
   debounceHtml();
@@ -189,13 +184,12 @@ const onSave = () => {
 };
 
 const saveData = () => {
-  console.log("labelSelected", labelSelected.value, classSelected.value);
   if (!classSelected.value) {
-    showMessage("请选择分类");
+    showMessage.error("请选择分类");
     return;
   }
   if (!labelSelected.value.length) {
-    showMessage("请选择标签");
+    showMessage.error("请选择标签");
     return;
   }
 
@@ -204,19 +198,27 @@ const saveData = () => {
     type: 0,
     author: "leslie",
     title: title.value,
-    content: finallyHtml.value,
+    content: valueHtml.value,
     browse: 0,
     likes: 0,
     label: labelSelected.value,
     classification: classSelected.value,
     time: new Date().getTime(),
   };
-  createContent(data).then((res) => {
+  createContent(data).then(() => {
     showMessage("发布成功");
   });
 };
 
 const onSubmit = () => {
+  if (!title.value) {
+    showMessage.error("请输入标题");
+    return;
+  }
+  if (!parseHtml.value) {
+    showMessage.error("请输入内容");
+    return;
+  }
   getLabelPosition();
   panelVisible.value = true;
 };

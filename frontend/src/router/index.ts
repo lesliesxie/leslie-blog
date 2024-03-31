@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-18 16:30:40
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-21 22:19:13
+ * @LastEditTime: 2024-03-30 21:32:53
  * 佛祖保佑没bug
  */
 import { RouteRecordRaw, createRouter, createWebHistory } from "vue-router";
@@ -23,6 +23,14 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/components/addNote/index.vue"),
     meta: {
       title: "添加笔记",
+    },
+  },
+  {
+    path: "/content-detail/:id",
+    name: "ContentDetail",
+    component: () => import("@/components/content/index.vue"),
+    meta: {
+      title: "文章详情",
     },
   },
   {

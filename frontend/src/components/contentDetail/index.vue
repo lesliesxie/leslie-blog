@@ -3,22 +3,36 @@
  * @Author: leslie
  * @Date: 2024-02-15 17:27:43
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-26 22:37:20
+ * @LastEditTime: 2024-03-31 19:58:47
  * 佛祖保佑没bug
 -->
 <template>
-  <div class="content-detail">
+  <div class="content-detail" v-if="itemDetail">
     <div class="box">
       <div class="title">{{ itemDetail.title }}</div>
       <div class="data">
         <div class="author">{{ itemDetail.author }}</div>
-        <!-- <div class="date">{{ date }}</div> -->
-        <div class="browse">{{ itemDetail.browse }}</div>
+        <div class="date">{{ date }}</div>
+        <div class="browse">
+          <svg-icon
+            class="icon"
+            name="browse"
+            width="16"
+            color="var(--inputPlaceholderColor)"
+          ></svg-icon>
+          {{ itemDetail.browse }}
+        </div>
       </div>
-      <div class="content">{{ itemDetail.content }}</div>
+      <div class="content" v-html="parseHtml"></div>
       <div class="label">
         <span>标签：</span>
-        <span>{{ itemDetail.label }}</span>
+        <div
+          class="label-item"
+          v-for="(_item, index) in itemDetail.label"
+          :key="index"
+        >
+          {{ _item.text }}
+        </div>
       </div>
     </div>
     <div class="comment">
@@ -32,18 +46,30 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
+import moment from "moment";
+import MarkDownIt from "markdown-it";
+import { useRoute } from "vue-router";
+import { queryContentListById } from "@/server";
 
-const props = defineProps({
-  itemDetail: {
-    type: Object,
-    default: () => {},
-    required: true,
-  },
-});
+const route = useRoute();
+const id = route.path.split("/").slice(-1)[0];
+
+const itemDetail = ref();
 const date = ref();
-// date.value = moment(props.itemDetail.time).format("YYYY-MM-DD");
-console.log("date", date.value, props.itemDetail);
+const parseHtml = ref("");
+
+const queryDetail = async (id: number) => {
+  itemDetail.value = await queryContentListById(id);
+  date.value = moment(itemDetail.value.createTime).format("YYYY-MM-DD");
+  let mdText = itemDetail.value.content.replace(/<p>|<\/p>|<br>/gm, "\n");
+  const md = new MarkDownIt();
+  parseHtml.value = md.render(mdText);
+};
+
+onMounted(() => {
+  queryDetail(Number(id));
+});
 </script>
 
 <style lang="less" scoped>
@@ -51,20 +77,42 @@ console.log("date", date.value, props.itemDetail);
   .box {
     background-color: @contentBgColor;
     margin-bottom: 20px;
+    padding: 20px;
     .title {
-      font-size: 16px;
+      font-size: 30px;
       font-weight: 500;
+      margin-bottom: 20px;
     }
     .data {
       display: flex;
       align-items: center;
+      .author {
+        color: @inputColor;
+      }
+      .browse {
+        display: flex;
+        align-items: center;
+        .icon {
+          margin-right: 5px;
+          margin-top: -1px;
+        }
+      }
       div {
-        margin-right: 10px;
+        margin-right: 20px;
+        color: @inputPlaceholderColor;
       }
     }
     .content {
+      font-size: 16px;
+      margin: 30px 0;
     }
     .label {
+      display: flex;
+      &-item {
+        margin-left: 5px;
+        padding: 0 5px;
+        background-color: @bgColor;
+      }
     }
   }
   .comment {

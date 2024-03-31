@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-15 17:27:06
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-26 22:36:13
+ * @LastEditTime: 2024-03-31 19:40:16
  * 佛祖保佑没bug
 -->
 <template>
@@ -65,8 +65,10 @@
 </template>
 
 <script setup lang="ts">
+import bus from "@/global/event-bus";
 import { getContentList } from "@/server";
 import { onBeforeUnmount, onMounted, ref } from "vue";
+import MarkDownIt from "markdown-it";
 
 interface labelListType {
   id: number;
@@ -81,10 +83,13 @@ interface contentListType {
   likes: number;
   browse: number;
   imgList: string[];
+  classification: labelListType[];
   label: labelListType[];
 }
+
 const contentList = ref<contentListType[]>([]);
 const _contentList = ref<contentListType[]>([]);
+
 const scrollContainer = ref<HTMLElement | null>(null);
 const containerHeight = ref(0);
 let loadIndex = 5;
@@ -96,7 +101,23 @@ const updateContainerHeight = () => {
 };
 const init = async () => {
   contentList.value = await getContentList();
-  _contentList.value = contentList.value.slice(0, loadIndex);
+  contentList.value = contentList.value.map((item) => {
+    let mdText = item.content.replace(/<p>|<\/p>|<br>/gm, "\n");
+    const md = new MarkDownIt();
+    let finallyHtml = md
+      .render(mdText)
+      .replace(
+        /<p>|<\/p>|<br>|<h([1-6])>|<\/h([1-6])>|<strong>|<\/strong>/gm,
+        ""
+      );
+    return {
+      ...item,
+      content: finallyHtml,
+    };
+  });
+  _contentList.value = contentList.value
+    .filter((item) => item.classification[0].value === "js")
+    .slice(0, loadIndex);
 };
 const batchSize = 5;
 const handleScroll = () => {
@@ -120,13 +141,26 @@ const handleScroll = () => {
 
 const emit = defineEmits(["itemDetail"]);
 const toDetail = (id: number) => {
-  contentList.value[id].browse += 1;
-  emit("itemDetail", contentList.value[id]);
+  contentList.value.map((item) => {
+    if (item.id === id) {
+      item.browse += 1;
+      emit("itemDetail", item);
+    }
+  });
 };
 
 onMounted(() => {
   updateContainerHeight();
+
   init();
+  bus.on("change-classification", (item) => {
+    _contentList.value = contentList.value
+      .filter((_item) => {
+        return _item.classification[0].value === item;
+      })
+      .slice(0, loadIndex);
+  });
+
   window.addEventListener("resize", updateContainerHeight);
   scrollContainer.value?.addEventListener("scroll", handleScroll);
 });
@@ -141,7 +175,7 @@ onBeforeUnmount(() => {
   background-color: @contentBgColor;
   position: relative;
   height: 100%;
-  // overflow: scroll;
+  user-select: none;
   // 支持滚动到底绑定scroll事件
   .scroll-container {
     height: 100%;

@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-06 18:13:37
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-26 22:37:03
+ * @LastEditTime: 2024-03-30 20:44:17
  * 佛祖保佑没bug
 -->
 <template>
@@ -30,10 +30,15 @@
 <script setup lang="ts">
 import { getClassificationList } from "@/server/index.ts";
 import { ref } from "vue";
+import bus from "@/global/event-bus.ts";
 
 const activeIndex = ref(1);
 const changeItem = (index: number) => {
   activeIndex.value = index;
+  bus.emit(
+    "change-classification",
+    classificationList.value[activeIndex.value - 1].value
+  );
 };
 interface classificationListType {
   id: number;

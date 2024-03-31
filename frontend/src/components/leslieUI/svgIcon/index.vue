@@ -3,11 +3,11 @@
  * @Author: leslie
  * @Date: 2024-01-29 22:47:32
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-07 16:44:31
+ * @LastEditTime: 2024-03-31 18:39:16
  * 佛祖保佑没bug
 -->
 <template>
-  <svg class="svg-icon" :style="{ width: width, height: height }">
+  <svg class="svg-icon" :style="{ width: width, height: width }">
     <use :xlink:href="prefix + name" :fill="color" />
   </svg>
 </template>
@@ -27,10 +27,6 @@ defineProps({
     default: "#fff",
   },
   width: {
-    type: String,
-    default: "1em",
-  },
-  height: {
     type: String,
     default: "1em",
   },

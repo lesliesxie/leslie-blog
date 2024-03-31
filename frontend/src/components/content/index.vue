@@ -1,13 +1,14 @@
 <!--
  * @Description: Stay hungry，Stay foolish
  * @Author: leslie
- * @Date: 2024-01-28 22:13:18
+ * @Date: 2024-03-30 21:09:57
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-31 19:43:04
+ * @LastEditTime: 2024-03-31 19:06:43
  * 佛祖保佑没bug
 -->
+
 <template>
-  <div class="home-page">
+  <div class="content">
     <leslie-index>
       <template #top-nav>
         <leslie-menu
@@ -28,10 +29,10 @@
         <div class="personal-space"></div>
       </template>
       <template #left>
-        <classification></classification>
+        <left-operate></left-operate>
       </template>
       <template #content>
-        <content-list @item-detail="toDetail"></content-list>
+        <content-detail></content-detail>
       </template>
       <template #right>
         <recommend></recommend>
@@ -43,11 +44,17 @@
 <script setup lang="ts">
 import LeslieMenu from "@/components/leslieUI/leslie-Menu/index.vue";
 import recommend from "../recommend/index.vue";
-import ContentList from "../contentList/index.vue";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
+// import { useRoute } from "vue-router";
+// import { queryContentListById } from "@/server";
 
 const menuItems = ref([{ index: 1, name: "首页" }]);
 const activeIndex = ref(1);
+
+// const itemDetail = ref({});
+
+// const route = useRoute();
+// const id = route.path.split("/").slice(-1)[0];
 
 const handleSelect = (key: number) => {
   console.log(key);
@@ -60,13 +67,17 @@ const addNote = () => {
   window.open("/add-note");
 };
 
-const toDetail = (value: any) => {
-  window.open("/content-detail/" + value.id);
-};
+// const queryDetail = async (id: number) => {
+//   itemDetail.value = await queryContentListById(id);
+// };
+
+// onMounted(() => {
+//   queryDetail(Number(id));
+// });
 </script>
 
 <style lang="less" scoped>
-.home-page {
+.content {
   .personal-space {
     width: 40px;
     height: 40px;

@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-11 20:05:51
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-24 18:07:10
+ * @LastEditTime: 2024-03-31 17:34:16
  * 佛祖保佑没bug
  */
 import axios from "axios";
@@ -16,6 +16,10 @@ export const getClassificationList = () => {
 
 export const getContentList = () => {
   return axios.get("/contentList").then((res: any) => res.data);
+};
+
+export const queryContentListById = (id: number) => {
+  return axios.get(`/contentList/${id}`).then((res: any) => res.data);
 };
 
 export const createContent = (data: any) => {
