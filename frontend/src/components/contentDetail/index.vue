@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-15 17:27:43
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-31 19:45:30
+ * @LastEditTime: 2024-03-31 19:48:26
  * 佛祖保佑没bug
 -->
 <template>
@@ -23,6 +23,7 @@
           {{ itemDetail.browse }}
         </div>
       </div>
+      <!-- TODO 获取标签 -->
       <div class="content" v-html="parseHtml"></div>
       <div class="label">
         <span>{{ itemDetail.label }}</span>
