@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-15 17:27:43
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-31 19:48:26
+ * @LastEditTime: 2024-03-31 19:58:47
  * 佛祖保佑没bug
 -->
 <template>
@@ -23,13 +23,11 @@
           {{ itemDetail.browse }}
         </div>
       </div>
-      <!-- TODO 获取标签 -->
       <div class="content" v-html="parseHtml"></div>
       <div class="label">
-        <span>{{ itemDetail.label }}</span>
         <span>标签：</span>
         <div
-          class="labelList-item"
+          class="label-item"
           v-for="(_item, index) in itemDetail.label"
           :key="index"
         >
@@ -63,8 +61,6 @@ const parseHtml = ref("");
 
 const queryDetail = async (id: number) => {
   itemDetail.value = await queryContentListById(id);
-  console.log("itemDetail.value", itemDetail.value);
-
   date.value = moment(itemDetail.value.createTime).format("YYYY-MM-DD");
   let mdText = itemDetail.value.content.replace(/<p>|<\/p>|<br>/gm, "\n");
   const md = new MarkDownIt();
@@ -111,6 +107,12 @@ onMounted(() => {
       margin: 30px 0;
     }
     .label {
+      display: flex;
+      &-item {
+        margin-left: 5px;
+        padding: 0 5px;
+        background-color: @bgColor;
+      }
     }
   }
   .comment {
