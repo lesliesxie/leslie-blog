@@ -3,19 +3,230 @@
  * @Author: leslie
  * @Date: 2024-03-26 22:27:00
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-26 22:27:02
+ * @LastEditTime: 2024-04-04 22:07:16
  * 佛祖保佑没bug
 -->
 
 <template>
-  <div class="comment"></div>
+  <div class="comment">
+    <div class="total-box">
+      <div class="title">评论</div>
+      <div class="total">{{ commentList.length }}</div>
+    </div>
+    <div class="submit">
+      <div v-if="isLogin" class="submit-box">
+        <div class="avatar"></div>
+        <div class="input" :class="{ focus: inputFocus }">
+          <leslie-input
+            inputBorder="none"
+            :isTextArea="true"
+            :width="inputWidth"
+            :height="inputFocus ? 60 : 40"
+            class="input-content"
+            @focus="inputFocus = true"
+            @blur="inputFocus = false"
+            placeholder="说点什么吧"
+          />
+          <leslie-button btnType="primary" class="submit">发送</leslie-button>
+        </div>
+      </div>
+      <div v-else class="submit-box">
+        <div class="avatar"></div>
+        <div class="login-box" @click="login">
+          <leslie-button btnType="primary" class="login"
+            >登录 / 注册</leslie-button
+          >
+          <span>登录以发表评论</span>
+        </div>
+      </div>
+    </div>
+    <div class="sort">
+      <span
+        class="hot"
+        @click="changeActive('hot')"
+        :style="{ color: isActive === 'hot' ? 'var(--itemHoverColor)' : '' }"
+        >最热</span
+      >
+      <div class="footer-divider"></div>
+      <span
+        class="new"
+        @click="changeActive('new')"
+        :style="{ color: isActive === 'new' ? 'var(--itemHoverColor)' : '' }"
+        >最新</span
+      >
+    </div>
+    <div class="comment-list">
+      <div v-for="item in commentList" class="list">
+        <div class="avatar"></div>
+        <div class="right">
+          <div class="name">{{ item.author }}</div>
+          <div class="content">{{ item.content }}</div>
+          <div class="bottom">
+            <div class="date">{{ item.createTime }}</div>
+            <div class="likes">
+              <svg-icon
+                class="icon"
+                name="likes"
+                width="16"
+                color="var(--inputPlaceholderColor)"
+              ></svg-icon>
+              {{ item.likes }}
+            </div>
+            <div class="reply"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-const props = defineProps({});
+import { getCommentList } from "@/server";
+import moment from "moment";
+import { onMounted, ref } from "vue";
+
+interface CommentType {
+  author: string;
+  content: string;
+  createTime: Date;
+  likes: number;
+}
+
+const commentList = ref<CommentType[]>([]);
+const isLogin = ref(true);
+const inputFocus = ref(false);
+const isActive = ref("hot");
+
+const inputWidth = ref(0);
+
+const login = () => {
+  console.log("登录");
+};
+const changeActive = (key: string) => {
+  isActive.value = key;
+};
+const getInputWidth = () => {
+  const inputDom = document.querySelector(".input")?.getBoundingClientRect();
+  inputWidth.value = inputDom?.width as number;
+  console.log("input", inputDom);
+};
+onMounted(async () => {
+  let data = await getCommentList();
+  commentList.value = data.map((item: CommentType) => {
+    return {
+      ...item,
+      createTime: moment(item.createTime).format("YYYY-MM-DD"),
+    };
+  });
+  getInputWidth();
+});
 </script>
 
 <style lang="less" scoped>
 .comment {
+  padding: 20px;
+  .total-box {
+    font-size: 16px;
+    font-weight: 400;
+    display: flex;
+    .title {
+      margin-right: 5px;
+    }
+  }
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: red;
+  }
+  .submit {
+    margin: 20px 0;
+    .submit-box {
+      display: flex;
+      width: 100%;
+      .input,
+      .login-box {
+        margin-left: 10px;
+        width: calc(100% - 50px);
+        height: 80px;
+        border-radius: 3px;
+      }
+      .input {
+        // display: flex;
+        background-color: @inputBgColor;
+        border: @border;
+        &-content {
+        }
+        .submit {
+          border-radius: 2px;
+          float: right;
+          margin: 6px 10px;
+        }
+      }
+      .focus {
+        background-color: red;
+      }
+      .login-box {
+        background-color: @inputBgColor;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .login {
+          margin-right: 10px;
+          border-radius: 2px;
+        }
+      }
+    }
+  }
+  .sort {
+    display: flex;
+    .hot {
+      margin-right: 10px;
+      cursor: pointer;
+    }
+    .footer-divider {
+      width: 1px;
+      height: 14px;
+      background-color: @menuBorderColor;
+      margin-top: 4px;
+    }
+    .new {
+      margin-left: 10px;
+      cursor: pointer;
+    }
+  }
+  .comment-list {
+    .list {
+      display: flex;
+      margin-top: 10px;
+      .right {
+        margin-left: 10px;
+        .name {
+          margin-top: 10px;
+          font-size: 15px;
+          font-weight: 400;
+        }
+        .content {
+          margin: 10px 0;
+          font-size: 15px;
+
+          font-weight: 400;
+        }
+        .bottom {
+          display: flex;
+          .likes {
+            margin: 0 15px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            .icon {
+              margin-right: 3px;
+              margin-top: -1px;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 </style>

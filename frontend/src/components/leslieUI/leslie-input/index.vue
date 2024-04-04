@@ -3,12 +3,12 @@
  * @Author: leslie
  * @Date: 2024-02-29 16:47:26
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-26 20:53:31
+ * @LastEditTime: 2024-04-04 22:00:56
  * 佛祖保佑没bug
 -->
 <template>
   <div class="leslie-input">
-    <div class="input-box" v-if="!isSelect">
+    <div class="input-box" v-if="!isSelect && !isTextArea">
       <input
         :placeholder="placeholder"
         class="le-input"
@@ -17,10 +17,29 @@
           fontSize: fontSize + 'px',
           width: width + 'px',
           border: inputBorder,
+          height: height + 'px',
         }"
-      />
+        @focus="handleFocus"
+        @blur="handleBlur"
+        />
       <!-- TODO add error text -->
       <div class="error-text" v-if="inputRef.error">{{ inputRef.message }}</div>
+    </div>
+    <div class="text-area-box" v-if="isTextArea">
+      <textarea
+        :placeholder="placeholder"
+        class="text-area le-input"
+        v-model="inputRef.val"
+        :style="{
+          fontSize: fontSize + 'px',
+          width: width + 'px',
+          border: inputBorder,
+          resize: isResize ? 'both' : 'none',
+          height: height + 'px',
+        }"
+        @focus="handleFocus"
+        @blur="handleBlur"
+      ></textarea>
     </div>
     <div class="select-input-box" v-if="isSelect">
       <input
@@ -64,6 +83,9 @@ const props = defineProps({
   width: {
     type: Number,
   },
+  height: {
+    type: Number,
+  },
   placeholder: {
     type: String,
     default: "请输入",
@@ -78,6 +100,14 @@ const props = defineProps({
   },
   selected: {
     type: Array<OptionType>,
+  },
+  isTextArea: {
+    type: Boolean,
+    default: false,
+  },
+  isResize: {
+    type: Boolean,
+    default: false,
   }
 });
 const inputRef = reactive({ val: "", error: false, message: "" });
@@ -86,13 +116,19 @@ const optionVisible = ref(false);
 const selectInputRef:any = ref([]);
 const lInput: Ref = ref(null);
 
-const emit = defineEmits(["inputChange"]);
+const emit = defineEmits(["inputChange", "focus", "blur"]);
 
 const changeSelectInput = () => {
   selectInputRef.value = []
   props.selected?.map((item) => {
     selectInputRef.value.push(item.text)
   }); 
+}
+const handleFocus = () => {
+  emit("focus");  
+}
+const handleBlur = () => {
+  emit("blur");
 }
 watch(() => props.selected, () => {
  changeSelectInput()
@@ -116,9 +152,10 @@ const showOptions = () => {
 
 <style lang="less" scoped>
 .leslie-input {
-  .input-box, .select-input-box {
+  .input-box, .select-input-box, .text-area-box {
     --rotate-degree: v-bind(rotateDegree);
     --btn-top-position: v-bind(btnTopPosition);
+    --border:v-bind(props.inputBorder);
     display: flex;
     align-items: center;
     .le-input {
@@ -131,6 +168,11 @@ const showOptions = () => {
     }
     ::placeholder {
       color: @inputPlaceholderColor;
+    }
+    .text-area {
+      &:hover {
+        border: var(--border);
+      }
     }
     .is-select {
       cursor: pointer;
