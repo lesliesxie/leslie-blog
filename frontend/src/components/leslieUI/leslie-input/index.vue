@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-29 16:47:26
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-04 22:00:56
+ * @LastEditTime: 2024-04-05 17:45:59
  * 佛祖保佑没bug
 -->
 <template>
@@ -36,6 +36,7 @@
           border: inputBorder,
           resize: isResize ? 'both' : 'none',
           height: height + 'px',
+          background: bgColor,
         }"
         @focus="handleFocus"
         @blur="handleBlur"
@@ -85,6 +86,9 @@ const props = defineProps({
   },
   height: {
     type: Number,
+  },
+  bgColor: {
+    type: String,
   },
   placeholder: {
     type: String,

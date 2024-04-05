@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-17 18:00:12
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-17 17:29:02
+ * @LastEditTime: 2024-04-05 18:00:12
  * 佛祖保佑没bug
 -->
 <template>
@@ -15,7 +15,7 @@
       backgroundColor: bgColor,
       color: bgColor ? '#eda2ed' : '',
     }"
-    :class="'leslie-button--' + btnType"
+    :class="['leslie-button--' + btnType, { 'is-disabled': disabled }]"
     @click="emitClick"
   >
     <svg-icon v-if="svgName" :name="svgName" class="icon"></svg-icon>
@@ -40,7 +40,12 @@ const props = defineProps({
     type: String,
     default: "plain",
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 });
+
 const validateBtnType = (type: string): void => {
   if (!["primary", "info", "warning", "danger", "plain"].includes(type)) {
     throw new Error("btnType is invalid");
@@ -56,17 +61,11 @@ const throttle =
 const leslieButton: Ref = ref(null);
 const emit = defineEmits(["click"]);
 const emitClick = throttle(() => {
+  if (props.disabled) {
+    return;
+  }
   emit("click");
 }, 1000);
-// let isFirstClick = true;
-// const emitClick = () => {
-//   // if (isFirstClick) {
-//   //   isFirstClick = false;
-//   //   emit("click");
-//   // } else {
-//   throttleClick();
-//   // }
-// };
 </script>
 
 <style lang="less" scoped>
@@ -89,6 +88,10 @@ const emitClick = throttle(() => {
 }
 .leslie-button + .leslie-button {
   margin-left: 10px;
+}
+.is-disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 .leslie-button--plain {
   background-color: @plainBtnBgColor;

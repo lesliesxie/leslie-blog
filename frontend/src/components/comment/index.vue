@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-03-26 22:27:00
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-04 22:07:16
+ * @LastEditTime: 2024-04-05 21:20:23
  * 佛祖保佑没bug
 -->
 
@@ -21,13 +21,22 @@
             inputBorder="none"
             :isTextArea="true"
             :width="inputWidth"
-            :height="inputFocus ? 60 : 40"
+            :height="inputFocus ? 80 : 40"
+            :bgColor="inputFocus ? '' : 'var(--inputBgColor)'"
             class="input-content"
             @focus="inputFocus = true"
             @blur="inputFocus = false"
             placeholder="说点什么吧"
+            @inputChange="inputChange"
           />
-          <leslie-button btnType="primary" class="submit">发送</leslie-button>
+          <leslie-button
+            btnType="primary"
+            class="submit"
+            :disabled="!commentContent"
+            @click="submit"
+            @mousedown.prevent
+            >发送</leslie-button
+          >
         </div>
       </div>
       <div v-else class="submit-box">
@@ -81,7 +90,7 @@
 </template>
 
 <script setup lang="ts">
-import { getCommentList } from "@/server";
+import { getCommentList, createComment } from "@/server";
 import moment from "moment";
 import { onMounted, ref } from "vue";
 
@@ -97,6 +106,8 @@ const isLogin = ref(true);
 const inputFocus = ref(false);
 const isActive = ref("hot");
 
+const commentContent = ref("");
+
 const inputWidth = ref(0);
 
 const login = () => {
@@ -105,10 +116,31 @@ const login = () => {
 const changeActive = (key: string) => {
   isActive.value = key;
 };
+
+const inputChange = (value: string) => {
+  commentContent.value = value;
+};
+const submit = () => {
+  let param = {
+    author: "leslie",
+    avatar: "",
+    content: commentContent.value,
+    createTime: new Date(),
+    likes: 0,
+    comment: 0,
+  };
+  createComment(param).then(() => {
+    commentContent.value = "";
+    param.createTime = moment(param.createTime).format(
+      "YYYY-MM-DD"
+    ) as unknown as Date;
+    commentList.value.unshift(param);
+  });
+};
+
 const getInputWidth = () => {
   const inputDom = document.querySelector(".input")?.getBoundingClientRect();
   inputWidth.value = inputDom?.width as number;
-  console.log("input", inputDom);
 };
 onMounted(async () => {
   let data = await getCommentList();
@@ -164,7 +196,8 @@ onMounted(async () => {
         }
       }
       .focus {
-        background-color: red;
+        height: 120px;
+        background-color: @contentBgColor;
       }
       .login-box {
         background-color: @inputBgColor;

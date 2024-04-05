@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-15 17:27:43
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-04 17:02:57
+ * @LastEditTime: 2024-04-05 21:22:01
  * 佛祖保佑没bug
 -->
 <template>
@@ -74,6 +74,8 @@ onMounted(() => {
 
 <style lang="less" scoped>
 .content-detail {
+  height: 100%;
+  overflow: scroll;
   .box {
     background-color: @contentBgColor;
     margin-bottom: 20px;
