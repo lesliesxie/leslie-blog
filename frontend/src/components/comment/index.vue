@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-03-26 22:27:00
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-05 21:20:23
+ * @LastEditTime: 2024-04-05 22:28:15
  * 佛祖保佑没bug
 -->
 
@@ -28,6 +28,7 @@
             @blur="inputFocus = false"
             placeholder="说点什么吧"
             @inputChange="inputChange"
+            v-model="commentContent"
           />
           <leslie-button
             btnType="primary"
@@ -93,6 +94,10 @@
 import { getCommentList, createComment } from "@/server";
 import moment from "moment";
 import { onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+const id = route.path.split("/").slice(-1)[0];
 
 interface CommentType {
   author: string;
@@ -129,8 +134,8 @@ const submit = () => {
     likes: 0,
     comment: 0,
   };
-  createComment(param).then(() => {
-    commentContent.value = "";
+  createComment(Number(id), param).then(() => {
+    // TODO 清除input框内容
     param.createTime = moment(param.createTime).format(
       "YYYY-MM-DD"
     ) as unknown as Date;
@@ -143,7 +148,7 @@ const getInputWidth = () => {
   inputWidth.value = inputDom?.width as number;
 };
 onMounted(async () => {
-  let data = await getCommentList();
+  let data = await getCommentList(Number(id));
   commentList.value = data.map((item: CommentType) => {
     return {
       ...item,
