@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-29 16:47:26
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-06 17:25:50
+ * @LastEditTime: 2024-04-06 22:19:29
  * 佛祖保佑没bug
 -->
 <template>
@@ -13,6 +13,7 @@
         :placeholder="placeholder"
         class="le-input"
         v-model="inputRef.val"
+        :type="passwordVisible ? 'password' : 'text'"
         :style="{
           fontSize: fontSize + 'px',
           width: width + 'px',
@@ -21,7 +22,23 @@
         }"
         @focus="handleFocus"
         @blur="handleBlur"
-        />
+      />
+      <div class="svg-box" v-if="showPassword" @click="changePasswordVisible">
+        <svg-icon 
+          name="password-open" 
+          :color="inputRef.val ? 'var(--inputColor)' : 'var(--inputPlaceholderColor)'" 
+          v-if="!passwordVisible" 
+          class="icon"
+          >
+        </svg-icon>
+        <svg-icon 
+          name="password-close" 
+          :color="inputRef.val ? 'var(--inputColor)' : 'var(--inputPlaceholderColor)'" 
+          v-else 
+          class="icon"
+          >
+        </svg-icon>
+      </div>
       <!-- TODO add error text -->
       <div class="error-text" v-if="inputRef.error">{{ inputRef.message }}</div>
     </div>
@@ -112,10 +129,15 @@ const props = defineProps({
   isResize: {
     type: Boolean,
     default: false,
+  },
+  showPassword: {
+    type: Boolean,
+    default: false,
   }
 });
 const inputRef = reactive({ val: "", error: false, message: "" });
 const optionVisible = ref(false);
+const passwordVisible = ref(false);
 
 const selectInputRef:any = ref([]);
 const lInput: Ref = ref(null);
@@ -133,6 +155,9 @@ const handleFocus = () => {
 }
 const handleBlur = () => {
   emit("blur");
+}
+const changePasswordVisible = () => {
+  passwordVisible.value = !passwordVisible.value;
 }
 watch(() => props.selected, () => {
  changeSelectInput()
@@ -177,6 +202,13 @@ defineExpose({
     }
     ::placeholder {
       color: @inputPlaceholderColor;
+    }
+    .svg-box {
+      font-size: 22px;
+      position: absolute;
+      margin-top: 7px;
+      right: 30px;
+      cursor: pointer;
     }
     .text-area {
       &:hover {

@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-04-06 17:44:32
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-06 21:11:06
+ * @LastEditTime: 2024-04-06 21:26:39
  * 佛祖保佑没bug
 -->
 
@@ -58,7 +58,6 @@ defineProps({
 });
 
 const closeDialog = () => {
-  console.log("closeDialog");
   bus.emit("changeVisible", false);
 };
 </script>
@@ -74,7 +73,6 @@ const closeDialog = () => {
   z-index: 99;
 }
 .leslie-dialog {
-  height: 500px;
   position: fixed;
   background-color: @dialogBgColor;
   border-radius: 5px;
@@ -97,6 +95,12 @@ const closeDialog = () => {
       top: 20px;
       cursor: pointer;
     }
+  }
+  .content {
+    padding: 20px;
+  }
+  .button-box {
+    margin: 0 20px 20px 20px;
   }
 }
 </style>
