@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-29 16:47:26
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-05 22:24:22
+ * @LastEditTime: 2024-04-06 17:25:50
  * 佛祖保佑没bug
 -->
 <template>
@@ -136,7 +136,6 @@ const handleBlur = () => {
 }
 watch(() => props.selected, () => {
  changeSelectInput()
-  
 })
 const debounceEmit = $debounce(() => {
     emit("inputChange", inputRef.val);
@@ -152,6 +151,12 @@ const showOptions = () => {
   rotateDegree.value = optionVisible.value ? '0deg' : '180deg';
   btnTopPosition.value = optionVisible.value ? '-7px' : '-14px';
 }
+
+defineExpose({
+  clear() {
+    inputRef.val = "";
+  }
+})
 </script>
 
 <style lang="less" scoped>

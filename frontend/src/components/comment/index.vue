@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-03-26 22:27:00
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-05 22:28:15
+ * @LastEditTime: 2024-04-06 17:27:05
  * 佛祖保佑没bug
 -->
 
@@ -18,6 +18,7 @@
         <div class="avatar"></div>
         <div class="input" :class="{ focus: inputFocus }">
           <leslie-input
+            ref="inputRef"
             inputBorder="none"
             :isTextArea="true"
             :width="inputWidth"
@@ -95,6 +96,7 @@ import { getCommentList, createComment } from "@/server";
 import moment from "moment";
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
+import type { Ref } from "vue";
 
 const route = useRoute();
 const id = route.path.split("/").slice(-1)[0];
@@ -114,6 +116,7 @@ const isActive = ref("hot");
 const commentContent = ref("");
 
 const inputWidth = ref(0);
+const inputRef: Ref = ref(null);
 
 const login = () => {
   console.log("登录");
@@ -135,7 +138,7 @@ const submit = () => {
     comment: 0,
   };
   createComment(Number(id), param).then(() => {
-    // TODO 清除input框内容
+    inputRef.value.clear();
     param.createTime = moment(param.createTime).format(
       "YYYY-MM-DD"
     ) as unknown as Date;
