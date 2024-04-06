@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-03-26 22:27:00
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-06 17:27:05
+ * @LastEditTime: 2024-04-06 21:06:47
  * 佛祖保佑没bug
 -->
 
@@ -88,6 +88,7 @@
         </div>
       </div>
     </div>
+    <Login v-if="showLogin"></Login>
   </div>
 </template>
 
@@ -97,6 +98,7 @@ import moment from "moment";
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import type { Ref } from "vue";
+import bus from "@/global/event-bus";
 
 const route = useRoute();
 const id = route.path.split("/").slice(-1)[0];
@@ -109,7 +111,8 @@ interface CommentType {
 }
 
 const commentList = ref<CommentType[]>([]);
-const isLogin = ref(true);
+const isLogin = ref(false);
+const showLogin = ref(false);
 const inputFocus = ref(false);
 const isActive = ref("hot");
 
@@ -119,7 +122,8 @@ const inputWidth = ref(0);
 const inputRef: Ref = ref(null);
 
 const login = () => {
-  console.log("登录");
+  showLogin.value = true;
+  bus.emit("changeVisible", true);
 };
 const changeActive = (key: string) => {
   isActive.value = key;
