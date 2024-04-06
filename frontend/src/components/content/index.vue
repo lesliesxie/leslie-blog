@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-03-30 21:09:57
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-31 19:06:43
+ * @LastEditTime: 2024-04-05 21:21:02
  * 佛祖保佑没bug
 -->
 
@@ -44,17 +44,10 @@
 <script setup lang="ts">
 import LeslieMenu from "@/components/leslieUI/leslie-Menu/index.vue";
 import recommend from "../recommend/index.vue";
-import { onMounted, ref } from "vue";
-// import { useRoute } from "vue-router";
-// import { queryContentListById } from "@/server";
+import { ref } from "vue";
 
 const menuItems = ref([{ index: 1, name: "首页" }]);
 const activeIndex = ref(1);
-
-// const itemDetail = ref({});
-
-// const route = useRoute();
-// const id = route.path.split("/").slice(-1)[0];
 
 const handleSelect = (key: number) => {
   console.log(key);
@@ -66,14 +59,6 @@ const addNote = () => {
   // createWebHashHistory使用后所有路由都会变成#/结尾导致只会跳转到首页，具体哪里配错未发现
   window.open("/add-note");
 };
-
-// const queryDetail = async (id: number) => {
-//   itemDetail.value = await queryContentListById(id);
-// };
-
-// onMounted(() => {
-//   queryDetail(Number(id));
-// });
 </script>
 
 <style lang="less" scoped>

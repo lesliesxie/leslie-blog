@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-15 17:27:43
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-31 19:58:47
+ * @LastEditTime: 2024-04-05 21:25:42
  * 佛祖保佑没bug
 -->
 <template>
@@ -36,10 +36,10 @@
       </div>
     </div>
     <div class="comment">
-      <div class="comment-title">评论{{ itemDetail.comment }}</div>
-      <div class="submit-box"></div>
+      <!-- <div class="comment-title">评论{{ itemDetail.comment }}</div> -->
+      <!-- <div class="submit-box"></div> -->
       <div class="comment-box">
-        <!-- <comment v-for="comment in commentList"></comment> -->
+        <comment></comment>
       </div>
     </div>
   </div>
@@ -74,6 +74,8 @@ onMounted(() => {
 
 <style lang="less" scoped>
 .content-detail {
+  height: 100%;
+  overflow: scroll;
   .box {
     background-color: @contentBgColor;
     margin-bottom: 20px;
