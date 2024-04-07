@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-11 20:05:51
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-05 22:07:49
+ * @LastEditTime: 2024-04-07 22:29:41
  * 佛祖保佑没bug
  */
 import axios from "axios";
@@ -44,4 +44,12 @@ export const createComment = (contentListId: number, data: any) => {
   return axios
     .post(`/commentList/${contentListId}/comment`, data)
     .then((res: any) => res.data);
+};
+
+export const register = (data: any) => {
+  return axios.post("/user/register", data).then((res: any) => res.data);
+};
+
+export const login = (data: any) => {
+  return axios.post("/user/login", data).then((res: any) => res.data);
 };

@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-04-06 17:44:32
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-06 21:26:39
+ * @LastEditTime: 2024-04-07 22:27:13
  * 佛祖保佑没bug
 -->
 
@@ -60,6 +60,8 @@ defineProps({
 const closeDialog = () => {
   bus.emit("changeVisible", false);
 };
+
+defineExpose({ closeDialog });
 </script>
 
 <style lang="less" scoped>
