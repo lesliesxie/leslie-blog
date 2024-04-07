@@ -26,7 +26,17 @@
           @click="addNote"
           >新建笔记</leslie-button
         >
-        <div class="personal-space"></div>
+        <div class="personal-space">
+          <div class="avatar" v-if="isLogin"></div>
+          <leslie-button
+            v-else
+            btnType="primary"
+            height="40"
+            class="login"
+            @click="login"
+            >登录 / 注册</leslie-button
+          >
+        </div>
       </template>
       <template #left>
         <left-operate></left-operate>
@@ -38,16 +48,26 @@
         <recommend></recommend>
       </template>
     </leslie-index>
+    <Login v-if="showLogin"></Login>
   </div>
 </template>
 
 <script setup lang="ts">
 import LeslieMenu from "@/components/leslieUI/leslie-Menu/index.vue";
 import recommend from "../recommend/index.vue";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
+import bus from "@/global/event-bus";
 
 const menuItems = ref([{ index: 1, name: "首页" }]);
 const activeIndex = ref(1);
+
+const isLogin = ref(false);
+const showLogin = ref(false);
+
+const login = () => {
+  showLogin.value = true;
+  bus.emit("changeVisible", true);
+};
 
 const handleSelect = (key: number) => {
   console.log(key);
@@ -59,15 +79,24 @@ const addNote = () => {
   // createWebHashHistory使用后所有路由都会变成#/结尾导致只会跳转到首页，具体哪里配错未发现
   window.open("/add-note");
 };
+onMounted(() => {
+  bus.on("login", () => {
+    isLogin.value = true;
+  });
+});
 </script>
 
 <style lang="less" scoped>
 .content {
   .personal-space {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: red;
+    margin-left: 50px;
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-size: 100%;
+      background-image: url("../../assets/images/avatar.JPG");
+    }
   }
 }
 </style>

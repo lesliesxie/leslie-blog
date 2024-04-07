@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-01-28 22:13:18
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-31 19:43:04
+ * @LastEditTime: 2024-04-07 23:01:56
  * 佛祖保佑没bug
 -->
 <template>
@@ -25,7 +25,17 @@
           @click="addNote"
           >新建笔记</leslie-button
         >
-        <div class="personal-space"></div>
+        <div class="personal-space">
+          <div class="avatar" v-if="isLogin"></div>
+          <leslie-button
+            v-else
+            btnType="primary"
+            height="40"
+            class="login"
+            @click="login"
+            >登录 / 注册</leslie-button
+          >
+        </div>
       </template>
       <template #left>
         <classification></classification>
@@ -37,6 +47,7 @@
         <recommend></recommend>
       </template>
     </leslie-index>
+    <Login v-if="showLogin"></Login>
   </div>
 </template>
 
@@ -44,10 +55,19 @@
 import LeslieMenu from "@/components/leslieUI/leslie-Menu/index.vue";
 import recommend from "../recommend/index.vue";
 import ContentList from "../contentList/index.vue";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
+import bus from "@/global/event-bus";
 
 const menuItems = ref([{ index: 1, name: "首页" }]);
 const activeIndex = ref(1);
+
+const isLogin = ref(false);
+const showLogin = ref(false);
+
+const login = () => {
+  showLogin.value = true;
+  bus.emit("changeVisible", true);
+};
 
 const handleSelect = (key: number) => {
   console.log(key);
@@ -63,15 +83,25 @@ const addNote = () => {
 const toDetail = (value: any) => {
   window.open("/content-detail/" + value.id);
 };
+// TODO 添加vuex，保存login状态
+onMounted(() => {
+  bus.on("login", () => {
+    isLogin.value = true;
+  });
+});
 </script>
 
 <style lang="less" scoped>
 .home-page {
   .personal-space {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: red;
+    margin-left: 50px;
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-size: 100%;
+      background-image: url("../../assets/images/avatar.JPG");
+    }
   }
 }
 </style>

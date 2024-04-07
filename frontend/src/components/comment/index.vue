@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-03-26 22:27:00
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-06 21:06:47
+ * @LastEditTime: 2024-04-07 22:43:37
  * 佛祖保佑没bug
 -->
 
@@ -154,7 +154,7 @@ const getInputWidth = () => {
   const inputDom = document.querySelector(".input")?.getBoundingClientRect();
   inputWidth.value = inputDom?.width as number;
 };
-onMounted(async () => {
+const getComments = async () => {
   let data = await getCommentList(Number(id));
   commentList.value = data.map((item: CommentType) => {
     return {
@@ -162,7 +162,13 @@ onMounted(async () => {
       createTime: moment(item.createTime).format("YYYY-MM-DD"),
     };
   });
+};
+onMounted(() => {
+  getComments();
   getInputWidth();
+  bus.on("login", () => {
+    isLogin.value = true;
+  });
 });
 </script>
 

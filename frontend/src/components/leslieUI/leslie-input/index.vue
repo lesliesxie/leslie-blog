@@ -3,17 +3,18 @@
  * @Author: leslie
  * @Date: 2024-02-29 16:47:26
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-06 22:19:29
+ * @LastEditTime: 2024-04-07 22:36:09
  * 佛祖保佑没bug
 -->
 <template>
   <div class="leslie-input">
     <div class="input-box" v-if="!isSelect && !isTextArea">
+      <!-- TODO 支持v-model -->
       <input
         :placeholder="placeholder"
         class="le-input"
         v-model="inputRef.val"
-        :type="passwordVisible ? 'password' : 'text'"
+        :type="showPassword &&!passwordVisible ? 'password' : 'text'"
         :style="{
           fontSize: fontSize + 'px',
           width: width + 'px',
@@ -27,7 +28,7 @@
         <svg-icon 
           name="password-open" 
           :color="inputRef.val ? 'var(--inputColor)' : 'var(--inputPlaceholderColor)'" 
-          v-if="!passwordVisible" 
+          v-if="passwordVisible" 
           class="icon"
           >
         </svg-icon>
@@ -133,6 +134,10 @@ const props = defineProps({
   showPassword: {
     type: Boolean,
     default: false,
+  },
+  debounce: {
+    type: Boolean,
+    default: true,
   }
 });
 const inputRef = reactive({ val: "", error: false, message: "" });
@@ -162,11 +167,18 @@ const changePasswordVisible = () => {
 watch(() => props.selected, () => {
  changeSelectInput()
 })
-const debounceEmit = $debounce(() => {
+const emitInput = () => {
     emit("inputChange", inputRef.val);
+}
+const debounceEmit = $debounce(() => {
+  emitInput()
   }, 1000)
 watch(inputRef, () => {
-  debounceEmit()
+  if(props.debounce) {
+    debounceEmit()
+  } else {
+    emitInput()
+  }
 });
 
 const rotateDegree = ref('180deg');
