@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-03-13 15:52:38
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-06 22:16:28
+ * @LastEditTime: 2024-04-14 18:40:15
  * 佛祖保佑没bug
 -->
 <template>
@@ -15,12 +15,15 @@
     <div class="title" v-if="isTitle">
       {{ panelTitle }}
     </div>
-    <div class="content">
+    <div
+      class="content"
+      :style="{ borderBottom: $slots.footer ? '' : 'none', padding }"
+    >
       <slot name="content">
         <span>leslie-panel内容区域</span>
       </slot>
     </div>
-    <div class="button-box">
+    <div class="footer" v-if="$slots.footer">
       <slot name="footer"></slot>
     </div>
   </div>
@@ -56,6 +59,10 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
+  padding: {
+    type: String,
+    default: "20px",
+  },
 });
 
 const positionTop = ref(`calc(${props.positionTop + 10}px)`);
@@ -82,11 +89,12 @@ const positionRight = ref(`calc(${props.positionRight - 12}px)`);
     padding: 20px;
     border-bottom: @border;
   }
-  .button-box {
+  .footer {
     margin: 20px;
     float: right;
   }
 }
+// TODO 箭头占据位置，需要调整
 .leslie-panel::before {
   --position-right: v-bind(positionRight);
   content: "";

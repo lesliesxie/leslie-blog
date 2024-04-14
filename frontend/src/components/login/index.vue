@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-04-06 17:42:29
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-07 22:49:17
+ * @LastEditTime: 2024-04-14 20:40:58
  * 佛祖保佑没bug
 -->
 
@@ -54,6 +54,9 @@ import { onMounted, reactive, ref } from "vue";
 import type { Ref } from "vue";
 import bus from "@/global/event-bus";
 import showMessage from "@/global/leslie-message";
+import { useAuthStore } from "@/store";
+
+const auth = useAuthStore();
 
 const dialogVisible = ref(true);
 const dialog: Ref = ref(null);
@@ -93,7 +96,9 @@ const onLogin = async () => {
       await login(userForm);
       dialog.value.closeDialog();
       showMessage.success("登录成功");
-      bus.emit("login");
+      auth.login(userForm);
+      localStorage.setItem("isLogin", "true");
+      localStorage.setItem("userName", userForm.userName);
     } catch (error: any) {
       showMessage.error(error.response.data.message);
     }

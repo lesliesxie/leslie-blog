@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-03-30 21:11:30
  * @LastEditors: leslie
- * @LastEditTime: 2024-03-30 21:34:44
+ * @LastEditTime: 2024-04-14 17:27:11
  * 佛祖保佑没bug
 -->
 
@@ -29,9 +29,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
-const props = defineProps({});
-</script>
+<script setup lang="ts"></script>
 
 <style lang="less" scoped>
 .leslie-index {
@@ -48,9 +46,10 @@ const props = defineProps({});
     display: flex;
     justify-content: space-between;
     .nav-right {
-      width: 30%;
+      width: 250px;
       display: flex;
       align-items: center;
+      justify-content: space-around;
     }
   }
   .center {

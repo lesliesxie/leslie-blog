@@ -30,6 +30,7 @@ declare module 'vue' {
     LeslieRadio: typeof import('./src/components/leslieUI/leslie-radio/index.vue')['default']
     LeslieSelect: typeof import('./src/components/leslieUI/leslie-select/index.vue')['default']
     Login: typeof import('./src/components/login/index.vue')['default']
+    Personal: typeof import('./src/components/personal/index.vue')['default']
     Recommend: typeof import('./src/components/recommend/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

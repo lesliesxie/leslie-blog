@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-03-30 21:09:57
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-05 21:21:02
+ * @LastEditTime: 2024-04-14 18:43:04
  * 佛祖保佑没bug
 -->
 
@@ -55,8 +55,11 @@
 <script setup lang="ts">
 import LeslieMenu from "@/components/leslieUI/leslie-Menu/index.vue";
 import recommend from "../recommend/index.vue";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
+import { useAuthStore } from "@/store";
 import bus from "@/global/event-bus";
+
+const auth = useAuthStore();
 
 const menuItems = ref([{ index: 1, name: "首页" }]);
 const activeIndex = ref(1);
@@ -79,21 +82,28 @@ const addNote = () => {
   // createWebHashHistory使用后所有路由都会变成#/结尾导致只会跳转到首页，具体哪里配错未发现
   window.open("/add-note");
 };
+watch(
+  () => auth.isLogin,
+  () => {
+    isLogin.value = auth.isLogin;
+  }
+);
 onMounted(() => {
-  bus.on("login", () => {
+  if (localStorage.getItem("isLogin") === "true") {
     isLogin.value = true;
-  });
+  }
 });
 </script>
 
 <style lang="less" scoped>
 .content {
   .personal-space {
-    margin-left: 50px;
+    margin-left: 20px;
     .avatar {
       width: 40px;
       height: 40px;
       border-radius: 50%;
+      cursor: pointer;
       background-size: 100%;
       background-image: url("../../assets/images/avatar.JPG");
     }
