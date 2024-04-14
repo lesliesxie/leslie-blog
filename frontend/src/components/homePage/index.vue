@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-01-28 22:13:18
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-07 23:01:56
+ * @LastEditTime: 2024-04-14 16:08:24
  * 佛祖保佑没bug
 -->
 <template>
@@ -55,8 +55,11 @@
 import LeslieMenu from "@/components/leslieUI/leslie-Menu/index.vue";
 import recommend from "../recommend/index.vue";
 import ContentList from "../contentList/index.vue";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import bus from "@/global/event-bus";
+import { useAuthStore } from "@/store";
+
+const auth = useAuthStore();
 
 const menuItems = ref([{ index: 1, name: "首页" }]);
 const activeIndex = ref(1);
@@ -83,11 +86,16 @@ const addNote = () => {
 const toDetail = (value: any) => {
   window.open("/content-detail/" + value.id);
 };
-// TODO 添加vuex，保存login状态
+watch(
+  () => auth.isLogin,
+  () => {
+    isLogin.value = auth.isLogin;
+  }
+);
 onMounted(() => {
-  bus.on("login", () => {
+  if (localStorage.getItem("isLogin")) {
     isLogin.value = true;
-  });
+  }
 });
 </script>
 

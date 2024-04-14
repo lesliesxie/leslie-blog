@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-03-26 22:27:00
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-07 22:43:37
+ * @LastEditTime: 2024-04-14 16:07:17
  * 佛祖保佑没bug
 -->
 
@@ -95,13 +95,15 @@
 <script setup lang="ts">
 import { getCommentList, createComment } from "@/server";
 import moment from "moment";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import type { Ref } from "vue";
-import bus from "@/global/event-bus";
+import { useAuthStore } from "@/store";
 
 const route = useRoute();
 const id = route.path.split("/").slice(-1)[0];
+
+const auth = useAuthStore();
 
 interface CommentType {
   author: string;
@@ -123,7 +125,6 @@ const inputRef: Ref = ref(null);
 
 const login = () => {
   showLogin.value = true;
-  bus.emit("changeVisible", true);
 };
 const changeActive = (key: string) => {
   isActive.value = key;
@@ -163,12 +164,18 @@ const getComments = async () => {
     };
   });
 };
+watch(
+  () => auth.isLogin,
+  () => {
+    isLogin.value = auth.isLogin;
+  }
+);
 onMounted(() => {
   getComments();
   getInputWidth();
-  bus.on("login", () => {
+  if (localStorage.getItem("isLogin")) {
     isLogin.value = true;
-  });
+  }
 });
 </script>
 
@@ -187,7 +194,8 @@ onMounted(() => {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: red;
+    background-size: 100%;
+    background-image: url("../../assets/images/avatar.JPG");
   }
   .submit {
     margin: 20px 0;
