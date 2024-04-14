@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-04-06 17:44:32
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-07 22:27:13
+ * @LastEditTime: 2024-04-14 20:58:02
  * 佛祖保佑没bug
 -->
 
@@ -20,12 +20,12 @@
       </div>
       <span class="close" @click="closeDialog" v-if="showClose">X</span>
     </div>
-    <div class="content">
+    <div class="content" :style="{ padding }">
       <slot name="content">
         <span>leslie-dialog内容区域</span>
       </slot>
     </div>
-    <div class="button-box">
+    <div class="button-box" v-if="$slots.footer">
       <slot name="footer"></slot>
     </div>
   </div>
@@ -54,6 +54,10 @@ defineProps({
   showClose: {
     type: Boolean,
     default: true,
+  },
+  padding: {
+    type: String,
+    default: "20px",
   },
 });
 

@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-03-26 22:27:00
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-14 16:07:17
+ * @LastEditTime: 2024-04-14 16:20:43
  * 佛祖保佑没bug
 -->
 
@@ -173,7 +173,7 @@ watch(
 onMounted(() => {
   getComments();
   getInputWidth();
-  if (localStorage.getItem("isLogin")) {
+  if (localStorage.getItem("isLogin") === "true") {
     isLogin.value = true;
   }
 });
@@ -195,6 +195,7 @@ onMounted(() => {
     height: 40px;
     border-radius: 50%;
     background-size: 100%;
+    cursor: pointer;
     background-image: url("../../assets/images/avatar.JPG");
   }
   .submit {

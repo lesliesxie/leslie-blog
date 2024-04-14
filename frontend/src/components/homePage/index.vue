@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-01-28 22:13:18
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-14 16:08:24
+ * @LastEditTime: 2024-04-14 20:40:32
  * 佛祖保佑没bug
 -->
 <template>
@@ -26,7 +26,29 @@
           >新建笔记</leslie-button
         >
         <div class="personal-space">
-          <div class="avatar" v-if="isLogin"></div>
+          <div
+            class="avatar"
+            ref="avatar"
+            v-if="isLogin"
+            @click="panelVisible = !panelVisible"
+          >
+            <leslie-panel
+              :width="76"
+              v-if="panelVisible"
+              :panelVisible.sync="panelVisible"
+              :positionTop="positionTop"
+              :positionRight="positionRight"
+              :isTitle="false"
+              padding="0"
+            >
+              <template #content>
+                <div class="info">
+                  <span @click="onPersonal">个人中心</span>
+                  <span @click="logout">退出登录</span>
+                </div>
+              </template>
+            </leslie-panel>
+          </div>
           <leslie-button
             v-else
             btnType="primary"
@@ -48,6 +70,7 @@
       </template>
     </leslie-index>
     <Login v-if="showLogin"></Login>
+    <personal v-if="personalVisible"></personal>
   </div>
 </template>
 
@@ -56,6 +79,7 @@ import LeslieMenu from "@/components/leslieUI/leslie-Menu/index.vue";
 import recommend from "../recommend/index.vue";
 import ContentList from "../contentList/index.vue";
 import { onMounted, ref, watch } from "vue";
+import type { Ref } from "vue";
 import bus from "@/global/event-bus";
 import { useAuthStore } from "@/store";
 
@@ -67,9 +91,29 @@ const activeIndex = ref(1);
 const isLogin = ref(false);
 const showLogin = ref(false);
 
+const personalVisible = ref(false);
+
+const panelVisible = ref(false);
+const positionTop = ref(0);
+const positionRight = ref(0);
+const avatar: Ref = ref(null);
+
 const login = () => {
   showLogin.value = true;
   bus.emit("changeVisible", true);
+};
+
+const onPersonal = () => {
+  personalVisible.value = true;
+  bus.emit("changeVisible", true);
+};
+
+const logout = () => {
+  auth.logout();
+  panelVisible.value = false;
+  isLogin.value = false;
+  localStorage.setItem("isLogin", "false");
+  localStorage.setItem("userName", "");
 };
 
 const handleSelect = (key: number) => {
@@ -86,6 +130,17 @@ const addNote = () => {
 const toDetail = (value: any) => {
   window.open("/content-detail/" + value.id);
 };
+
+const getPositionData = () => {
+  let data = document.querySelector(".personal-space")?.getBoundingClientRect();
+  positionRight.value =
+    document.body.clientWidth -
+    (data?.left as number) -
+    (data?.width as number) / 2 -
+    10;
+  positionTop.value = (data?.top as number) + (data?.height as number) + 5;
+};
+
 watch(
   () => auth.isLogin,
   () => {
@@ -93,22 +148,40 @@ watch(
   }
 );
 onMounted(() => {
-  if (localStorage.getItem("isLogin")) {
+  if (localStorage.getItem("isLogin") === "true") {
     isLogin.value = true;
   }
+  getPositionData();
 });
 </script>
 
 <style lang="less" scoped>
 .home-page {
   .personal-space {
-    margin-left: 50px;
+    // position: absolute;
+    margin-left: 20px;
     .avatar {
       width: 40px;
       height: 40px;
       border-radius: 50%;
+      cursor: pointer;
       background-size: 100%;
       background-image: url("../../assets/images/avatar.JPG");
+    }
+  }
+  .info {
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    span {
+      padding: 10px;
+      &:hover {
+        background-color: @itemHoverBgColor;
+      }
+    }
+    span + span {
+      padding-top: 5px;
+      border-top: @border;
     }
   }
 }

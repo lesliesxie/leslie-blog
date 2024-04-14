@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-04-06 17:42:29
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-14 16:03:44
+ * @LastEditTime: 2024-04-14 20:40:58
  * 佛祖保佑没bug
 -->
 
@@ -98,6 +98,7 @@ const onLogin = async () => {
       showMessage.success("登录成功");
       auth.login(userForm);
       localStorage.setItem("isLogin", "true");
+      localStorage.setItem("userName", userForm.userName);
     } catch (error: any) {
       showMessage.error(error.response.data.message);
     }

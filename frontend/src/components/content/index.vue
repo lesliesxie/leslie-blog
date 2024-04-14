@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-03-30 21:09:57
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-14 16:06:53
+ * @LastEditTime: 2024-04-14 18:43:04
  * 佛祖保佑没bug
 -->
 
@@ -89,7 +89,7 @@ watch(
   }
 );
 onMounted(() => {
-  if (localStorage.getItem("isLogin")) {
+  if (localStorage.getItem("isLogin") === "true") {
     isLogin.value = true;
   }
 });
@@ -98,11 +98,12 @@ onMounted(() => {
 <style lang="less" scoped>
 .content {
   .personal-space {
-    margin-left: 50px;
+    margin-left: 20px;
     .avatar {
       width: 40px;
       height: 40px;
       border-radius: 50%;
+      cursor: pointer;
       background-size: 100%;
       background-image: url("../../assets/images/avatar.JPG");
     }
