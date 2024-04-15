@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-04-14 19:46:34
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-14 21:05:55
+ * @LastEditTime: 2024-04-15 22:39:43
  * 佛祖保佑没bug
 -->
 
@@ -27,11 +27,12 @@
           <div class="right">
             <div class="userName">
               <span>用户名</span>
-              <leslie-input></leslie-input>
+              <!-- TODO 实现v-model -->
+              <leslie-input v-model="userName"></leslie-input>
             </div>
             <div class="password">
               <span>密码</span>
-              <leslie-input></leslie-input>
+              <leslie-input v-model="password"></leslie-input>
             </div>
             <div class="sign">
               <span>个性签名</span>
@@ -48,16 +49,20 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import bus from "@/global/event-bus";
+import { getUser } from "@/server";
 
 const personalVisible = ref(true);
 const userName = ref("");
+const password = ref("");
 const dialogTitle = ref("个人中心");
 const avatar = ref("/src/assets/images/avatar.JPG");
 
-onMounted(() => {
+onMounted(async () => {
   if (localStorage.getItem("isLogin") === "true") {
     userName.value = localStorage.getItem("userName") as string;
     dialogTitle.value = userName.value + "  的个人中心";
+    let data = await getUser(userName.value);
+    password.value = data.password;
   }
   bus.on("changeVisible", (value) => {
     personalVisible.value = value as boolean;

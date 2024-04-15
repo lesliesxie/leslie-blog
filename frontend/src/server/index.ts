@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-11 20:05:51
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-07 22:29:41
+ * @LastEditTime: 2024-04-15 22:37:02
  * 佛祖保佑没bug
  */
 import axios from "axios";
@@ -52,4 +52,8 @@ export const register = (data: any) => {
 
 export const login = (data: any) => {
   return axios.post("/user/login", data).then((res: any) => res.data);
+};
+
+export const getUser = (userName: string) => {
+  return axios.get(`/user/${userName}`).then((res: any) => res.data);
 };
