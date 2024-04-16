@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-18 15:45:25
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-06 17:39:23
+ * @LastEditTime: 2024-04-16 21:20:46
  * 佛祖保佑没bug
 -->
 <template>
@@ -15,7 +15,7 @@
           :width="500"
           inputBorder="none"
           :fontSize="24"
-          @inputChange="inputChange"
+          v-model="title"
         ></leslie-input>
       </div>
       <div class="note-submit">
@@ -172,10 +172,6 @@ const getClassList = () => {
 const getTagList = async () => {
   const res = await getLabelList();
   selectOptions.value = res;
-};
-
-const inputChange = (value: string) => {
-  title.value = value;
 };
 
 const onSave = () => {
