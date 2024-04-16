@@ -3,13 +3,12 @@
  * @Author: leslie
  * @Date: 2024-02-29 16:47:26
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-07 22:36:09
+ * @LastEditTime: 2024-04-16 22:38:25
  * 佛祖保佑没bug
 -->
 <template>
   <div class="leslie-input">
     <div class="input-box" v-if="!isSelect && !isTextArea">
-      <!-- TODO 支持v-model -->
       <input
         :placeholder="placeholder"
         class="le-input"
@@ -83,7 +82,7 @@
 </template>
 
 <script setup lang="ts">
-import { getCurrentInstance, reactive, ref, watch } from "vue";
+import { computed, getCurrentInstance, reactive, ref, watch } from "vue";
 import type { Ref } from "vue";
 
 const { $debounce } = getCurrentInstance()?.appContext.config
@@ -95,6 +94,10 @@ interface OptionType {
   selected?: boolean;
 }
 const props = defineProps({
+  modelValue: {
+    type: String,
+    default: '',
+  },
   fontSize: {
     type: Number,
     default: 14,
@@ -140,14 +143,19 @@ const props = defineProps({
     default: true,
   }
 });
-const inputRef = reactive({ val: "", error: false, message: "" });
+
+const inputRef = reactive({
+  val: computed({
+    get: () => props.modelValue || '',
+    set: (val) => emit("update:modelValue", val),
+}), error: false, message: "" });
 const optionVisible = ref(false);
 const passwordVisible = ref(false);
 
 const selectInputRef:any = ref([]);
 const lInput: Ref = ref(null);
 
-const emit = defineEmits(["inputChange", "focus", "blur"]);
+const emit = defineEmits(["inputChange", "focus", "blur", "update:modelValue"]);
 
 const changeSelectInput = () => {
   selectInputRef.value = []
@@ -167,6 +175,10 @@ const changePasswordVisible = () => {
 watch(() => props.selected, () => {
  changeSelectInput()
 })
+// watch(modelValue, () => {
+//   console.log('change modelValue', modelValue.value);
+//   emit("update:modelValue", modelValue.value);
+// })
 const emitInput = () => {
     emit("inputChange", inputRef.val);
 }

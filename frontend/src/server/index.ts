@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-11 20:05:51
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-15 22:37:02
+ * @LastEditTime: 2024-04-16 22:33:30
  * 佛祖保佑没bug
  */
 import axios from "axios";
@@ -56,4 +56,8 @@ export const login = (data: any) => {
 
 export const getUser = (userName: string) => {
   return axios.get(`/user/${userName}`).then((res: any) => res.data);
+};
+
+export const updateUser = (id: number, data: any) => {
+  return axios.put(`/user/${id}`, data).then((res: any) => res.data);
 };
