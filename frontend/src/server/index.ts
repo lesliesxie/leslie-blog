@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-11 20:05:51
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-16 22:33:30
+ * @LastEditTime: 2024-05-04 20:01:53
  * 佛祖保佑没bug
  */
 import axios from "axios";
@@ -24,6 +24,10 @@ export const queryContentListById = (id: number) => {
 
 export const createContent = (data: any) => {
   return axios.post("/contentList", data).then((res: any) => res.data);
+};
+
+export const updateContent = (id: number, data: any) => {
+  return axios.put(`/contentList/${id}`, data).then((res: any) => res.data);
 };
 
 export const getLabelList = () => {
