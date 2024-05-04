@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-04-06 17:42:29
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-14 20:40:58
+ * @LastEditTime: 2024-05-04 16:03:24
  * 佛祖保佑没bug
 -->
 
@@ -23,7 +23,7 @@
             :width="360"
             :height="32"
             placeholder="请输入用户名"
-            @inputChange="userNameChange"
+            v-model="userForm.userName"
             :debounce="false"
           ></leslie-input>
           <leslie-input
@@ -31,7 +31,7 @@
             :height="32"
             show-password
             placeholder="请输入密码"
-            @inputChange="passwordChange"
+            v-model="userForm.password"
             :debounce="false"
           ></leslie-input>
         </div>
@@ -62,12 +62,6 @@ const dialogVisible = ref(true);
 const dialog: Ref = ref(null);
 const userForm = reactive({ userName: "", password: "" });
 
-const userNameChange = (value: string) => {
-  userForm.userName = value;
-};
-const passwordChange = (value: string) => {
-  userForm.password = value;
-};
 const checkInput = () => {
   if (!userForm.userName) {
     showMessage.error("请输入用户名");

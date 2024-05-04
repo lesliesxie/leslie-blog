@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-01-28 22:13:18
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-14 20:40:32
+ * @LastEditTime: 2024-05-04 16:04:41
  * 佛祖保佑没bug
 -->
 <template>
@@ -99,18 +99,21 @@ const positionRight = ref(0);
 const avatar: Ref = ref(null);
 
 const login = () => {
+  panelVisible.value = false;
   showLogin.value = true;
   bus.emit("changeVisible", true);
 };
 
 const onPersonal = () => {
   personalVisible.value = true;
+  showLogin.value = false;
   bus.emit("changeVisible", true);
 };
 
 const logout = () => {
   auth.logout();
   panelVisible.value = false;
+  personalVisible.value = false;
   isLogin.value = false;
   localStorage.setItem("isLogin", "false");
   localStorage.setItem("userName", "");
