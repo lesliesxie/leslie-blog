@@ -20,23 +20,13 @@
       </template>
       <template #nav-right>
         <leslie-button
+          class="add-btn"
           btnType="primary"
           svg-name="add"
           height="40"
           @click="addNote"
           >新建笔记</leslie-button
         >
-        <div class="personal-space">
-          <div class="avatar" v-if="isLogin"></div>
-          <leslie-button
-            v-else
-            btnType="primary"
-            height="40"
-            class="login"
-            @click="login"
-            >登录 / 注册</leslie-button
-          >
-        </div>
       </template>
       <template #left>
         <left-operate></left-operate>
@@ -48,7 +38,7 @@
         <recommend></recommend>
       </template>
     </leslie-index>
-    <Login v-if="showLogin"></Login>
+    <user></user>
   </div>
 </template>
 
@@ -97,16 +87,8 @@ onMounted(() => {
 
 <style lang="less" scoped>
 .content {
-  .personal-space {
-    margin-left: 20px;
-    .avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      cursor: pointer;
-      background-size: 100%;
-      background-image: url("../../assets/images/avatar.JPG");
-    }
+  .add-btn {
+    margin-right: 120px;
   }
 }
 </style>
