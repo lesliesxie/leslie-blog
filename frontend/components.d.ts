@@ -35,5 +35,6 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SvgIcon: typeof import('./src/components/leslieUI/svgIcon/index.vue')['default']
+    User: typeof import('./src/components/user/index.vue')['default']
   }
 }

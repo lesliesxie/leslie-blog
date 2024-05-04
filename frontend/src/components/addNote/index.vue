@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-18 15:45:25
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-16 21:20:46
+ * @LastEditTime: 2024-05-04 16:33:41
  * 佛祖保佑没bug
 -->
 <template>
@@ -19,8 +19,8 @@
         ></leslie-input>
       </div>
       <div class="note-submit">
-        <span class="note-prompt">文章将自动保存至草稿箱</span>
-        <leslie-button class="note-draft" @click="onSave">草稿箱</leslie-button>
+        <!-- <span class="note-prompt">文章将自动保存至草稿箱</span>
+        <leslie-button class="note-draft" @click="onSave">草稿箱</leslie-button> -->
         <leslie-button btnType="primary" @click="onSubmit" ref="noteSubmit"
           >发布</leslie-button
         >
@@ -174,11 +174,15 @@ const getTagList = async () => {
   selectOptions.value = res;
 };
 
-const onSave = () => {
-  // TODO 保存至草稿箱
-  showMessage("保存至草稿箱");
-};
-
+// const onSave = () => {
+//   // TODO 保存至草稿箱
+//   showMessage("保存至草稿箱");
+//   autoSave();
+// };
+// const autoSave = () => {
+//   // TODO 自动保存
+//   saveData();
+// };
 const saveData = () => {
   if (!classSelected.value) {
     showMessage.error("请选择分类");
