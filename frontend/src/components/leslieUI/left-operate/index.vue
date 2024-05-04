@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-12 22:08:39
  * @LastEditors: leslie
- * @LastEditTime: 2024-05-04 20:26:18
+ * @LastEditTime: 2024-05-04 20:32:31
  * 佛祖保佑没bug
 -->
 <template>
@@ -33,6 +33,7 @@
 import { onMounted, ref } from "vue";
 import { queryContentListById, updateContent } from "@/server";
 import { useRoute } from "vue-router";
+import bus from "@/global/event-bus";
 
 const route = useRoute();
 const id = route.path.split("/").slice(-1)[0];
@@ -63,6 +64,9 @@ const getData = async () => {
 };
 onMounted(() => {
   getData();
+  bus.on("commentNum", (value) => {
+    leftOperate.value[1].number = value as number;
+  });
 });
 </script>
 

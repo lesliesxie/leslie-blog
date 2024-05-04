@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-03-26 22:27:00
  * @LastEditors: leslie
- * @LastEditTime: 2024-04-14 16:20:43
+ * @LastEditTime: 2024-05-04 20:30:26
  * 佛祖保佑没bug
 -->
 
@@ -99,6 +99,7 @@ import { onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import type { Ref } from "vue";
 import { useAuthStore } from "@/store";
+import bus from "@/global/event-bus";
 
 const route = useRoute();
 const id = route.path.split("/").slice(-1)[0];
@@ -157,6 +158,7 @@ const getInputWidth = () => {
 };
 const getComments = async () => {
   let data = await getCommentList(Number(id));
+  bus.emit("commentNum", data.length);
   commentList.value = data.map((item: CommentType) => {
     return {
       ...item,
