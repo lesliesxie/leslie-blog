@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-01 22:36:57
  * @LastEditors: leslie
- * @LastEditTime: 2024-02-07 17:16:00
+ * @LastEditTime: 2024-05-05 16:26:48
  * 佛祖保佑没bug
 -->
 <template>
@@ -50,7 +50,7 @@ const handleClick = (index: number) => {
 .leslie-menu {
   display: flex;
   width: 100vw;
-  border-bottom: 1px solid @menuBorderColor;
+  // border-bottom: 1px solid @menuBorderColor;
   height: 100%;
   .menu-item {
     margin-right: 40px;

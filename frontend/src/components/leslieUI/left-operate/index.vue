@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-12 22:08:39
  * @LastEditors: leslie
- * @LastEditTime: 2024-05-04 20:32:31
+ * @LastEditTime: 2024-05-05 16:25:14
  * 佛祖保佑没bug
 -->
 <template>
@@ -41,8 +41,8 @@ const id = route.path.split("/").slice(-1)[0];
 const leftOperate = ref([
   { name: "likes", isClick: false, number: 0 },
   { name: "comment", isClick: false, number: 0 },
-  { name: "collect", isClick: false, number: 0 },
-  { name: "forward", isClick: false },
+  // { name: "collect", isClick: false, number: 0 },
+  // { name: "forward", isClick: false },
 ]);
 const data = ref<any>({});
 

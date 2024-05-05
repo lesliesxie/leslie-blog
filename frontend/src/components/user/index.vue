@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-05-04 16:39:16
  * @LastEditors: leslie
- * @LastEditTime: 2024-05-04 17:44:14
+ * @LastEditTime: 2024-05-05 16:25:45
  * 佛祖保佑没bug
 -->
 
@@ -107,7 +107,7 @@ onMounted(() => {
 
 <style lang="less" scoped>
 .personal-space {
-  position: relative;
+  position: fixed;
   float: right;
   right: 30px;
   top: 5px;
