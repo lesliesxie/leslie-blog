@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-02-11 20:05:51
  * @LastEditors: leslie
- * @LastEditTime: 2024-05-04 20:01:53
+ * @LastEditTime: 2024-05-19 18:16:47
  * 佛祖保佑没bug
  */
 import axios from "axios";
@@ -64,4 +64,14 @@ export const getUser = (userName: string) => {
 
 export const updateUser = (id: number, data: any) => {
   return axios.put(`/user/${id}`, data).then((res: any) => res.data);
+};
+
+export const uploadImg = (data: any) => {
+  return axios
+    .post("/upload", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((res: any) => res.data);
 };

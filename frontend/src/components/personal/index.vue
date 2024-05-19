@@ -3,7 +3,7 @@
  * @Author: leslie
  * @Date: 2024-04-14 19:46:34
  * @LastEditors: leslie
- * @LastEditTime: 2024-05-04 17:25:46
+ * @LastEditTime: 2024-05-19 20:48:49
  * 佛祖保佑没bug
 -->
 
@@ -20,8 +20,19 @@
         <div class="content">
           <div class="left">
             <div class="avatar">
-              <img class="img" :src="avatar" alt="" />
-              <leslie-button btnType="primary">更换头像</leslie-button>
+              <img class="img" id="avatar" :src="avatar" alt="" />
+              <div>
+                <input
+                  type="file"
+                  ref="imgInput"
+                  @change="onUpload"
+                  accept="image/*"
+                  class="img-input"
+                />
+                <leslie-button btnType="primary" @click="onUploadImg"
+                  >更换头像</leslie-button
+                >
+              </div>
             </div>
           </div>
           <div class="right">
@@ -50,7 +61,7 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue";
 import bus from "@/global/event-bus";
-import { getUser, updateUser } from "@/server";
+import { getUser, updateUser, uploadImg } from "@/server";
 import showMessage from "@/global/leslie-message";
 
 const personalVisible = ref(true);
@@ -61,6 +72,7 @@ let user = reactive({
 });
 const dialogTitle = ref("个人中心");
 const avatar = ref("/src/assets/images/avatar.JPG");
+const imgInput = ref(null);
 
 const onEdit = async () => {
   await updateUser(user.id, user);
@@ -68,6 +80,38 @@ const onEdit = async () => {
   localStorage.setItem("userName", user.userName);
   dialogTitle.value = user.userName + "  的个人中心";
   personalVisible.value = false;
+};
+
+const onUpload = (event: any) => {
+  console.log("111", event);
+
+  const file = event.target.files[0];
+  console.log("file", file);
+  const avatar = document.getElementById("avatar") as HTMLImageElement;
+  const reader = new FileReader();
+  reader.onload = () => {
+    const image = new Image();
+    image.src = reader.result as string;
+    image.onload = () => {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      const newWidth = 160;
+      const newHeight = 160;
+      canvas.width = newWidth;
+      canvas.height = newHeight;
+      ctx?.drawImage(image, 0, 0, newWidth, newHeight);
+      avatar.src = canvas.toDataURL("image/jpeg");
+
+      const formData = new FormData();
+      formData.append("file", avatar.src);
+      formData.append("id", user.id.toString());
+      uploadImg(formData);
+    };
+  };
+  reader.readAsDataURL(file);
+};
+const onUploadImg = () => {
+  (imgInput.value as any).click();
 };
 
 onMounted(async () => {
@@ -86,6 +130,7 @@ onMounted(async () => {
 
 <style lang="less" scoped>
 .personal {
+  user-select: none;
   .content {
     display: flex;
     .left {
@@ -96,7 +141,10 @@ onMounted(async () => {
       .avatar {
         .img {
           width: 100%;
-          margin-bottom: 10px;
+        }
+        .img-input {
+          visibility: hidden;
+          height: 0;
         }
       }
     }
